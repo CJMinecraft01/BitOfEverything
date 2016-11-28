@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "boe:blocks/block_breaker_advanced",
+		"up": "boe:blocks/block_breaker_advanced",
+		"down": "boe:blocks/block_breaker_advanced",
+		"north": "boe:blocks/block_breaker_advanced_front_activated",
+		"south": "boe:blocks/block_breaker_advanced",
+		"east": "boe:blocks/block_breaker_advanced",
+		"west": "boe:blocks/block_breaker_advanced"
+	}
+}

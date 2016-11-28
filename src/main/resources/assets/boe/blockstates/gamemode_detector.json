@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"gamemode=0": { "model": "boe:gamemode_detector" },
+		"gamemode=1": { "model": "boe:gamemode_detector" },
+		"gamemode=2": { "model": "boe:gamemode_detector" },
+		"gamemode=3": { "model": "boe:gamemode_detector" }
+	}
+}

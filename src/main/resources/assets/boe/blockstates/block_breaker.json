@@ -1,0 +1,28 @@
+{
+	"variants": {
+		"activated=false,facing=north,type=basic": { "model": "boe:block_breaker_basic" },
+		"activated=false,facing=south,type=basic": { "model": "boe:block_breaker_basic", "y": 180 },
+		"activated=false,facing=east,type=basic": { "model": "boe:block_breaker_basic", "y": 90 },
+		"activated=false,facing=west,type=basic": { "model": "boe:block_breaker_basic", "y": 270 },
+		"activated=false,facing=up,type=basic": { "model": "boe:block_breaker_basic", "x": 270 },
+		"activated=false,facing=down,type=basic": { "model": "boe:block_breaker_basic", "x": 90 },
+		"activated=true,facing=north,type=basic": { "model": "boe:block_breaker_basic_activated" },
+		"activated=true,facing=south,type=basic": { "model": "boe:block_breaker_basic_activated", "y": 180 },
+		"activated=true,facing=east,type=basic": { "model": "boe:block_breaker_basic_activated", "y": 90 },
+		"activated=true,facing=west,type=basic": { "model": "boe:block_breaker_basic_activated", "y": 270 },
+		"activated=true,facing=up,type=basic": { "model": "boe:block_breaker_basic_activated", "x": 270 },
+		"activated=true,facing=down,type=basic": { "model": "boe:block_breaker_basic_activated", "x": 90 },
+		"activated=false,facing=north,type=advanced": { "model": "boe:block_breaker_advanced" },
+		"activated=false,facing=south,type=advanced": { "model": "boe:block_breaker_advanced", "y": 180 },
+		"activated=false,facing=east,type=advanced": { "model": "boe:block_breaker_advanced", "y": 90 },
+		"activated=false,facing=west,type=advanced": { "model": "boe:block_breaker_advanced", "y": 270 },
+		"activated=false,facing=up,type=advanced": { "model": "boe:block_breaker_advanced", "x": 270 },
+		"activated=false,facing=down,type=advanced": { "model": "boe:block_breaker_advanced", "x": 90 },
+		"activated=true,facing=north,type=advanced": { "model": "boe:block_breaker_advanced_activated" },
+		"activated=true,facing=south,type=advanced": { "model": "boe:block_breaker_advanced_activated", "y": 180 },
+		"activated=true,facing=east,type=advanced": { "model": "boe:block_breaker_advanced_activated", "y": 90 },
+		"activated=true,facing=west,type=advanced": { "model": "boe:block_breaker_advanced_activated", "y": 270 },
+		"activated=true,facing=up,type=advanced": { "model": "boe:block_breaker_advanced_activated", "x": 270 },
+		"activated=true,facing=down,type=advanced": { "model": "boe:block_breaker_advanced_activated", "x": 90 }
+	}
+}
