@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"normal": {
+			"model": "boe:tin_ore"
+		}
+	}
+}
