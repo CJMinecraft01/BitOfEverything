@@ -1,0 +1,31 @@
+tile.tin_ore.name=Tin Ore
+tile.block_breaker.basic.name=Block Breaker (Basic)
+tile.block_breaker.advanced.name=Block Breaker (Advanced)
+tile.gamemode_detector.name=Gamemode Detector
+
+item.tin_ingot.name=Tin Ingot
+item.tin_pickaxe.name=Tin Pickaxe
+item.tin_axe.name=Tin Axe
+item.tin_hoe.name=Tin Hoe
+item.tin_shovel.name=Tin Shovel
+item.tin_sword.name=Tin Sword
+
+item.heart.name=Heart
+item.soul_stealer.name=Soul Stealer
+
+item.tin_helmet.name=Tin Helmet
+item.tin_chestplate.name=Tin Chestplate
+item.tin_leggings.name=Tin Leggings
+item.tin_boots.name=Tin Boots
+
+item.chip.basic.name=Basic Chip
+item.chip.advanced.name=Advanced Chip
+
+itemGroup.boeblocks=BitOfEverything Blocks
+itemGroup.boeitems=BitOfEverything Items
+
+boe.heart.tooltip=Heals the player
+boe.soul_stealer.tooltip=Steals the hearts of entities
+
+achievement.tinman=Tin Man
+achievement.tinman.desc=Wear all tin armour
