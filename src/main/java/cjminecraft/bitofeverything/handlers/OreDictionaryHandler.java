@@ -8,7 +8,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictionaryHandler {
 	
 	public static void registerOreDictionary() {
-		OreDictionary.registerOre("oreTin", ModBlocks.tin_ore);
+		OreDictionary.registerOre("oreTin", ModBlocks.tinOre);
 		OreDictionary.registerOre("ingotTin", ModItems.tinIngot);
 		OreDictionary.registerOre("chipBasic", new ItemStack(ModItems.chip, 1, 0));
 		OreDictionary.registerOre("chipAdvanced", new ItemStack(ModItems.chip, 1, 1));

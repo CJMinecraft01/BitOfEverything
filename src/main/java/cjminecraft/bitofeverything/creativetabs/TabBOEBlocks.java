@@ -13,7 +13,7 @@ public class TabBOEBlocks extends CreativeTabs {
 
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(ModBlocks.tin_ore);
+		return new ItemStack(ModBlocks.tinOre);
 	}
 
 }

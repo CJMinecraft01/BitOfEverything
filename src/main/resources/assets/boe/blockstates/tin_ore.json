@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"normal": {
-			"model": "boe:tin_ore"
-		}
+		"type=overworld": { "model": "boe:tin_ore_overworld" },
+		"type=nether": { "model": "boe:tin_ore_nether" },
+		"type=end": { "model": "boe:tin_ore_end" }
 	}
 }

@@ -51,6 +51,7 @@ public class BitOfEverything {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		proxy.init();
 		OreDictionaryHandler.registerOreDictionary();
 		proxy.registerModelBakeryStuff();
 		eventHandler.registerEvents();

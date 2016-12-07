@@ -6,6 +6,7 @@ import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockTinOre;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
+import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
@@ -18,24 +19,26 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
 
-	public static Block tin_ore;
+	public static Block tinOre;
 	public static Block breaker;
 	public static Block gamemodeDetector;
 	
 	public static void init() {
-		tin_ore = new BlockTinOre("tin_ore", "tin_ore");
+		tinOre = new BlockTinOre("tin_ore", "tin_ore");
 		breaker = new BlockBreaker("block_breaker");
 		gamemodeDetector = new BlockGamemodeDetector("gamemode_detector");
 	}
 	
 	public static void register() {
-		registerBlock(tin_ore);
+		registerBlock(tinOre, new ItemBlockMeta(tinOre));
 		registerBlock(breaker, new ItemBlockBreaker(breaker));
 		registerBlock(gamemodeDetector);
 	}
 	
 	public static void registerRenders() {
-		registerRender(tin_ore);
+		for(int i = 0; i < EnumHandler.OreType.values().length; i++) {
+			registerRender(tinOre, i, "tin_ore_" + EnumHandler.OreType.values()[i].getName());
+		}
 		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(breaker, i, "block_breaker_" + EnumHandler.ChipTypes.values()[i].getName());
 		}

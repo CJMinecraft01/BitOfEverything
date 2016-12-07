@@ -25,7 +25,7 @@ public class RecipeHandler {
 	}
 	
 	public static void registerFurnaceRecipes() {
-		GameRegistry.addSmelting(ModBlocks.tin_ore, new ItemStack(ModItems.tinIngot), 0.7f);
+		GameRegistry.addSmelting(ModBlocks.tinOre, new ItemStack(ModItems.tinIngot), 0.7f);
 		Utils.getLogger().info("Registered Furnace Recipes!");
 	}
 	
