@@ -23,18 +23,32 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+/**
+ * Handles the tool registration and render
+ * @author CJMinecraft
+ *
+ */
 public class ModTools {
 	
+	/**
+	 * The tool material (Ours is like Iron)
+	 */
 	public static final ToolMaterial tinMaterial = EnumHelper.addToolMaterial(Reference.MODID + ":tin", 2, 300, 5.0F, 2.0F, 12);
 	
+	/**
+	 * State the individual tools
+	 */
 	public static ItemPickaxe tinPickaxe;
-	public static ItemModAxe tinAxe;
+	public static ItemModAxe tinAxe; //NOTICE WE USE THE ITEMMODAXE NOT ITEMAXE
 	public static ItemHoe tinHoe;
 	public static ItemSpade tinShovel;
 	public static ItemSword tinSword;
 	
-	public static ItemSoulStealer soulStealer;
+	public static ItemSoulStealer soulStealer; //Custom tool
 	
+	/**
+	 * Initialize the tools
+	 */
 	public static void init() {
 		tinPickaxe = new ItemModPickaxe(tinMaterial, "tin_pickaxe");
 		tinAxe = new ItemModAxe(tinMaterial, "tin_axe");
@@ -45,6 +59,9 @@ public class ModTools {
 		soulStealer = new ItemSoulStealer("soul_stealer");
 	}
 	
+	/**
+	 * Register the tools
+	 */
 	public static void register() {
 		registerItem(tinPickaxe);
 		registerItem(tinAxe);
@@ -54,6 +71,9 @@ public class ModTools {
 		registerItem(soulStealer);
 	}
 	
+	/**
+	 * Register the tools render
+	 */
 	public static void registerRenders() {
 		registerRender(tinPickaxe);
 		registerRender(tinAxe);
@@ -63,12 +83,20 @@ public class ModTools {
 		registerRender(soulStealer);
 	}
 	
+	/**
+	 * Register the item
+	 * @param item The item
+	 */
 	public static void registerItem(Item item) {
 		item.setCreativeTab(BitOfEverything.items);
 		GameRegistry.register(item);
 		Utils.getLogger().info("Registered item: " + item.getUnlocalizedName().substring(5));
 	}
 	
+	/**
+	 * Register the items render
+	 * @param item The item
+	 */
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
 		Utils.getLogger().info("Register render for " + item.getUnlocalizedName().substring(5));

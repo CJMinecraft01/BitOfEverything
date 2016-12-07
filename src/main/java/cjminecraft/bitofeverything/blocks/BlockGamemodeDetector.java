@@ -11,6 +11,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,31 +19,58 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+/**
+ * This block updates with a redstone signal and changes state based on the nearest player;s gamemode
+ * @author CJMinecraft
+ *
+ */
 public class BlockGamemodeDetector extends Block {
 
+	/**
+	 * The property.
+	 * Refer to {@link BlockBreaker} for the other properties
+	 */
 	public static final PropertyInteger GAMEMODE = PropertyInteger.create("gamemode", 0, 3);
 	
+	/**
+	 * Default constructor
+	 * @param unlocalizedName
+	 */
 	public BlockGamemodeDetector(String unlocalizedName) {
 		super(Material.WOOD);
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
+		//We don't have a default version of our block
 	}
 	
+	/**
+	 * Adds the properties to the block
+	 */
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] {GAMEMODE});
 	}
 	
+	/**
+	 * Gets the correct meta version from the {@link IBlockState}
+	 */
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(GAMEMODE);
 	}
 	
+	/**
+	 * Gets the correct state from the meta data
+	 */
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(GAMEMODE, meta);
 	}
 	
+	/**
+	 * Update block when powered.
+	 * I recommend using a {@link TileEntity} for this
+	 */
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos p_189540_5_) {
 		if(world.isBlockPowered(pos)) {

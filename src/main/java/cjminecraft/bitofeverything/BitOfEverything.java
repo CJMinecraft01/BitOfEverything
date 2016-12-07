@@ -19,17 +19,37 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+/**
+ * The main class. This class registers the blocks and items and makes sure
+ * everything our mod does works
+ * 
+ * @author CJMinecraft
+ */
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class BitOfEverything {
-	
+
+	/**
+	 * Our creative tabs
+	 */
 	public static final CreativeTabs blocks = new TabBOEBlocks();
 	public static final CreativeTabs items = new TabBOEItems();
-	
+
+	/**
+	 * Handles the events
+	 */
 	cjminecraft.bitofeverything.handlers.EventHandler eventHandler = new cjminecraft.bitofeverything.handlers.EventHandler();
-	
+
+	/**
+	 * Used for GUI stuff
+	 */
 	@Mod.Instance(Reference.MODID)
 	public static BitOfEverything instance;
-	
+
+	/**
+	 * Proxy so that we register the correct things on server and client side.
+	 * Client side handles the model bakery
+	 * Server side handles tileentities and world generation
+	 */
 	@SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
@@ -43,12 +63,12 @@ public class BitOfEverything {
 		ModTools.register();
 		ModArmour.register();
 		ModBlocks.register();
-		
+
 		proxy.registerRenders();
-		
+
 		AchievementHandler.registerAchievements();
 	}
-	
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
@@ -58,9 +78,9 @@ public class BitOfEverything {
 		RecipeHandler.registerCraftingRecipes();
 		RecipeHandler.registerFurnaceRecipes();
 	}
-	
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 	}
-	
+
 }

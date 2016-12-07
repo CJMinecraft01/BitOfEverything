@@ -13,8 +13,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+/**
+ * This class handles all of our mods block and item recipes
+ * @author CJMinecraft
+ *
+ */
 public class RecipeHandler {
 	
+	/**
+	 * Register the crafting reciepes
+	 */
 	public static void registerCraftingRecipes() {
 		GameRegistry.addRecipe(new ItemStack(ModTools.soulStealer), new Object[] { "SAS", "ADA", "SAS", 'S', Items.STICK, 'A', Items.STRING, 'D', Items.DIAMOND });
 		registerToolRecipe(ModItems.tinIngot, ModTools.tinPickaxe, ModTools.tinAxe, ModTools.tinShovel, ModTools.tinHoe, ModTools.tinSword);
@@ -24,6 +32,9 @@ public class RecipeHandler {
 		Utils.getLogger().info("Registered Crafting Recipes!");
 	}
 	
+	/**
+	 * Register the furnace recipes
+	 */
 	public static void registerFurnaceRecipes() {
 		GameRegistry.addSmelting(ModBlocks.tinOre, new ItemStack(ModItems.tinIngot), 0.7f);
 		Utils.getLogger().info("Registered Furnace Recipes!");

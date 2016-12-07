@@ -9,8 +9,16 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * This class handles everything on the client side like the {@link ModelBakery} and the render of items
+ * @author CJMinecraft
+ *
+ */
 public class ClientProxy extends CommonProxy {
 	
+	/**
+	 * Registers the renders
+	 */
 	@Override
 	public void registerRenders() {
 		ModItems.registerRenders();
@@ -19,6 +27,9 @@ public class ClientProxy extends CommonProxy {
 		ModArmour.registerRenders();
 	}
 	
+	/**
+	 * Adds the item variant renders
+	 */
 	@Override
 	public void registerModelBakeryStuff() {
 		ModelBakery.registerItemVariants(ModItems.chip, new ResourceLocation(Reference.MODID, "chip_basic"), new ResourceLocation(Reference.MODID, "chip_advanced"));

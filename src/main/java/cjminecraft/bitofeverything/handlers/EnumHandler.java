@@ -1,9 +1,22 @@
 package cjminecraft.bitofeverything.handlers;
 
+import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.blocks.BlockTinOre;
+import cjminecraft.bitofeverything.items.ItemChip;
 import net.minecraft.util.IStringSerializable;
 
+/**
+ * Handles all of our enums which me use for meta data blocks and items
+ * @author CJMinecraft
+ *
+ */
 public class EnumHandler {
 	
+	/**
+	 * This is used by the {@link BlockBreaker} and the {@link ItemChip}
+	 * @author CJMinecraft
+	 *
+	 */
 	public static enum ChipTypes implements IStringSerializable {
 		BASIC("basic", 0),
 		ADVANCED("advanced", 1);
@@ -32,6 +45,11 @@ public class EnumHandler {
 		
 	}
 	
+	/**
+	 * This is used by {@link BlockTinOre}
+	 * @author CJMinecraft
+	 *
+	 */
 	public static enum OreType implements IStringSerializable {
 		OVERWORLD("overworld", 0),
 		NETHER("nether", 1),

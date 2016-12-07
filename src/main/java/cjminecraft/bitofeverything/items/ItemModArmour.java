@@ -20,6 +20,9 @@ public class ItemModArmour extends ItemArmor {
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 	}
 	
+	/**
+	 * Triggers the tin man achievement when all four pieces are worn
+	 */
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
 		int tinArmourPeices = 0;

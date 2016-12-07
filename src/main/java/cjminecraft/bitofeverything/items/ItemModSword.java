@@ -4,6 +4,11 @@ import cjminecraft.bitofeverything.Reference;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * A sword
+ * @author CJMinecraft
+ *
+ */
 public class ItemModSword extends ItemSword {
 
 	public ItemModSword(ToolMaterial material, String unlocalizedName) {
