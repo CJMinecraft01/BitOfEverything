@@ -13,7 +13,7 @@ hs_err_pid*
 
 # Not Needed Stuff
 .classpath
- .gradle/
+.gradle/
 .project
 .settings/
 BitOfEverything_Client.launch
@@ -21,6 +21,7 @@ BitOfEverything_Server.launch
 build.gradle
 build/
 eclipse/
+bin/
 gradle.properties
 gradle/
 gradlew
