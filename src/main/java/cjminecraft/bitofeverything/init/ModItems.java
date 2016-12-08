@@ -5,10 +5,13 @@ import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.items.ItemChip;
 import cjminecraft.bitofeverything.items.ItemHeart;
+import cjminecraft.bitofeverything.items.ItemModFood;
 import cjminecraft.bitofeverything.items.ItemTinIngot;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -26,6 +29,8 @@ public class ModItems {
 	public static Item tinIngot;
 	public static Item heart;
 	public static Item chip;
+	public static Item tinApple;
+	public static Item niceBiscuit;
 	
 	/**
 	 * Initialize the items
@@ -34,6 +39,8 @@ public class ModItems {
 		tinIngot = new ItemTinIngot("tin_ingot", "tin_ingot");
 		heart = new ItemHeart("heart");
 		chip = new ItemChip("chip");
+		tinApple = new ItemModFood("tin_apple", 4, 4, false, new PotionEffect(Potion.getPotionById(3), 3600, 2), new PotionEffect(Potion.getPotionById(8), 3600, 256, false, false));
+		niceBiscuit = new ItemModFood("nice_biscuit", 2, 2, false);
 	}
 	
 	/**
@@ -43,6 +50,8 @@ public class ModItems {
 		registerItem(tinIngot);
 		registerItem(heart);
 		registerItem(chip);
+		registerItem(tinApple);
+		registerItem(niceBiscuit);
 	}
 	
 	/**
@@ -51,6 +60,8 @@ public class ModItems {
 	public static void registerRenders() {
 		registerRender(tinIngot);
 		registerRender(heart);
+		registerRender(tinApple);
+		registerRender(niceBiscuit);
 		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(chip, i, "chip_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
