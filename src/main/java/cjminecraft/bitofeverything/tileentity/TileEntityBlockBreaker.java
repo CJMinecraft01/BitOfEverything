@@ -5,10 +5,14 @@ import com.mojang.authlib.GameProfile;
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
+import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDynamicLiquid;
+import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -82,8 +86,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		BlockPos newPos = pos.offset(facing, 1);
 		IBlockState state = this.worldObj.getBlockState(newPos);
 		Block block = state.getBlock();
-		if (!block.isAir(state, this.worldObj, newPos) && block.getBlockHardness(state, this.worldObj, newPos) >= 0) {
-			Utils.getLogger().info("RAN");
+		if (!block.isAir(state, this.worldObj, newPos) && block.getBlockHardness(state, this.worldObj, newPos) >= 0 && !(block instanceof BlockDynamicLiquid) && !(block instanceof BlockStaticLiquid)) {
 			EntityPlayer player = new EntityPlayer(worldObj, new GameProfile(null, "BlockBreaker")) {
 
 				@Override
@@ -138,6 +141,9 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 			}
 			this.worldObj.playSound(null, pos, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1, 1);
 			this.worldObj.setBlockToAir(newPos);
+			if(block == Blocks.ICE) {
+				this.worldObj.setBlockState(newPos, Blocks.FLOWING_WATER.getDefaultState());
+			}
 		}
 	}
 
