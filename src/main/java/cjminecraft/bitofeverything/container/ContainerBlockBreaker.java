@@ -1,7 +1,9 @@
 package cjminecraft.bitofeverything.container;
 
+import cjminecraft.bitofeverything.container.slots.SlotEnchantedBook;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -42,6 +44,7 @@ public class ContainerBlockBreaker extends Container {
 		this.addSlotToContainer(new SlotItemHandler(handler, 6, 62, 53));
 		this.addSlotToContainer(new SlotItemHandler(handler, 7, 80, 53));
 		this.addSlotToContainer(new SlotItemHandler(handler, 8, 98, 53));
+		this.addSlotToContainer(new SlotEnchantedBook(handler, 9, 134, 17));
 
 		//The player's inventory slots
 		int xPos = 8; //The x position of the top left player inventory slot on our texture
@@ -72,7 +75,7 @@ public class ContainerBlockBreaker extends Container {
 	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
-	    ItemStack previous = null;
+	    ItemStack previous = ItemStack.EMPTY;
 	    Slot slot = (Slot) this.inventorySlots.get(fromSlot);
 
 	    if (slot != null && slot.getHasStack()) {
@@ -82,11 +85,15 @@ public class ContainerBlockBreaker extends Container {
 	        if (fromSlot < this.handler.getSlots()) {
 	            // From the block breaker inventory to player's inventory
 	            if (!this.mergeItemStack(current, handler.getSlots(), handler.getSlots() + 36, true))
-	                return null;
+	                return ItemStack.EMPTY;
 	        } else {
 	            // From the player's inventory to block breaker's inventory
+	        	if(current.getItem() == Items.ENCHANTED_BOOK) {
+	        		if(!this.mergeItemStack(current, 9, handler.getSlots(), false))
+	        			return ItemStack.EMPTY;
+	        	}
 	            if (!this.mergeItemStack(current, 0, handler.getSlots(), false))
-	                return null;
+	                return ItemStack.EMPTY;
 	        }
 
 	        if (current.getCount() == 0) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()

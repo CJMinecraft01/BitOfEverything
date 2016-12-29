@@ -1,21 +1,29 @@
 package cjminecraft.bitofeverything.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import com.mojang.authlib.GameProfile;
 
-import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.client.gui.GuiBlockBreaker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
-import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -25,7 +33,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -44,13 +51,16 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	private ItemStackHandler handler;
 	private int cooldown;
+	private int cooldownCap = 100;
+	private Random random;
 
 	/**
 	 * Initializes our variables. MUST NOT HAVE ANY PARAMETERS
 	 */
 	public TileEntityBlockBreaker() {
 		this.cooldown = 0;
-		this.handler = new ItemStackHandler(9);
+		this.handler = new ItemStackHandler(10);
+		this.random = new Random();
 	}
 
 	/**
@@ -84,11 +94,9 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 				IBlockState currentState = this.world.getBlockState(pos); //Gets our block state
 				this.world.setBlockState(pos,
 						currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); //Updates it if it is powered
+				updateCooldownCap();
 				this.cooldown++; //Increases the cooldown
-				if (this.world.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC) //Caps the cooldown based on the block's tier
-					this.cooldown %= 100; //Caps the cooldown between 0 and 100.
-				else
-					this.cooldown %= 50; //Caps the cooldown between 0 and 50.
+				this.cooldown %= this.cooldownCap;
 				if (this.cooldown == 0) { //Only runs when the cooldown is 0 (i.e every 50 or 100 ticks (2.5 or 5 seconds))
 					currentState = this.world.getBlockState(pos); //Updates our current state variable
 					EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); //Gets which way our block is facing
@@ -104,6 +112,21 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 				}
 			}
 		}
+	}
+	
+	public void updateCooldownCap() {
+		int cap = this.cooldownCap;
+		if (this.world.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC)
+			cap = 100;
+		else
+			cap = 50;
+		if(this.handler.getStackInSlot(9).getItem() == Items.ENCHANTED_BOOK) {
+			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(this.handler.getStackInSlot(9));
+			if(enchantments.containsKey(Enchantments.EFFICIENCY)) {
+				cap -= Math.pow(enchantments.get(Enchantments.EFFICIENCY), 2) % cap;
+			}
+		}
+		this.cooldownCap = cap;
 	}
 
 	/**
@@ -129,49 +152,91 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 					return false;
 				}
 			};
+			List<ItemStack> drops = new ArrayList<ItemStack>();
+			boolean customDrops = false;
+			if(this.handler.getStackInSlot(9).getItem() == Items.ENCHANTED_BOOK) {
+				ItemStack enchantedBook = this.handler.getStackInSlot(9);
+				Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(enchantedBook);
+				if(enchantments.containsKey(Enchantments.FORTUNE)) {
+					int fortune = enchantments.get(Enchantments.FORTUNE);
+					drops.add(new ItemStack(block.getItemDropped(state, this.random, fortune), block.quantityDroppedWithBonus(fortune, this.random), block.damageDropped(state)));
+					customDrops = true;
+				}
+				if(enchantments.containsKey(Enchantments.SILK_TOUCH) && block.canSilkHarvest(world, newPos, state, player)) {
+					//HARD FIX FOR LAPIS
+					if(block == Blocks.LAPIS_ORE)
+						drops.add(new ItemStack(block, 1));
+					else
+						drops.add(new ItemStack(block, 1, block.damageDropped(state)));
+					customDrops = true;
+				}
+			}
+			if(!customDrops)
+				drops = block.getDrops(world, newPos, state, 0);
+			int full = 0;
 			//Use block.harvestBlock if you don't want the item to go into the inventory
-			for (ItemStack stack : block.getDrops(world, newPos, state, 0)) { //This then puts the item into the inventory correctly
+			for (ItemStack stack : drops) { //This then puts the item into the inventory correctly
 				ItemStack remainder = this.handler.insertItem(0, stack, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(1, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(2, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(3, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(4, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(5, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(6, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(7, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 				remainder = this.handler.insertItem(8, remainder, false);
 				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
+				else
+					full++;
 			}
-			this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(), SoundCategory.BLOCKS, 1, 1); //Plays the block breaking sound
-			this.world.setBlockToAir(newPos); //Makes the block air
-			if(block == Blocks.ICE) //If the block was ice it will place flowing water there instead
-				this.world.setBlockState(newPos, Blocks.FLOWING_WATER.getDefaultState());
+			if(full < handler.getSlots() - 1) {
+				this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(), SoundCategory.BLOCKS, 1, 1); //Plays the block breaking sound
+				this.world.setBlockToAir(newPos); //Makes the block air
+				if(block == Blocks.ICE) //If the block was ice it will place flowing water there instead
+					this.world.setBlockState(newPos, Blocks.FLOWING_WATER.getDefaultState());
+			}
 		}
 	}
 

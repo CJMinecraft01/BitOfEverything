@@ -42,3 +42,5 @@ achievement.tinman=Tin Man
 achievement.tinman.desc=Wear all tin armour
 
 container.block_breaker=Block Breaker
+
+gui.block_breaker.enchanted_book.tooltip=Enchanted book goes here

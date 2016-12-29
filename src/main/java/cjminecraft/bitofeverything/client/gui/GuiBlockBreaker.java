@@ -1,5 +1,8 @@
 package cjminecraft.bitofeverything.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.container.ContainerBlockBreaker;
@@ -7,9 +10,11 @@ import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 /**
  * The {@link BlockBreaker}'s gui
@@ -57,6 +62,13 @@ public class GuiBlockBreaker extends GuiContainer {
 		String s = I18n.format("container.block_breaker"); //Gets the formatted name for the block breaker from the language file
 		this.mc.fontRendererObj.drawString(s, this.xSize / 2 - this.mc.fontRendererObj.getStringWidth(s) / 2, 6, 4210752); //Draws the block breaker name in the center on the top of the gui
 		this.mc.fontRendererObj.drawString(this.playerInv.getDisplayName().getFormattedText(), 8, 72, 4210752); //The player's inventory name
+		int actualMouseX = mouseX - ((this.width - this.xSize) / 2);
+		int actualMouseY = mouseY - ((this.height - this.ySize) / 2);
+		if(actualMouseX >= 134 && actualMouseX <= 149 && actualMouseY >= 17 && actualMouseY <= 32 && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).getStackInSlot(9) == ItemStack.EMPTY) {
+			List<String> text = new ArrayList<String>();
+			text.add(TextFormatting.GRAY + I18n.format("gui.block_breaker.enchanted_book.tooltip"));
+			this.drawHoveringText(text, actualMouseX, actualMouseY);
+		}
 	}
 
 }
