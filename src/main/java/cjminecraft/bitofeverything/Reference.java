@@ -19,7 +19,7 @@ public class Reference {
 	/**
 	 * Current version TODO Update version
 	 */
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "0.0.1";
 	/**
 	 * Where the server proxy is found
 	 */
