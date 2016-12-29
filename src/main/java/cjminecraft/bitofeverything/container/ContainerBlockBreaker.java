@@ -13,10 +13,11 @@ import net.minecraftforge.items.SlotItemHandler;
 public class ContainerBlockBreaker extends Container {
 
 	private TileEntityBlockBreaker te;
+	private IItemHandler handler;
 
 	public ContainerBlockBreaker(IInventory playerInv, TileEntityBlockBreaker te) {
 		this.te = te;
-		IItemHandler handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 		this.addSlotToContainer(new SlotItemHandler(handler, 0, 62, 17));
 		this.addSlotToContainer(new SlotItemHandler(handler, 1, 80, 17));
@@ -49,23 +50,33 @@ public class ContainerBlockBreaker extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
-		ItemStack previous = ItemStack.field_190927_a;
-		Slot slot = (Slot) this.inventorySlots.get(fromSlot);
+	    ItemStack previous = null;
+	    Slot slot = (Slot) this.inventorySlots.get(fromSlot);
 
-		if (slot != null && slot.getHasStack()) {
-			ItemStack current = slot.getStack();
-		        previous = current.copy();
+	    if (slot != null && slot.getHasStack()) {
+	        ItemStack current = slot.getStack();
+	        previous = current.copy();
 
-		        if (current.func_190916_E() == 0)
-		            slot.putStack(ItemStack.field_190927_a);
-		        else
-		            slot.onSlotChanged();
+	        if (fromSlot < 9) {
+	            // From the block breaker Inventory to Player Inventory
+	            if (!this.mergeItemStack(current, handler.getSlots(), handler.getSlots() + 36, true))
+	                return null;
+	        } else {
+	            // From the block breaker to TE Inventory
+	            if (!this.mergeItemStack(current, 0, handler.getSlots(), false))
+	                return null;
+	        }
 
-		        if (current.func_190916_E() == previous.func_190916_E()) //Use func_190916_E to get the stack size
-		            return null;
-			slot.func_190901_a(playerIn, current); //Use instead of slot.onPickupFromSlot(playerIn, current);
-		}
-		return previous;
+	        if (current.func_190916_E() == 0) //Use func_190916_E() instead of stackSize 1.11 only
+	            slot.putStack(ItemStack.field_190927_a); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack
+	        else
+	            slot.onSlotChanged();
+
+	        if (current.func_190916_E() == previous.func_190916_E())
+	            return null;
+	        slot.func_190901_a(playerIn, current);
+	    }
+	    return previous;
 	}
 
 }
