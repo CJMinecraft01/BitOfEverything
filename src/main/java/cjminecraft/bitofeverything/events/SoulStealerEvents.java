@@ -30,7 +30,7 @@ public class SoulStealerEvents {
 			if(player.getHeldItemMainhand().getItem() == ModTools.soulStealer) { //Checks they were holding a soul stealer
 				BlockPos pos = event.getEntity().getPosition(); //Get the entity they hurt's position
 				EntityItem item = new EntityItem(player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModItems.heart)); //Creates a new EntityItem
-				player.getEntityWorld().spawnEntityInWorld(item); //Spawns the item in the world
+				player.getEntityWorld().spawnEntity(item); //Spawns the item in the world. THIS METHOD WAS RENAMED IN 1.11.2 to spawnEntity not spawnEntityInWorld
 			}
 		}
 	}

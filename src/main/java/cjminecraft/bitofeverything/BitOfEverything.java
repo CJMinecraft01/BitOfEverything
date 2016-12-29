@@ -49,11 +49,15 @@ public class BitOfEverything {
 	/**
 	 * Proxy so that we register the correct things on server and client side.
 	 * Client side handles the model bakery
-	 * Server side handles tileentities and world generation
+	 * Server side handles tile entities and world generation
 	 */
 	@SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
+	/**
+	 * Called first. Should initialize everything and register everything
+	 * @param event The event (you probably wont use this)
+	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ModItems.init();
@@ -71,6 +75,10 @@ public class BitOfEverything {
 		AchievementHandler.registerAchievements();
 	}
 
+	/**
+	 * Called to register recipes and events
+	 * @param event The event (you probably wont use this)
+	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
@@ -81,6 +89,10 @@ public class BitOfEverything {
 		RecipeHandler.registerFurnaceRecipes();
 	}
 
+	/**
+	 * Called after everything. Should be used for mod integration
+	 * @param event The event (you probably wont use this)
+	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 	}

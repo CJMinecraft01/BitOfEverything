@@ -6,8 +6,6 @@ import cjminecraft.bitofeverything.blocks.item.IMetaBlockName;
 import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
-import cjminecraft.bitofeverything.util.Utils;
-import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -41,13 +39,12 @@ import net.minecraftforge.items.IItemHandler;
  * @author CJMinecraft
  *
  */
-public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityProvider {
+public class BlockBreaker extends BlockMachine {
 
 	/**
 	 * The different properties our block can have.
 	 * For {@link PropertyInteger} refer to {@link BlockGamemodeDetector}
 	 */
-	public static final PropertyEnum TYPE = PropertyEnum.create("type", ChipTypes.class);
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool ACTIVATED = PropertyBool.create("activated");
 	
@@ -56,12 +53,7 @@ public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityPr
 	 * @param unlocalizedName The block's unlocalized name
 	 */
 	public BlockBreaker(String unlocalizedName) {
-		super(Material.IRON);
-		this.setUnlocalizedName(unlocalizedName);
-		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
-		this.setHardness(3);
-		this.setResistance(20);
-		this.isBlockContainer = true;
+		super(unlocalizedName);
 		//Sets the default version of the block
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, ChipTypes.BASIC).withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVATED, Boolean.valueOf(false)));
 	}
@@ -83,13 +75,12 @@ public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityPr
 	}
 	
 	/**
-	 * Places the block with the correct orientation
+	 * Replacement of onBlockPlaced in 1.11.2
 	 */
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-			int meta, EntityLivingBase placer) {
-		worldIn.scheduleBlockUpdate(pos, worldIn.getBlockState(pos).getBlock(), 2, 0); //Updated BlockPistonFace.getFacingFromEntity to EnumFacing.func_190914_a 1.11 fix
-		return this.getDefaultState().withProperty(FACING, EnumFacing.func_190914_a(pos, placer)).withProperty(ACTIVATED, Boolean.valueOf(false)).withProperty(TYPE, getStateFromMeta(meta * EnumFacing.values().length).getValue(TYPE));
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVATED, Boolean.valueOf(false)).withProperty(TYPE, getStateFromMeta(meta * EnumFacing.values().length).getValue(TYPE));
 	}
 	
 	/**
@@ -115,25 +106,6 @@ public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityPr
 	}
 	
 	/**
-	 * Gets each variant of the block.
-	 * Refer to {@link ChipTypes}
-	 */
-	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for(int i = 0; i < ChipTypes.values().length; i++) {
-			list.add(new ItemStack(itemIn, 1, i));
-		}
-	}
-
-	/**
-	 * From {@link IMetaBlockName}
-	 */
-	@Override
-	public String getSpecialName(ItemStack stack) {
-		return ChipTypes.values()[stack.getItemDamage()].getName();
-	}
-	
-	/**
 	 * Makes sure that when you pick block you get the right version of the block
 	 */
 	@Override
@@ -150,11 +122,22 @@ public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityPr
 		return (int) (getMetaFromState(state) / EnumFacing.values().length);
 	}
 
+	/**
+	 * Returns the tile entity which holds information
+	 */
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityBlockBreaker();
 	}
 	
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileEntityBlockBreaker();
+	}
+	
+	/**
+	 * Called when you break the block so that all of the items inside of the tile entity drop
+	 */
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityBlockBreaker te = (TileEntityBlockBreaker) world.getTileEntity(pos);
@@ -166,6 +149,9 @@ public class BlockBreaker extends Block implements IMetaBlockName, ITileEntityPr
 		super.breakBlock(world, pos, state);
 	}
 	
+	/**
+	 * Opens our block's gui when the player right clicks on the block
+	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {

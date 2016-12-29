@@ -4,7 +4,9 @@ import com.mojang.authlib.GameProfile;
 
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.client.gui.GuiBlockBreaker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
+import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
@@ -13,6 +15,7 @@ import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -29,65 +32,92 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+/**
+ * Our block breaker tile entity which handles updating the block state and breaking blocks!
+ * @author CJMinecraft
+ *
+ */
 public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICapabilityProvider {
 
+	/**
+	 * New 1.9.4 onwards. Using forge capabilities instead of {@link IInventory}
+	 */
 	private ItemStackHandler handler;
 	private int cooldown;
 
+	/**
+	 * Initializes our variables. MUST NOT HAVE ANY PARAMETERS
+	 */
 	public TileEntityBlockBreaker() {
 		this.cooldown = 0;
 		this.handler = new ItemStackHandler(9);
 	}
 
+	/**
+	 * Reads data from nbt where data is stored
+	 */
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.cooldown = nbt.getInteger("Cooldown");
-		this.handler.deserializeNBT(nbt.getCompoundTag("ItemStackHandler"));
+		this.handler.deserializeNBT(nbt.getCompoundTag("ItemStackHandler")); //Gets the ItemStackHandler from tag within a tag
 		super.readFromNBT(nbt);
 	}
 
+	/**
+	 * Writes data to nbt so it is stored
+	 */
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("Cooldown", this.cooldown);
-		nbt.setTag("ItemStackHandler", this.handler.serializeNBT());
+		nbt.setTag("ItemStackHandler", this.handler.serializeNBT()); //We write our ItemStackHandler as a tag in a tag
 		return super.writeToNBT(nbt);
 	}
 
+	/**
+	 * Updates the tile entity (breaks the block etc)
+	 * Called every tick
+	 */
 	@Override
 	public void update() {
-		if (this.worldObj != null) {
-			if (!this.worldObj.isRemote && this.worldObj.isBlockPowered(pos)) {
-				IBlockState currentState = this.worldObj.getBlockState(pos);
-				this.worldObj.setBlockState(pos,
-						currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true)));
-				this.cooldown++;
-				if (this.worldObj.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC)
-					this.cooldown %= 100;
+		if (this.world != null) { //Makes sure we have a world. RENAMED IN 1.11.2 from worldObj to world
+			if (!this.world.isRemote && this.world.isBlockPowered(pos)) { //Calls it server side and checks if our block is powered
+				IBlockState currentState = this.world.getBlockState(pos); //Gets our block state
+				this.world.setBlockState(pos,
+						currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); //Updates it if it is powered
+				this.cooldown++; //Increases the cooldown
+				if (this.world.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC) //Caps the cooldown based on the block's tier
+					this.cooldown %= 100; //Caps the cooldown between 0 and 100.
 				else
-					this.cooldown %= 50;
-				if (this.cooldown == 0) {
-					IBlockState state = this.worldObj.getBlockState(pos);
-					EnumFacing facing = (EnumFacing) state.getValue(BlockBreaker.FACING);
-					breakBlock(facing);
+					this.cooldown %= 50; //Caps the cooldown between 0 and 50.
+				if (this.cooldown == 0) { //Only runs when the cooldown is 0 (i.e every 50 or 100 ticks (2.5 or 5 seconds))
+					currentState = this.world.getBlockState(pos); //Updates our current state variable
+					EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); //Gets which way our block is facing
+					breakBlock(facing); //Calls our break block method which handles the actual breaking of the block
 				}
-			} else if (!this.worldObj.isBlockPowered(pos)) {
-				if (!this.worldObj.isAirBlock(pos)) {
-					if (this.worldObj.getBlockState(pos).getValue(BlockBreaker.ACTIVATED)) {
-						IBlockState currentState = this.worldObj.getBlockState(pos);
-						this.worldObj.setBlockState(pos,
-								currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(false)));
+			} else if (!this.world.isBlockPowered(pos)) { //If the block is not powered
+				if (!this.world.isAirBlock(pos) && this.world.getBlockState(pos).getBlock() == ModBlocks.breaker) { //The block is not air and it is a block breaker
+					if (this.world.getBlockState(pos).getValue(BlockBreaker.ACTIVATED)) { //Checks if it is activated
+						IBlockState currentState = this.world.getBlockState(pos);
+						this.world.setBlockState(pos,
+								currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(false))); //Makes it not activated
 					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * Breaks blocks
+	 * @param facing The direction in which the block breaker is facing
+	 */
 	public void breakBlock(EnumFacing facing) {
-		BlockPos newPos = pos.offset(facing, 1);
-		IBlockState state = this.worldObj.getBlockState(newPos);
-		Block block = state.getBlock();
-		if (!block.isAir(state, this.worldObj, newPos) && block.getBlockHardness(state, this.worldObj, newPos) >= 0 && !(block instanceof BlockDynamicLiquid) && !(block instanceof BlockStaticLiquid)) {
-			EntityPlayer player = new EntityPlayer(worldObj, new GameProfile(null, "BlockBreaker")) {
+		BlockPos newPos = pos.offset(facing, 1); //Gets the block pos in front of the block breaker
+		IBlockState state = this.world.getBlockState(newPos); //Gets the block state
+		Block block = state.getBlock(); //Gets the block
+		//If the block is not air, is not unbreakable or a liquid it will try and break it
+		if (!block.isAir(state, this.world, newPos) && block.getBlockHardness(state, this.world, newPos) >= 0 && !(block instanceof BlockDynamicLiquid) && !(block instanceof BlockStaticLiquid)) {
+			//Creates a fake player which will berak the block
+			EntityPlayer player = new EntityPlayer(world, new GameProfile(null, "BlockBreaker")) {
 
 				@Override
 				public boolean isSpectator() {
@@ -99,54 +129,55 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 					return false;
 				}
 			};
-			// block.harvestBlock(worldObj, player, newPos, state,
-			// worldObj.getTileEntity(newPos), new ItemStack(block)); SPAWNS BLOCK
-			for (ItemStack stack : block.getDrops(worldObj, newPos, state, 0)) {
+			//Use block.harvestBlock if you don't want the item to go into the inventory
+			for (ItemStack stack : block.getDrops(world, newPos, state, 0)) { //This then puts the item into the inventory correctly
 				ItemStack remainder = this.handler.insertItem(0, stack, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(1, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(2, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(3, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(4, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(5, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(6, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(7, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 				remainder = this.handler.insertItem(8, remainder, false);
-				if (remainder == ItemStack.field_190927_a)// If it is a null
+				if (remainder == ItemStack.EMPTY)// If it is a null
 															// item
 					continue;
 			}
-			this.worldObj.playSound(null, pos, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 1, 1);
-			this.worldObj.setBlockToAir(newPos);
-			if(block == Blocks.ICE) {
-				this.worldObj.setBlockState(newPos, Blocks.FLOWING_WATER.getDefaultState());
-			}
+			this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(), SoundCategory.BLOCKS, 1, 1); //Plays the block breaking sound
+			this.world.setBlockToAir(newPos); //Makes the block air
+			if(block == Blocks.ICE) //If the block was ice it will place flowing water there instead
+				this.world.setBlockState(newPos, Blocks.FLOWING_WATER.getDefaultState());
 		}
 	}
 
+	/**
+	 * The packet which is used to update the tile entity which holds all of the tileentities data
+	 */
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -155,11 +186,17 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		return new SPacketUpdateTileEntity(this.pos, metadata, nbt);
 	}
 
+	/**
+	 * Reads the nbt when it receives a packet
+	 */
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		this.readFromNBT(pkt.getNbtCompound());
 	}
 
+	/**
+	 * Gets the nbt for a new packet
+	 */
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -167,11 +204,17 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		return nbt;
 	}
 
+	/**
+	 * Handles when you get an update
+	 */
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.readFromNBT(tag);
 	}
 
+	/**
+	 * Gets the tile entities nbt with all of the data stored in it
+	 */
 	@Override
 	public NBTTagCompound getTileData() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -179,13 +222,19 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		return nbt;
 	}
 
+	/**
+	 * New 1.9.4 onwards. Capability system
+	 */
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) this.handler;
+			return (T) this.handler; //Makes it so that you can get the capability from our tile entity
 		return super.getCapability(capability, facing);
 	}
 
+	/**
+	 * Says what our block is capable of
+	 */
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
@@ -193,11 +242,19 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		return super.hasCapability(capability, facing);
 	}
 
+	/**
+	 * Says whether the player can interact with the block - used for our {@link GuiBlockBreaker}
+	 * @param player The player to test
+	 * @return If the player can interact with the block
+	 */
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.getPos()) == this
+		return this.world.getTileEntity(this.getPos()) == this
 				&& player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
 	}
 
+	/**
+	 * Says that if the block state updates, the tile entity shouldn't get destroyed but should not refresh
+	 */
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return false;

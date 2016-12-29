@@ -1,14 +1,22 @@
 package cjminecraft.bitofeverything.items;
 
-import java.util.List;
-
 import cjminecraft.bitofeverything.Reference;
+import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.blocks.BlockMachine;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
+import cjminecraft.bitofeverything.init.ModBlocks;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * This class makes our chip item have metadata
@@ -51,6 +59,23 @@ public class ItemChip extends Item {
 			}
 		}
 		return this.getUnlocalizedName() + "." + ChipTypes.BASIC.getName();
+	}
+	
+	/**
+	 * Upgrades machines to the next tier of machine
+	 */
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		IBlockState state = world.getBlockState(pos);
+		if(state != null) {
+			if(state.getBlock() instanceof BlockMachine) {
+				BlockMachine machine = (BlockMachine) state.getBlock();
+				ItemStack heldStack = player.getHeldItem(hand);
+				machine.updateMachineTier(world, player, hand, pos, heldStack);
+			}
+		}
+		return EnumActionResult.PASS;
 	}
 
 }

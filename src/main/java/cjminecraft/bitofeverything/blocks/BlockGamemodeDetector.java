@@ -20,7 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
- * This block updates with a redstone signal and changes state based on the nearest player;s gamemode
+ * This block updates with a redstone signal and changes state based on the nearest player's gamemode
  * @author CJMinecraft
  *
  */
@@ -41,6 +41,22 @@ public class BlockGamemodeDetector extends Block {
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 		//We don't have a default version of our block
+	}
+	
+	/**
+	 * Makes it so that a comparator can get the gamemode and emit it as a redstone signal
+	 */
+	@Override
+	public boolean hasComparatorInputOverride(IBlockState state) {
+		return true;
+	}
+	
+	/**
+	 * The redstone signal strength when a comparator is connected
+	 */
+	@Override
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		return state.getValue(GAMEMODE) + 1;
 	}
 	
 	/**

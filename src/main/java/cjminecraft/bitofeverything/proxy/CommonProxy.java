@@ -21,6 +21,9 @@ public class CommonProxy {
 		GameRegistry.registerFuelHandler(new FuelHandler());
 	}
 	
+	/**
+	 * Registers our tile entities
+	 */
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileEntityBlockBreaker.class, Reference.MODID + ":block_breaker");
 	}
