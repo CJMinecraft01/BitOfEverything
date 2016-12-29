@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"type=basic": { "model": "boe:machine_frame_basic" },
+		"type=advanced": { "model": "boe:machine_frame_advanced" }
+	}
+}

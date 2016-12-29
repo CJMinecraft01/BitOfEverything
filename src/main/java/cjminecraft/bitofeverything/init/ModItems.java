@@ -32,6 +32,7 @@ public class ModItems {
 	public static Item tinApple;
 	public static Item niceBiscuit;
 	public static Item infinityFlame;
+	public static Item tinNugget;
 	
 	/**
 	 * Initialize the items
@@ -43,6 +44,7 @@ public class ModItems {
 		tinApple = new ItemModFood("tin_apple", 4, 4, false, new PotionEffect(Potion.getPotionById(3), 3600, 2), new PotionEffect(Potion.getPotionById(8), 3600, 256, false, false));
 		niceBiscuit = new ItemModFood("nice_biscuit", 2, 2, false);
 		infinityFlame = new Item().setUnlocalizedName("infinity_flame").setRegistryName(new ResourceLocation(Reference.MODID, "infinity_flame"));
+		tinNugget = new Item().setUnlocalizedName("tin_nugget").setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
 	}
 	
 	/**
@@ -55,6 +57,7 @@ public class ModItems {
 		registerItem(tinApple);
 		registerItem(niceBiscuit);
 		registerItem(infinityFlame);
+		registerItem(tinNugget);
 	}
 	
 	/**
@@ -66,6 +69,7 @@ public class ModItems {
 		registerRender(tinApple);
 		registerRender(niceBiscuit);
 		registerRender(infinityFlame);
+		registerRender(tinNugget);
 		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(chip, i, "chip_" + EnumHandler.ChipTypes.values()[i].getName());
 		}

@@ -4,6 +4,8 @@ import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
+import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
+import cjminecraft.bitofeverything.blocks.BlockTinBlock;
 import cjminecraft.bitofeverything.blocks.BlockTinOre;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
@@ -28,8 +30,10 @@ public class ModBlocks {
 	 * State our blocks
 	 */
 	public static Block tinOre;
+	public static Block tinBlock;
 	public static Block breaker;
 	public static Block gamemodeDetector;
+	public static Block machineFrame;
 	
 	/**
 	 * Initialize the blocks
@@ -38,6 +42,8 @@ public class ModBlocks {
 		tinOre = new BlockTinOre("tin_ore", "tin_ore");
 		breaker = new BlockBreaker("block_breaker");
 		gamemodeDetector = new BlockGamemodeDetector("gamemode_detector");
+		machineFrame = new BlockMachineFrame("machine_frame");
+		tinBlock = new BlockTinBlock("tin_block");
 	}
 	
 	/**
@@ -47,6 +53,8 @@ public class ModBlocks {
 		registerBlock(tinOre, new ItemBlockMeta(tinOre)); //Says that the block uses the ItemBlockMeta as the item block
 		registerBlock(breaker, new ItemBlockBreaker(breaker));
 		registerBlock(gamemodeDetector);
+		registerBlock(machineFrame, new ItemBlockMeta(machineFrame));
+		registerBlock(tinBlock);
 	}
 	
 	/**
@@ -58,8 +66,10 @@ public class ModBlocks {
 		}
 		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(breaker, i, "block_breaker_" + EnumHandler.ChipTypes.values()[i].getName());
+			registerRender(machineFrame, i, "machine_frame_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
 		registerRender(gamemodeDetector);
+		registerRender(tinBlock);
 	}
 	
 	/**

@@ -1,12 +1,8 @@
 {
-	"parent": "block/cube",
+	"parent": "boe:block/machine",
 	"textures": {
-		"particle": "boe:blocks/block_breaker_basic",
-		"up": "boe:blocks/block_breaker_basic",
-		"down": "boe:blocks/block_breaker_basic",
-		"north": "boe:blocks/block_breaker_basic_front",
-		"south": "boe:blocks/block_breaker_basic",
-		"east": "boe:blocks/block_breaker_basic",
-		"west": "boe:blocks/block_breaker_basic"
+		"side": "boe:blocks/block_breaker_side_basic",
+		"front": "boe:blocks/block_breaker_front_basic",
+		"alt": "boe:blocks/machine_basic"
 	}
 }

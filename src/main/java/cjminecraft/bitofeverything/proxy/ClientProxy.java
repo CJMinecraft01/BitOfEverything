@@ -1,6 +1,8 @@
 package cjminecraft.bitofeverything.proxy;
 
+import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
+import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
@@ -8,6 +10,7 @@ import cjminecraft.bitofeverything.init.ModTools;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /**
  * This class handles everything on the client side like the {@link ModelBakery} and the render of items
@@ -15,6 +18,11 @@ import net.minecraft.util.ResourceLocation;
  *
  */
 public class ClientProxy extends CommonProxy {
+	
+	@Override
+	public void init() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
+	}
 	
 	/**
 	 * Registers the renders
@@ -35,6 +43,7 @@ public class ClientProxy extends CommonProxy {
 		ModelBakery.registerItemVariants(ModItems.chip, new ResourceLocation(Reference.MODID, "chip_basic"), new ResourceLocation(Reference.MODID, "chip_advanced"));
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.breaker), new ResourceLocation(Reference.MODID, "block_breaker_basic"), new ResourceLocation(Reference.MODID, "block_breaker_advanced"));
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.tinOre), new ResourceLocation(Reference.MODID, "tin_ore_overworld"), new ResourceLocation(Reference.MODID, "tin_ore_nether"), new ResourceLocation(Reference.MODID, "tin_ore_end"));
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(ModBlocks.machineFrame), new ResourceLocation(Reference.MODID, "machine_frame_basic"), new ResourceLocation(Reference.MODID, "machine_frame_advanced"));
 	}
 
 }
