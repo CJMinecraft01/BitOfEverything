@@ -1,11 +1,15 @@
 tile.tin_ore.overworld.name=Tin Ore
 tile.tin_ore.nether.name=Tin Ore
 tile.tin_ore.end.name=Tin Ore
+tile.tin_block.name=Block of Tin
 tile.block_breaker.basic.name=Block Breaker (Basic)
 tile.block_breaker.advanced.name=Block Breaker (Advanced)
 tile.gamemode_detector.name=Gamemode Detector
+tile.machine_frame.basic.name=Machine Frame (Basic)
+tile.machine_frame.advanced.name=Machine Frame (Advanced)
 
 item.tin_ingot.name=Tin Ingot
+item.tin_nugget.name=Tin Nugget
 item.tin_pickaxe.name=Tin Pickaxe
 item.tin_axe.name=Tin Axe
 item.tin_hoe.name=Tin Hoe
@@ -36,3 +40,5 @@ boe.soul_stealer.tooltip=Steals the hearts of entities
 
 achievement.tinman=Tin Man
 achievement.tinman.desc=Wear all tin armour
+
+container.block_breaker=Block Breaker
