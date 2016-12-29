@@ -66,6 +66,7 @@ public class BitOfEverything {
 		ModBlocks.register();
 
 		proxy.registerRenders();
+		proxy.registerTileEntities();
 
 		AchievementHandler.registerAchievements();
 	}
