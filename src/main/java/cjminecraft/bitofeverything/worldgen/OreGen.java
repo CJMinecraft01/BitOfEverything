@@ -5,6 +5,7 @@ import java.util.Random;
 import cjminecraft.bitofeverything.blocks.BlockTinOre;
 import cjminecraft.bitofeverything.handlers.EnumHandler.OreType;
 import cjminecraft.bitofeverything.init.ModBlocks;
+import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
@@ -72,13 +73,13 @@ public class OreGen implements IWorldGenerator {
 			IChunkProvider chunkProvider) {
 		switch (world.provider.getDimension()) {
 		case 0: // Overworld
-			this.runGenerator(tin_overworld, world, random, chunkX, chunkZ, 20, 0, 64);
+			this.runGenerator(tin_overworld, world, random, chunkX, chunkZ, 30, 0, 64);
 			break;
 		case 1: // End
-			this.runGenerator(tin_end, world, random, chunkX, chunkZ, 20, 0, 256);
+			this.runGenerator(tin_end, world, random, chunkX, chunkZ, 30, 0, 256);
 			break;
 		case -1: // Nether
-			this.runGenerator(tin_nether, world, random, chunkX, chunkZ, 20, 0, 64);
+			this.runGenerator(tin_nether, world, random, chunkX, chunkZ, 30, 0, 64);
 			break;
 		}
 	}

@@ -3,6 +3,7 @@ package cjminecraft.bitofeverything;
 import cjminecraft.bitofeverything.creativetabs.TabBOEBlocks;
 import cjminecraft.bitofeverything.creativetabs.TabBOEItems;
 import cjminecraft.bitofeverything.handlers.AchievementHandler;
+import cjminecraft.bitofeverything.handlers.FuelHandler;
 import cjminecraft.bitofeverything.handlers.OreDictionaryHandler;
 import cjminecraft.bitofeverything.handlers.RecipeHandler;
 import cjminecraft.bitofeverything.init.ModArmour;
@@ -11,6 +12,7 @@ import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.proxy.CommonProxy;
 import cjminecraft.bitofeverything.util.Utils;
+import cjminecraft.bitofeverything.worldgen.OreGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -81,7 +83,8 @@ public class BitOfEverything {
 	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		proxy.init();
+		GameRegistry.registerWorldGenerator(new OreGen(), 0);
+		GameRegistry.registerFuelHandler(new FuelHandler());
 		OreDictionaryHandler.registerOreDictionary();
 		proxy.registerModelBakeryStuff();
 		eventHandler.registerEvents();
