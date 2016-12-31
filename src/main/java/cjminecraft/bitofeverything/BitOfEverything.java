@@ -83,6 +83,7 @@ public class BitOfEverything {
 	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		proxy.init();
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		OreDictionaryHandler.registerOreDictionary();
