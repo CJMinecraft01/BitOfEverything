@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "boe:tin_slab_bottom" },
+        "half=top": { "model": "boe:tin_slab_top" }
+    }
+}

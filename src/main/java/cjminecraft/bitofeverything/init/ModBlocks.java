@@ -7,6 +7,8 @@ import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
 import cjminecraft.bitofeverything.blocks.BlockTinBlock;
 import cjminecraft.bitofeverything.blocks.BlockTinOre;
+import cjminecraft.bitofeverything.blocks.BlockTinSlabDouble;
+import cjminecraft.bitofeverything.blocks.BlockTinSlabHalf;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
@@ -15,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -34,6 +37,8 @@ public class ModBlocks {
 	public static Block breaker;
 	public static Block gamemodeDetector;
 	public static Block machineFrame;
+	public static BlockTinSlabHalf tinSlabHalf;
+	public static BlockTinSlabDouble tinSlabDouble;
 	
 	/**
 	 * Initialize the blocks
@@ -44,6 +49,8 @@ public class ModBlocks {
 		gamemodeDetector = new BlockGamemodeDetector("gamemode_detector");
 		machineFrame = new BlockMachineFrame("machine_frame");
 		tinBlock = new BlockTinBlock("tin_block");
+		tinSlabHalf = new BlockTinSlabHalf("tin_slab_half");
+		tinSlabDouble = new BlockTinSlabDouble("tin_slab_double");
 	}
 	
 	/**
@@ -55,6 +62,8 @@ public class ModBlocks {
 		registerBlock(gamemodeDetector);
 		registerBlock(machineFrame, new ItemBlockMeta(machineFrame));
 		registerBlock(tinBlock);
+		registerBlock(tinSlabHalf, new ItemSlab(tinSlabHalf, tinSlabHalf, tinSlabDouble));
+		GameRegistry.register(tinSlabDouble); //Doesn't need an item
 	}
 	
 	/**
@@ -70,6 +79,7 @@ public class ModBlocks {
 		}
 		registerRender(gamemodeDetector);
 		registerRender(tinBlock);
+		registerRender(tinSlabHalf);
 	}
 	
 	/**
