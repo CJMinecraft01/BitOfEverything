@@ -63,7 +63,7 @@ public class ItemModFood extends ItemFood {
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
 		for (PotionEffect effect : effects) {
-			player.addPotionEffect(effect);
+			player.addPotionEffect(new PotionEffect(effect));
 		}
 	}
 
