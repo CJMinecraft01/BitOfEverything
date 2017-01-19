@@ -173,7 +173,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 			}
 			if(!customDrops)
 				drops = block.getDrops(world, newPos, state, 0);
-			int full = 0;
+			int full = 0; //So that if our tile entity is not full, it will add the block to the inventory
 			//Use block.harvestBlock if you don't want the item to go into the inventory
 			for (ItemStack stack : drops) { //This then puts the item into the inventory correctly
 				ItemStack remainder = this.handler.insertItem(0, stack, false);
@@ -232,6 +232,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 					full++;
 			}
 			if(full < handler.getSlots() - 1) {
+				this.world.playEvent(2001, pos, Block.getStateId(state));
 				this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(), SoundCategory.BLOCKS, 1, 1); //Plays the block breaking sound
 				this.world.setBlockToAir(newPos); //Makes the block air
 				if(block == Blocks.ICE) //If the block was ice it will place flowing water there instead

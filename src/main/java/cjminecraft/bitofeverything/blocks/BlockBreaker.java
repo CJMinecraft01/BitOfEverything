@@ -24,6 +24,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -157,7 +158,7 @@ public class BlockBreaker extends BlockMachine {
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityBlockBreaker te = (TileEntityBlockBreaker) world.getTileEntity(pos);
 		IItemHandler handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		for(int slot = 0; slot < handler.getSlots() - 1; slot++) {
+		for(int slot = 0; slot < handler.getSlots(); slot++) {
 			ItemStack stack = handler.getStackInSlot(slot);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 		}
