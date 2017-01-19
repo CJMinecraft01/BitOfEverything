@@ -3,6 +3,7 @@ tile.tin_ore.nether.name=Tin Ore
 tile.tin_ore.end.name=Tin Ore
 tile.tin_block.name=Block of Tin
 tile.tin_slab_half.name=Tin Slab
+tile.tin_stairs.name=Tin Stairs
 tile.block_breaker.basic.name=Block Breaker (Basic)
 tile.block_breaker.advanced.name=Block Breaker (Advanced)
 tile.gamemode_detector.name=Gamemode Detector

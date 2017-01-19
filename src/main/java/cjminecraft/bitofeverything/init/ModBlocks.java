@@ -9,6 +9,7 @@ import cjminecraft.bitofeverything.blocks.BlockTinBlock;
 import cjminecraft.bitofeverything.blocks.BlockTinOre;
 import cjminecraft.bitofeverything.blocks.BlockTinSlabDouble;
 import cjminecraft.bitofeverything.blocks.BlockTinSlabHalf;
+import cjminecraft.bitofeverything.blocks.BlockTinStairs;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
@@ -39,6 +40,7 @@ public class ModBlocks {
 	public static Block machineFrame;
 	public static BlockTinSlabHalf tinSlabHalf;
 	public static BlockTinSlabDouble tinSlabDouble;
+	public static BlockTinStairs tinStairs;
 	
 	/**
 	 * Initialize the blocks
@@ -51,6 +53,7 @@ public class ModBlocks {
 		tinBlock = new BlockTinBlock("tin_block");
 		tinSlabHalf = new BlockTinSlabHalf("tin_slab_half");
 		tinSlabDouble = new BlockTinSlabDouble("tin_slab_double");
+		tinStairs = new BlockTinStairs("tin_stairs", tinBlock.getDefaultState());
 	}
 	
 	/**
@@ -64,6 +67,7 @@ public class ModBlocks {
 		registerBlock(tinBlock);
 		registerBlock(tinSlabHalf, new ItemSlab(tinSlabHalf, tinSlabHalf, tinSlabDouble));
 		GameRegistry.register(tinSlabDouble); //Doesn't need an item
+		registerBlock(tinStairs);
 	}
 	
 	/**
@@ -80,6 +84,7 @@ public class ModBlocks {
 		registerRender(gamemodeDetector);
 		registerRender(tinBlock);
 		registerRender(tinSlabHalf);
+		registerRender(tinStairs);
 	}
 	
 	/**

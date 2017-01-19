@@ -43,6 +43,11 @@ public class RecipeHandler {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.breaker, 1, 0), new Object[] { " P ", "RMR", "TTT", 'P', Items.IRON_PICKAXE, 'R', "dustRedstone", 'M', new ItemStack(ModBlocks.machineFrame, 1, 0), 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.breaker, 1, 1), new Object[] { " P ", "RMR", "TTT", 'P', Items.IRON_PICKAXE, 'R', "dustRedstone", 'M', new ItemStack(ModBlocks.machineFrame, 1, 1), 'T', "ingotTin" }));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "TTT", "   ", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "TTT", "   ", "   ", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "   ", "TTT", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinStairs, 4), new Object[] { "T  ", "TT ", "TTT", 'T', "ingotTin" }));
 		Utils.getLogger().info("Registered Crafting Recipes!");
 	}
 	
