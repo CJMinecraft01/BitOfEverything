@@ -26,6 +26,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * A tin version of a fence gate. This class is taken from the {@link BlockFence} class
+ * @author CJMinecraft
+ *
+ */
 public class BlockTinFenceGate extends BlockHorizontal {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
@@ -40,7 +45,7 @@ public class BlockTinFenceGate extends BlockHorizontal {
 
     public BlockTinFenceGate(String unlocalizedName)
     {
-        super(Material.IRON, Material.IRON.getMaterialMapColor());
+        super(Material.IRON, Material.IRON.getMaterialMapColor()); //Change for our block
         this.setDefaultState(this.blockState.getBaseState().withProperty(OPEN, Boolean.valueOf(false)).withProperty(POWERED, Boolean.valueOf(false)).withProperty(IN_WALL, Boolean.valueOf(false)));
         this.setUnlocalizedName(unlocalizedName);
         this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));

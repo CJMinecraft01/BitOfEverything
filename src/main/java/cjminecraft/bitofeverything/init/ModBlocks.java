@@ -2,16 +2,8 @@ package cjminecraft.bitofeverything.init;
 
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.blocks.BlockBreaker;
-import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
-import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
-import cjminecraft.bitofeverything.blocks.BlockTinBlock;
-import cjminecraft.bitofeverything.blocks.BlockTinOre;
-import cjminecraft.bitofeverything.blocks.BlockTinSlabDouble;
-import cjminecraft.bitofeverything.blocks.BlockTinSlabHalf;
-import cjminecraft.bitofeverything.blocks.BlockTinStairs;
-import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
-import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
+import cjminecraft.bitofeverything.blocks.*;
+import cjminecraft.bitofeverything.blocks.item.*;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
@@ -41,6 +33,8 @@ public class ModBlocks {
 	public static BlockTinSlabHalf tinSlabHalf;
 	public static BlockTinSlabDouble tinSlabDouble;
 	public static BlockTinStairs tinStairs;
+	public static BlockTinFence tinFence;
+	public static BlockTinFenceGate tinFenceGate;
 	
 	/**
 	 * Initialize the blocks
@@ -54,6 +48,8 @@ public class ModBlocks {
 		tinSlabHalf = new BlockTinSlabHalf("tin_slab_half");
 		tinSlabDouble = new BlockTinSlabDouble("tin_slab_double");
 		tinStairs = new BlockTinStairs("tin_stairs", tinBlock.getDefaultState());
+		tinFence = new BlockTinFence("tin_fence");
+		tinFenceGate = new BlockTinFenceGate("tin_fence_gate");
 	}
 	
 	/**
@@ -68,6 +64,9 @@ public class ModBlocks {
 		registerBlock(tinSlabHalf, new ItemSlab(tinSlabHalf, tinSlabHalf, tinSlabDouble));
 		GameRegistry.register(tinSlabDouble); //Doesn't need an item
 		registerBlock(tinStairs);
+		
+		registerBlock(tinFence);
+		registerBlock(tinFenceGate);
 	}
 	
 	/**
@@ -85,6 +84,9 @@ public class ModBlocks {
 		registerRender(tinBlock);
 		registerRender(tinSlabHalf);
 		registerRender(tinStairs);
+		
+		registerRender(tinFence);
+		registerRender(tinFenceGate);
 	}
 	
 	/**
@@ -116,7 +118,7 @@ public class ModBlocks {
 	 */
 	public static void registerRender(Block block) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
-		Utils.getLogger().info("Registered render for " + block.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Register render for " + block.getUnlocalizedName().substring(5));
 	}
 	
 	/**
