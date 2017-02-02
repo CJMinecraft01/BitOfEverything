@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import cjminecraft.bitofeverything.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 /**
  * This is where useful methods will be
@@ -42,6 +43,11 @@ public class Utils {
 		return lang;
 	}
 	
+	/**
+	 * Calculate the redstone current from a item stack handler
+	 * @param handler The handler
+	 * @return The redstone power
+	 */
 	public static int calculateRedstone(ItemStackHandler handler) {
 		int i = 0;
 		float f = 0.0F;
@@ -54,6 +60,66 @@ public class Utils {
 		}
 		f = f / (float) handler.getSlots();
 		return MathHelper.floor(f * 14.0F) + (i > 0 ? 1 : 0);
+	}
+	
+	/**
+	 * Adds the chosen item stack to the inventory
+	 * @param handler The holder of the items
+	 * @param stack The stack to add
+	 * @param simulate Is the task a simulation?
+	 * @return The remainder left if the slot was full
+	 */
+	public static ItemStack addStackToInventory(IItemHandler handler, ItemStack stack, boolean simulate) {
+		ItemStack remainder = stack;
+		for(int slot = 0; slot < handler.getSlots(); slot++) {
+			remainder = handler.insertItem(slot, stack, simulate);
+			if(remainder == ItemStack.EMPTY) break;
+		}
+		return remainder;
+	}
+	
+	/**
+	 * Adds the chosen item stack to the inventory
+	 * @param handler The holder of the items
+	 * @param maxSlot The max slot to add to
+	 * @param stack The stack to add
+	 * @param simulate Is the task a simulation?
+	 * @return The remainder left if the slot was full
+	 */
+	public static ItemStack addStackToInventory(IItemHandler handler, int maxSlot, ItemStack stack, boolean simulate) {
+		ItemStack remainder = stack;
+		for(int slot = 0; slot < maxSlot; slot++) {
+			remainder = handler.insertItem(slot, stack, simulate);
+			if(remainder == ItemStack.EMPTY) break;
+		}
+		return remainder;
+	}
+	
+	/**
+	 * Checks if the inventory is full
+	 * @param handler The inventory
+	 * @return true if it is full
+	 */
+	public static boolean isInventoryFull(IItemHandler handler) {
+		int filledSlots = 0;
+		for(int slot = 0; slot < handler.getSlots(); slot++) {
+			if(handler.getStackInSlot(slot).getCount() == handler.getSlotLimit(slot)) filledSlots++;
+		}
+		return filledSlots == handler.getSlots();
+	}
+	
+	/**
+	 * Checks if the inventory is full
+	 * @param handler The inventory
+	 * @param maxSlot The number of slots to check
+	 * @return true if it is full
+	 */
+	public static boolean isInventoryFull(IItemHandler handler, int maxSlot) {
+		int filledSlots = 0;
+		for(int slot = 0; slot < maxSlot; slot++) {
+			if(handler.getStackInSlot(slot).getCount() == handler.getSlotLimit(slot)) filledSlots++;
+		}
+		return filledSlots == maxSlot;
 	}
 
 }
