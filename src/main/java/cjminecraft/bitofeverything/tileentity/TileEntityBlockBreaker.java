@@ -11,6 +11,7 @@ import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.client.gui.GuiBlockBreaker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
+import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockStaticLiquid;
@@ -77,6 +78,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 																				// within
 																				// a
 																				// tag
+
 		super.readFromNBT(nbt);
 	}
 
@@ -104,72 +106,23 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	public void update() {
 		if (this.world != null) { // Makes sure we have a world. RENAMED IN
 									// 1.11.2 from worldObj to world
-			if (!this.world.isRemote && this.world.isBlockPowered(pos)) { // Calls
-																			// it
-																			// server
-																			// side
-																			// and
-																			// checks
-																			// if
-																			// our
-																			// block
-																			// is
-																			// powered
-				IBlockState currentState = this.world.getBlockState(pos); // Gets
-																			// our
-																			// block
-																			// state
-				this.world.setBlockState(pos, currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); // Updates
-																															// it
-																															// if
-																															// it
-																															// is
-																															// powered
+			if (!this.world.isRemote && this.world.isBlockPowered(pos)) { // Calls it server side and checks if our block is powered
+				IBlockState currentState = this.world.getBlockState(pos); // Gets our block state
+				this.world.setBlockState(pos, currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); // Updates it if it is powered
 				updateCooldownCap();
 				this.cooldown++; // Increases the cooldown
 				this.cooldown %= this.cooldownCap;
-				if (this.cooldown == 0) { // Only runs when the cooldown is 0
-											// (i.e every 50 or 100 ticks (2.5
-											// or 5 seconds))
-					currentState = this.world.getBlockState(pos); // Updates our
-																	// current
-																	// state
-																	// variable
-					EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); // Gets
-																									// which
-																									// way
-																									// our
-																									// block
-																									// is
-																									// facing
-					breakBlock(facing); // Calls our break block method which
-										// handles the actual breaking of the
-										// block
+				if (this.cooldown == 0) { // Only runs when the cooldown is 0 (i.e every 50 or 100 ticks (2.5 or 5 seconds))
+					currentState = this.world.getBlockState(pos); // Updates our current state variable
+					EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); // Gets which way our block is facing
+					breakBlock(facing); // Calls our break block method which handles the actual breaking of the block
 				}
-			} else if (!this.world.isBlockPowered(pos)) { // If the block is not
-															// powered
-				if (!this.world.isAirBlock(pos) && this.world.getBlockState(pos).getBlock() == ModBlocks.breaker) { // The
-																													// block
-																													// is
-																													// not
-																													// air
-																													// and
-																													// it
-																													// is
-																													// a
-																													// block
-																													// breaker
-					if (this.world.getBlockState(pos).getValue(BlockBreaker.ACTIVATED)) { // Checks
-																							// if
-																							// it
-																							// is
-																							// activated
+			} else if (!this.world.isBlockPowered(pos)) { // If the block is not powered
+				if (!this.world.isAirBlock(pos) && this.world.getBlockState(pos).getBlock() == ModBlocks.breaker) { // The block is not air and it is a block breaker
+					if (this.world.getBlockState(pos).getValue(BlockBreaker.ACTIVATED)) { // Checks if it is activated
 						IBlockState currentState = this.world.getBlockState(pos);
 						this.world.setBlockState(pos,
-								currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(false))); // Makes
-																											// it
-																											// not
-																											// activated
+								currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(false))); // Makes it not activated
 					}
 				}
 			}
@@ -198,13 +151,10 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 *            The direction in which the block breaker is facing
 	 */
 	public void breakBlock(EnumFacing facing) {
-		BlockPos newPos = pos.offset(facing, 1); // Gets the block pos in front
-													// of the block breaker
-		IBlockState state = this.world.getBlockState(newPos); // Gets the block
-																// state
+		BlockPos newPos = pos.offset(facing, 1); // Gets the block pos in front of the block breaker
+		IBlockState state = this.world.getBlockState(newPos); // Gets the block state
 		Block block = state.getBlock(); // Gets the block
-		// If the block is not air, is not unbreakable or a liquid it will try
-		// and break it
+		// If the block is not air, is not unbreakable or a liquid it will try and break it
 		if (!block.isAir(state, this.world, newPos) && block.getBlockHardness(state, this.world, newPos) >= 0
 				&& !(block instanceof BlockDynamicLiquid) && !(block instanceof BlockStaticLiquid)) {
 			// Creates a fake player which will berak the block
@@ -243,68 +193,11 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 			}
 			if (!customDrops)
 				drops = block.getDrops(world, newPos, state, 0);
-			int full = 0; // So that if our tile entity is not full, it will add
-							// the block to the inventory
-			// Use block.harvestBlock if you don't want the item to go into the
-			// inventory
-			for (ItemStack stack : drops) { // This then puts the item into the
-											// inventory correctly
-				ItemStack remainder = this.handler.insertItem(0, stack, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(1, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(2, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(3, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(4, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(5, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(6, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(7, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
-				remainder = this.handler.insertItem(8, remainder, false);
-				if (remainder == ItemStack.EMPTY)// If it is a null
-													// item
-					continue;
-				else
-					full++;
+			// Use block.harvestBlock if you don't want the item to go into the inventory
+			for (ItemStack stack : drops) { // This then puts the item into the inventory correctly
+				Utils.addStackToInventory(this.handler, 9, stack, false);
 			}
-			if (full < handler.getSlots() - 1) {
+			if (!Utils.isInventoryFull(this.handler, 9)) {
 				this.world.playEvent(2001, pos, Block.getStateId(state));
 				this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(),
 						SoundCategory.BLOCKS, 1, 1); // Plays the block breaking
