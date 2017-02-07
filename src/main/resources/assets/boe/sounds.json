@@ -1,0 +1,22 @@
+{
+	"block.tin_fence_gate.open": {
+		"category": "block",
+		"subtitle": "block.tin_fence_gate.open",
+		"sounds": [ { "name": "boe:block/tin_fence_gate/open", "stream": true } ]
+	},
+	"block.tin_fence_gate.close": {
+		"category": "block",
+		"subtitle": "block.tin_fence_gate.close",
+		"sounds": [ { "name": "boe:block/tin_fence_gate/close", "stream": true } ]
+	},
+	"block.tin_button.click_on": {
+		"category": "block",
+		"subtitle": "block.tin_button.click_on",
+		"sounds": [ { "name": "boe:block/tin_button/click_on", "stream": true } ]
+	},
+	"block.tin_button.click_off": {
+		"category": "block",
+		"subtitle": "block.tin_button.click_off",
+		"sounds": [ { "name": "boe:block/tin_button/click_off", "stream": true } ]
+	}
+}

@@ -11,6 +11,7 @@ tile.block_breaker.advanced.name=Block Breaker (Advanced)
 tile.gamemode_detector.name=Gamemode Detector
 tile.machine_frame.basic.name=Machine Frame (Basic)
 tile.machine_frame.advanced.name=Machine Frame (Advanced)
+tile.tin_button.name=Tin Button
 
 item.tin_ingot.name=Tin Ingot
 item.tin_nugget.name=Tin Nugget
@@ -48,3 +49,8 @@ achievement.tinman.desc=Wear all tin armour
 container.block_breaker=Block Breaker
 
 gui.block_breaker.enchanted_book.tooltip=Enchanted book goes here
+
+block.tin_fence_gate.open=Tin Fence Gate Opened
+block.tin_fence_gate.close=Tin Fence Gate Closed
+block.tin_button.click_on=Tin Button Clicked
+block.tin_button.click_off=Tin Button Released
