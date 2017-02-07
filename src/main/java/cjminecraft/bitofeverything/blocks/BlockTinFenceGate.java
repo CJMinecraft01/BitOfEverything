@@ -3,6 +3,7 @@ package cjminecraft.bitofeverything.blocks;
 import javax.annotation.Nullable;
 
 import cjminecraft.bitofeverything.Reference;
+import cjminecraft.bitofeverything.handlers.BoeSoundHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockHorizontal;
@@ -19,6 +20,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -156,7 +158,8 @@ public class BlockTinFenceGate extends BlockHorizontal {
             worldIn.setBlockState(pos, state, 10);
         }
 
-        worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1008 : 1014, pos, 0);
+        worldIn.playSound(playerIn, pos, ((Boolean)state.getValue(OPEN)).booleanValue() ? BoeSoundHandler.TIN_FENCE_GATE_OPEN : BoeSoundHandler.TIN_FENCE_GATE_CLOSE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        //worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? 1008 : 1014, pos, 0);
         return true;
     }
 
@@ -177,7 +180,8 @@ public class BlockTinFenceGate extends BlockHorizontal {
 
                 if (((Boolean)state.getValue(OPEN)).booleanValue() != flag)
                 {
-                    worldIn.playEvent((EntityPlayer)null, flag ? 1008 : 1014, pos, 0);
+                    //worldIn.playEvent((EntityPlayer)null, flag ? 1008 : 1014, pos, 0);
+                	worldIn.playSound(null, pos, flag ? BoeSoundHandler.TIN_FENCE_GATE_OPEN : BoeSoundHandler.TIN_FENCE_GATE_CLOSE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
             }
         }

@@ -3,6 +3,7 @@ package cjminecraft.bitofeverything;
 import cjminecraft.bitofeverything.creativetabs.TabBOEBlocks;
 import cjminecraft.bitofeverything.creativetabs.TabBOEItems;
 import cjminecraft.bitofeverything.handlers.AchievementHandler;
+import cjminecraft.bitofeverything.handlers.BoeSoundHandler;
 import cjminecraft.bitofeverything.handlers.FuelHandler;
 import cjminecraft.bitofeverything.handlers.OreDictionaryHandler;
 import cjminecraft.bitofeverything.handlers.RecipeHandler;
@@ -91,6 +92,7 @@ public class BitOfEverything {
 		eventHandler.registerEvents();
 		RecipeHandler.registerCraftingRecipes();
 		RecipeHandler.registerFurnaceRecipes();
+		BoeSoundHandler.init();
 	}
 
 	/**
