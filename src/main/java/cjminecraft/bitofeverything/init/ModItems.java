@@ -82,7 +82,7 @@ public class ModItems {
 	public static void registerItem(Item item) {
 		item.setCreativeTab(BitOfEverything.items); //Sets the creative tab
 		GameRegistry.register(item);
-		Utils.getLogger().info("Registered item: " + item.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Registered Item: " + item.getUnlocalizedName().substring(5));
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class ModItems {
 	 */
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
-		Utils.getLogger().info("Register render for " + item.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Registered render for " + item.getUnlocalizedName().substring(5));
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class ModItems {
 	 */
 	public static void registerRender(Item item, int meta, String fileName) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
-		Utils.getLogger().info("Register render for " + item.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Registered render for " + item.getUnlocalizedName().substring(5));
 	}
 
 }
