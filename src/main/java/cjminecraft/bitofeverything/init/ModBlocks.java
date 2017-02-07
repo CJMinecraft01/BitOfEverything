@@ -35,6 +35,7 @@ public class ModBlocks {
 	public static BlockTinStairs tinStairs;
 	public static BlockTinFence tinFence;
 	public static BlockTinFenceGate tinFenceGate;
+	public static Block tinButton;
 	
 	/**
 	 * Initialize the blocks
@@ -50,6 +51,7 @@ public class ModBlocks {
 		tinStairs = new BlockTinStairs("tin_stairs", tinBlock.getDefaultState());
 		tinFence = new BlockTinFence("tin_fence");
 		tinFenceGate = new BlockTinFenceGate("tin_fence_gate");
+		tinButton = new BlockTinButton("tin_button");
 	}
 	
 	/**
@@ -64,9 +66,9 @@ public class ModBlocks {
 		registerBlock(tinSlabHalf, new ItemSlab(tinSlabHalf, tinSlabHalf, tinSlabDouble));
 		GameRegistry.register(tinSlabDouble); //Doesn't need an item
 		registerBlock(tinStairs);
-		
 		registerBlock(tinFence);
 		registerBlock(tinFenceGate);
+		registerBlock(tinButton);
 	}
 	
 	/**
@@ -84,9 +86,9 @@ public class ModBlocks {
 		registerRender(tinBlock);
 		registerRender(tinSlabHalf);
 		registerRender(tinStairs);
-		
 		registerRender(tinFence);
 		registerRender(tinFenceGate);
+		registerRender(tinButton);
 	}
 	
 	/**
@@ -118,7 +120,7 @@ public class ModBlocks {
 	 */
 	public static void registerRender(Block block) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
-		Utils.getLogger().info("Register render for " + block.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
 	
 	/**
@@ -129,7 +131,7 @@ public class ModBlocks {
 	 */
 	public static void registerRender(Block block, int meta, String fileName) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
-		Utils.getLogger().info("Register render for " + block.getUnlocalizedName().substring(5));
+		Utils.getLogger().info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
 	
 }
