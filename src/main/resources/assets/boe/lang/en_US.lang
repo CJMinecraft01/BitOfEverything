@@ -12,6 +12,7 @@ tile.gamemode_detector.name=Gamemode Detector
 tile.machine_frame.basic.name=Machine Frame (Basic)
 tile.machine_frame.advanced.name=Machine Frame (Advanced)
 tile.tin_button.name=Tin Button
+tile.tin_pressure_plate.name=Tin Pressure Plate
 
 item.tin_ingot.name=Tin Ingot
 item.tin_nugget.name=Tin Nugget

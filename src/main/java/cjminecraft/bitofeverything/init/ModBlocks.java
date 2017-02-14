@@ -36,6 +36,7 @@ public class ModBlocks {
 	public static BlockTinFence tinFence;
 	public static BlockTinFenceGate tinFenceGate;
 	public static Block tinButton;
+	public static Block tinPressurePlate;
 	
 	/**
 	 * Initialize the blocks
@@ -52,6 +53,7 @@ public class ModBlocks {
 		tinFence = new BlockTinFence("tin_fence");
 		tinFenceGate = new BlockTinFenceGate("tin_fence_gate");
 		tinButton = new BlockTinButton("tin_button");
+		tinPressurePlate = new BlockTinPressurePlate("tin_pressure_plate");
 	}
 	
 	/**
@@ -69,6 +71,7 @@ public class ModBlocks {
 		registerBlock(tinFence);
 		registerBlock(tinFenceGate);
 		registerBlock(tinButton);
+		registerBlock(tinPressurePlate);
 	}
 	
 	/**
@@ -89,6 +92,7 @@ public class ModBlocks {
 		registerRender(tinFence);
 		registerRender(tinFenceGate);
 		registerRender(tinButton);
+		registerRender(tinPressurePlate);
 	}
 	
 	/**
