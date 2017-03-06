@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_rh",
+    "textures": {
+        "bottom": "boe:blocks/door_tin_lower",
+        "top": "boe:blocks/door_tin_upper"
+    }
+}

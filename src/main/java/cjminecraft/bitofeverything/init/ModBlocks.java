@@ -2,8 +2,22 @@ package cjminecraft.bitofeverything.init;
 
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.blocks.*;
-import cjminecraft.bitofeverything.blocks.item.*;
+import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
+import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
+import cjminecraft.bitofeverything.blocks.BlockTinBlock;
+import cjminecraft.bitofeverything.blocks.BlockTinButton;
+import cjminecraft.bitofeverything.blocks.BlockTinDoor;
+import cjminecraft.bitofeverything.blocks.BlockTinFence;
+import cjminecraft.bitofeverything.blocks.BlockTinFenceGate;
+import cjminecraft.bitofeverything.blocks.BlockTinOre;
+import cjminecraft.bitofeverything.blocks.BlockTinPressurePlate;
+import cjminecraft.bitofeverything.blocks.BlockTinSlabDouble;
+import cjminecraft.bitofeverything.blocks.BlockTinSlabHalf;
+import cjminecraft.bitofeverything.blocks.BlockTinStairs;
+import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
+import cjminecraft.bitofeverything.blocks.item.ItemBlockDoor;
+import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
@@ -37,6 +51,7 @@ public class ModBlocks {
 	public static BlockTinFenceGate tinFenceGate;
 	public static Block tinButton;
 	public static Block tinPressurePlate;
+	public static BlockTinDoor tinDoor;
 	
 	/**
 	 * Initialize the blocks
@@ -54,6 +69,7 @@ public class ModBlocks {
 		tinFenceGate = new BlockTinFenceGate("tin_fence_gate");
 		tinButton = new BlockTinButton("tin_button");
 		tinPressurePlate = new BlockTinPressurePlate("tin_pressure_plate");
+		tinDoor = new BlockTinDoor("tin_door");
 	}
 	
 	/**
@@ -72,6 +88,7 @@ public class ModBlocks {
 		registerBlock(tinFenceGate);
 		registerBlock(tinButton);
 		registerBlock(tinPressurePlate);
+		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
 	}
 	
 	/**
@@ -93,6 +110,7 @@ public class ModBlocks {
 		registerRender(tinFenceGate);
 		registerRender(tinButton);
 		registerRender(tinPressurePlate);
+		registerRender(tinDoor);
 	}
 	
 	/**
