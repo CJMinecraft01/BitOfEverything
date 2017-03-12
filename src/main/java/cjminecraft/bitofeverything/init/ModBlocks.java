@@ -1,5 +1,7 @@
 package cjminecraft.bitofeverything.init;
 
+import java.util.Map;
+
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
@@ -21,13 +23,21 @@ import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * This class handles the registration of our blocks and also the rendering of them
@@ -111,6 +121,20 @@ public class ModBlocks {
 		registerRender(tinButton);
 		registerRender(tinPressurePlate);
 		registerRender(tinDoor);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void createStateMappers() {
+		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() {
+			
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return new ModelResourceLocation(gamemodeDetector.getRegistryName(), "normal");
+			}
+		});
+		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build());
+		ModelLoader.setCustomStateMapper(tinFenceGate, (new StateMap.Builder().ignore(BlockFenceGate.POWERED)).build());
+		Utils.getLogger().info("Created the state mappers!");
 	}
 	
 	/**

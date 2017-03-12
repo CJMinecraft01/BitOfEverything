@@ -14,6 +14,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class CommonProxy {
 	
+	public void preInit() {
+		
+	}
+	
 	/**
 	 * Called on the initialization phase of the game loading
 	 */

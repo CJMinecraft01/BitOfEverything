@@ -20,6 +20,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public class ClientProxy extends CommonProxy {
 	
 	@Override
+	public void preInit() {
+		ModBlocks.createStateMappers();
+	}
+	
+	@Override
 	public void init() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 	}

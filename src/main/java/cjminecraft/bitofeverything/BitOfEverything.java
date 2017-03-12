@@ -12,7 +12,6 @@ import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.proxy.CommonProxy;
-import cjminecraft.bitofeverything.util.Utils;
 import cjminecraft.bitofeverything.worldgen.OreGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
@@ -72,6 +71,7 @@ public class BitOfEverything {
 		ModArmour.register();
 		ModBlocks.register();
 
+		proxy.preInit();
 		proxy.registerRenders();
 		proxy.registerTileEntities();
 
