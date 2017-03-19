@@ -3,6 +3,7 @@ package cjminecraft.bitofeverything.proxy;
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.client.gui.GuiHandler;
+import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
@@ -19,11 +20,18 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
  */
 public class ClientProxy extends CommonProxy {
 	
+	/**
+	 * Everything that should be ran client side only in the pre initalization phase
+	 */
 	@Override
 	public void preInit() {
 		ModBlocks.createStateMappers();
+		BoeConfig.clientPreInit();
 	}
 	
+	/**
+	 * Everything that should be ran client side only in the initalization phase
+	 */
 	@Override
 	public void init() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
