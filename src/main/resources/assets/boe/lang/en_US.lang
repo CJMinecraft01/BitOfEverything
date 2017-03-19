@@ -56,3 +56,11 @@ block.tin_fence_gate.open=Tin Fence Gate Opened
 block.tin_fence_gate.close=Tin Fence Gate Closed
 block.tin_button.click_on=Tin Button Clicked
 block.tin_button.click_off=Tin Button Released
+
+gui.config.main_title=BitOfEverything Configuration
+gui.config.category.blocks=Blocks
+gui.config.category.blocks.tooltip=All block settings
+gui.config.blocks.machine_cooldown_basic.name=Basic Machine Cooldown
+gui.config.blocks.machine_cooldown_basic.comment=The cooldown for the basic tier of machine
+gui.config.blocks.machine_cooldown_advanced.name=Advanced Machine Cooldown
+gui.config.blocks.machine_cooldown_advanced.comment=The cooldown for the advanced tier of machine

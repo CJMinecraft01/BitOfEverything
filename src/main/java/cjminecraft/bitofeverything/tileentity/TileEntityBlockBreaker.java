@@ -9,6 +9,7 @@ import com.mojang.authlib.GameProfile;
 
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.client.gui.GuiBlockBreaker;
+import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.util.Utils;
@@ -132,9 +133,9 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	public void updateCooldownCap() {
 		int cap = this.cooldownCap;
 		if (this.world.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC)
-			cap = 100;
+			cap = BoeConfig.machineCooldownBasic;
 		else
-			cap = 50;
+			cap = BoeConfig.machineCooldownAdvanced;
 		if (this.handler.getStackInSlot(9).getItem() == Items.ENCHANTED_BOOK) {
 			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(this.handler.getStackInSlot(9));
 			if (enchantments.containsKey(Enchantments.EFFICIENCY)) {

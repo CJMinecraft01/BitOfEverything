@@ -123,16 +123,19 @@ public class ModBlocks {
 		registerRender(tinDoor);
 	}
 	
+	/**
+	 * Creates state mappers for ignoring properties etc.
+	 */
 	@SideOnly(Side.CLIENT)
 	public static void createStateMappers() {
-		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() {
+		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() { //Ingores all of the block's properties
 			
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				return new ModelResourceLocation(gamemodeDetector.getRegistryName(), "normal");
 			}
 		});
-		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build());
+		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build()); //Ignores only the powered property
 		ModelLoader.setCustomStateMapper(tinFenceGate, (new StateMap.Builder().ignore(BlockFenceGate.POWERED)).build());
 		Utils.getLogger().info("Created the state mappers!");
 	}

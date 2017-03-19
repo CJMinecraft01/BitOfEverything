@@ -1,5 +1,6 @@
 package cjminecraft.bitofeverything;
 
+import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.creativetabs.TabBOEBlocks;
 import cjminecraft.bitofeverything.creativetabs.TabBOEItems;
 import cjminecraft.bitofeverything.handlers.AchievementHandler;
@@ -28,7 +29,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * 
  * @author CJMinecraft
  */
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY)
 public class BitOfEverything {
 
 	/**
@@ -71,6 +72,7 @@ public class BitOfEverything {
 		ModArmour.register();
 		ModBlocks.register();
 
+		BoeConfig.preInit();
 		proxy.preInit();
 		proxy.registerRenders();
 		proxy.registerTileEntities();

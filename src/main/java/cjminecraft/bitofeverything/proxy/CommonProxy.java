@@ -1,6 +1,7 @@
 package cjminecraft.bitofeverything.proxy;
 
 import cjminecraft.bitofeverything.Reference;
+import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.handlers.FuelHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.util.Utils;
@@ -14,6 +15,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class CommonProxy {
 	
+	/**
+	 * Called on the pre initialization phase of the game loading
+	 */
 	public void preInit() {
 		
 	}

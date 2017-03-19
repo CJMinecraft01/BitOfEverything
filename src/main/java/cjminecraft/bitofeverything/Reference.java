@@ -28,5 +28,10 @@ public class Reference {
 	 * Where the client proxy is found
 	 */
 	public static final String CLIENT_PROXY_CLASS = "cjminecraft.bitofeverything.proxy.ClientProxy";
+	
+	/**
+	 * Where our gui factory if found
+	 */
+	public static final String GUI_FACTORY = "cjminecraft.bitofeverything.config.BoeConfigGuiFactory";
 
 }
