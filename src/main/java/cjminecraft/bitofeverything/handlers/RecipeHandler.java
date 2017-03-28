@@ -4,13 +4,17 @@ import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
+import cjminecraft.bitofeverything.util.RecipeItemColour;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -48,6 +52,9 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "TTT", "   ", "   ", 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "   ", "TTT", 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinStairs, 4), new Object[] { "T  ", "TT ", "TTT", 'T', "ingotTin" }));
+		
+		RecipeSorter.register("itemColour", RecipeItemColour.class, Category.SHAPELESS, "after:minecraft:shapeless"); //Make sure to register the recipe type first!
+		GameRegistry.addRecipe(new RecipeItemColour(new ItemStack(ModItems.paintBrush)));
 		Utils.getLogger().info("Registered Crafting Recipes!");
 	}
 	

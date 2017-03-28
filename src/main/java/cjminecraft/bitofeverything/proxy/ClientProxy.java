@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public class ClientProxy extends CommonProxy {
 	
 	/**
-	 * Everything that should be ran client side only in the pre initalization phase
+	 * Everything that should be ran client side only in the pre initialization phase
 	 */
 	@Override
 	public void preInit() {
@@ -30,10 +30,11 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	/**
-	 * Everything that should be ran client side only in the initalization phase
+	 * Everything that should be ran client side only in the initialization phase
 	 */
 	@Override
 	public void init() {
+		ModItems.registerItemColours();
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 	}
 	

@@ -4,10 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cjminecraft.bitofeverything.Reference;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.oredict.OreDictionary;
+
 /**
  * This is where useful methods will be
  * @author CJMinecraft
@@ -120,6 +123,34 @@ public class Utils {
 			if(handler.getStackInSlot(slot).getCount() == handler.getSlotLimit(slot)) filledSlots++;
 		}
 		return filledSlots == maxSlot;
+	}
+	
+	/**
+	 * Gets the correct colour from any item stack using the ore dictionary
+	 * The item must be registered as a dye
+	 * @param stack The {@link ItemStack} to test
+	 * @return The {@link EnumDyeColor} of the {@link ItemStack} to test. If the stack is not registered as a dye, the {@link EnumDyeColor#WHITE} will be used
+	 */
+	public static EnumDyeColor getColourFromDye(ItemStack stack) {
+		for(int id : OreDictionary.getOreIDs(stack)) {
+			if(id == OreDictionary.getOreID("dyeBlack")) return EnumDyeColor.BLACK;
+			if(id == OreDictionary.getOreID("dyeRed")) return EnumDyeColor.RED;
+			if(id == OreDictionary.getOreID("dyeGreen")) return EnumDyeColor.GREEN;
+			if(id == OreDictionary.getOreID("dyeBrown")) return EnumDyeColor.BROWN;
+			if(id == OreDictionary.getOreID("dyeBlue")) return EnumDyeColor.BLUE;
+			if(id == OreDictionary.getOreID("dyePurple")) return EnumDyeColor.PURPLE;
+			if(id == OreDictionary.getOreID("dyeCyan")) return EnumDyeColor.CYAN;
+			if(id == OreDictionary.getOreID("dyeLightGray")) return EnumDyeColor.SILVER;
+			if(id == OreDictionary.getOreID("dyeGray")) return EnumDyeColor.GRAY;
+			if(id == OreDictionary.getOreID("dyePink")) return EnumDyeColor.PINK;
+			if(id == OreDictionary.getOreID("dyeLime")) return EnumDyeColor.LIME;
+			if(id == OreDictionary.getOreID("dyeYellow")) return EnumDyeColor.YELLOW;
+			if(id == OreDictionary.getOreID("dyeLightBlue")) return EnumDyeColor.LIGHT_BLUE;
+			if(id == OreDictionary.getOreID("dyeMagenta")) return EnumDyeColor.MAGENTA;
+			if(id == OreDictionary.getOreID("dyeOrange")) return EnumDyeColor.ORANGE;
+			if(id == OreDictionary.getOreID("dyeWhite")) return EnumDyeColor.WHITE;
+		}
+		return EnumDyeColor.WHITE;
 	}
 
 }

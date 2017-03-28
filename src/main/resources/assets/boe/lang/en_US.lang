@@ -39,6 +39,9 @@ item.tin_boots.name=Tin Boots
 item.chip.basic.name=Basic Chip
 item.chip.advanced.name=Advanced Chip
 
+item.paint_brush.name=Paint Brush
+item.paint_brush.tooltip=Color: %s
+
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Items
 

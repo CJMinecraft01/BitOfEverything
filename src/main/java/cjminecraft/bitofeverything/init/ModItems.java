@@ -6,15 +6,21 @@ import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.items.ItemChip;
 import cjminecraft.bitofeverything.items.ItemHeart;
 import cjminecraft.bitofeverything.items.ItemModFood;
+import cjminecraft.bitofeverything.items.ItemPaintBrush;
 import cjminecraft.bitofeverything.items.ItemTinIngot;
 import cjminecraft.bitofeverything.util.Utils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Handles the item registration and render
@@ -33,6 +39,7 @@ public class ModItems {
 	public static Item niceBiscuit;
 	public static Item infinityFlame;
 	public static Item tinNugget;
+	public static Item paintBrush;
 	
 	/**
 	 * Initialize the items
@@ -45,6 +52,7 @@ public class ModItems {
 		niceBiscuit = new ItemModFood("nice_biscuit", 2, 2, false);
 		infinityFlame = new Item().setUnlocalizedName("infinity_flame").setRegistryName(new ResourceLocation(Reference.MODID, "infinity_flame"));
 		tinNugget = new Item().setUnlocalizedName("tin_nugget").setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
+		paintBrush = new ItemPaintBrush("paint_brush");
 	}
 	
 	/**
@@ -58,6 +66,7 @@ public class ModItems {
 		registerItem(niceBiscuit);
 		registerItem(infinityFlame);
 		registerItem(tinNugget);
+		registerItem(paintBrush);
 	}
 	
 	/**
@@ -73,6 +82,24 @@ public class ModItems {
 		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(chip, i, "chip_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
+		registerRender(paintBrush);
+	}
+	
+	/**
+	 * Register that the item has a colour and state what the colour is
+	 */
+	@SideOnly(Side.CLIENT)
+	public static void registerItemColours() {
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				if(stack.hasTagCompound() && tintIndex == 1)
+					if(stack.getTagCompound().hasKey("colour"))
+						return stack.getTagCompound().getInteger("colour");
+				return 0xFFFFFF;
+			}
+		}, paintBrush);
 	}
 	
 	/**
