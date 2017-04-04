@@ -41,6 +41,9 @@ item.chip.advanced.name=Advanced Chip
 
 item.paint_brush.name=Paint Brush
 item.paint_brush.tooltip=Color: %s
+tile.canvas.name=Canvas
+tile.canvas.tooltip=Color: %s
+item.fabric.name=Fabric
 
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Items
