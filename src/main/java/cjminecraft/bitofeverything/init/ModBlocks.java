@@ -1,10 +1,9 @@
 package cjminecraft.bitofeverything.init;
 
-import java.util.Map;
-
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.blocks.BlockCanvas;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
 import cjminecraft.bitofeverything.blocks.BlockTinBlock;
@@ -21,19 +20,25 @@ import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockDoor;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
+import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -62,6 +67,7 @@ public class ModBlocks {
 	public static Block tinButton;
 	public static Block tinPressurePlate;
 	public static BlockTinDoor tinDoor;
+	public static Block canvas;
 	
 	/**
 	 * Initialize the blocks
@@ -80,6 +86,7 @@ public class ModBlocks {
 		tinButton = new BlockTinButton("tin_button");
 		tinPressurePlate = new BlockTinPressurePlate("tin_pressure_plate");
 		tinDoor = new BlockTinDoor("tin_door");
+		canvas = new BlockCanvas("canvas");
 	}
 	
 	/**
@@ -99,6 +106,7 @@ public class ModBlocks {
 		registerBlock(tinButton);
 		registerBlock(tinPressurePlate);
 		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
+		registerBlock(canvas);
 	}
 	
 	/**
@@ -121,6 +129,35 @@ public class ModBlocks {
 		registerRender(tinButton);
 		registerRender(tinPressurePlate);
 		registerRender(tinDoor);
+		registerRender(canvas);
+	}
+	
+	/**
+	 * Register blocks which will have a colour
+	 */
+	@SideOnly(Side.CLIENT)
+	public static void registerBlockColours() {
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+			
+			@Override
+			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+				TileEntityCanvas canvas = (TileEntityCanvas) world.getTileEntity(pos);
+				if(canvas != null)
+					return canvas.getColour();
+				return 0xFFFFFF;
+			}
+		}, canvas);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				if(stack.hasTagCompound())
+					if(stack.getTagCompound().hasKey("colour"))
+						return stack.getTagCompound().getInteger("colour");
+				return 0xFFFFFF;
+			}
+		}, canvas);
+		Utils.getLogger().info("Registered block colours!");
 	}
 	
 	/**

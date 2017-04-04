@@ -40,6 +40,7 @@ public class ModItems {
 	public static Item infinityFlame;
 	public static Item tinNugget;
 	public static Item paintBrush;
+	public static Item fabric;
 	
 	/**
 	 * Initialize the items
@@ -53,6 +54,7 @@ public class ModItems {
 		infinityFlame = new Item().setUnlocalizedName("infinity_flame").setRegistryName(new ResourceLocation(Reference.MODID, "infinity_flame"));
 		tinNugget = new Item().setUnlocalizedName("tin_nugget").setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
 		paintBrush = new ItemPaintBrush("paint_brush");
+		fabric = new Item().setUnlocalizedName("fabric").setRegistryName(new ResourceLocation(Reference.MODID, "fabric"));
 	}
 	
 	/**
@@ -67,6 +69,7 @@ public class ModItems {
 		registerItem(infinityFlame);
 		registerItem(tinNugget);
 		registerItem(paintBrush);
+		registerItem(fabric);
 	}
 	
 	/**
@@ -83,6 +86,7 @@ public class ModItems {
 			registerRender(chip, i, "chip_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
 		registerRender(paintBrush);
+		registerRender(fabric);
 	}
 	
 	/**
@@ -100,6 +104,7 @@ public class ModItems {
 				return 0xFFFFFF;
 			}
 		}, paintBrush);
+		Utils.getLogger().info("Registered item colours!");
 	}
 	
 	/**

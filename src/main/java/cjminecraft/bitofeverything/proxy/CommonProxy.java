@@ -4,6 +4,7 @@ import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.handlers.FuelHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
+import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import cjminecraft.bitofeverything.util.Utils;
 import cjminecraft.bitofeverything.worldgen.OreGen;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -34,10 +35,11 @@ public class CommonProxy {
 	 */
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileEntityBlockBreaker.class, Reference.MODID + ":block_breaker");
+		GameRegistry.registerTileEntity(TileEntityCanvas.class, Reference.MODID + ":canvas");
 	}
 	
 	/**
-	 * Registers the renders - refer to the {@link ClientProxy}
+	 * Registers the renders - refer to the {@link ClientProxy#registerRenders()}
 	 */
 	public void registerRenders() {
 		

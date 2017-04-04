@@ -34,6 +34,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public void init() {
+		ModBlocks.registerBlockColours();
 		ModItems.registerItemColours();
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 	}

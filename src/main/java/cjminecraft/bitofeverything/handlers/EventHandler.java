@@ -1,6 +1,7 @@
 package cjminecraft.bitofeverything.handlers;
 
 import cjminecraft.bitofeverything.events.SoulStealerEvents;
+import cjminecraft.bitofeverything.events.TooltipEvents;
 import net.minecraftforge.common.MinecraftForge;
 
 /**
@@ -15,6 +16,7 @@ public class EventHandler {
 	 */
 	public void registerEvents() {
 		MinecraftForge.EVENT_BUS.register(new SoulStealerEvents());
+		MinecraftForge.EVENT_BUS.register(new TooltipEvents());
 	}
 
 }

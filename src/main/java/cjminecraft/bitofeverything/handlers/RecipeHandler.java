@@ -1,5 +1,7 @@
 package cjminecraft.bitofeverything.handlers;
 
+import java.util.List;
+
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
@@ -10,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -52,6 +55,9 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "TTT", "   ", "   ", 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "   ", "TTT", 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinStairs, 4), new Object[] { "T  ", "TT ", "TTT", 'T', "ingotTin" }));
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fabric), new Object[] { Items.STRING, Items.STRING, Items.STRING, Items.STRING });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.paintBrush), new Object[] { "FFF", "SSS", " S ", 'F', "fabric", 'S', "stickWood" }));
 		
 		RecipeSorter.register("itemColour", RecipeItemColour.class, Category.SHAPELESS, "after:minecraft:shapeless"); //Make sure to register the recipe type first!
 		GameRegistry.addRecipe(new RecipeItemColour(new ItemStack(ModItems.paintBrush)));
