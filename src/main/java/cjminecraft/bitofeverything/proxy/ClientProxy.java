@@ -1,8 +1,6 @@
 package cjminecraft.bitofeverything.proxy;
 
-import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
@@ -11,7 +9,6 @@ import cjminecraft.bitofeverything.init.ModTools;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /**
  * This class handles everything on the client side like the {@link ModelBakery} and the render of items
@@ -36,7 +33,6 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		ModBlocks.registerBlockColours();
 		ModItems.registerItemColours();
-		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 	}
 	
 	/**

@@ -58,6 +58,7 @@ public class RecipeHandler {
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fabric), new Object[] { Items.STRING, Items.STRING, Items.STRING, Items.STRING });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.paintBrush), new Object[] { "FFF", "SSS", " S ", 'F', "fabric", 'S', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.canvas, 2), new Object[] { "FF", "FF", 'F', "fabric" }));
 		
 		RecipeSorter.register("itemColour", RecipeItemColour.class, Category.SHAPELESS, "after:minecraft:shapeless"); //Make sure to register the recipe type first!
 		GameRegistry.addRecipe(new RecipeItemColour(new ItemStack(ModItems.paintBrush)));

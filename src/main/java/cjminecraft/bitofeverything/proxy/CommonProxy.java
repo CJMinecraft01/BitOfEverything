@@ -1,12 +1,11 @@
 package cjminecraft.bitofeverything.proxy;
 
+import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.config.BoeConfig;
-import cjminecraft.bitofeverything.handlers.FuelHandler;
+import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
-import cjminecraft.bitofeverything.util.Utils;
-import cjminecraft.bitofeverything.worldgen.OreGen;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -20,13 +19,13 @@ public class CommonProxy {
 	 * Called on the pre initialization phase of the game loading
 	 */
 	public void preInit() {
-		
 	}
 	
 	/**
 	 * Called on the initialization phase of the game loading
 	 */
 	public void init() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 		//MOVED THESE TO MAIN CLASS - FIX FOR MC 1.11.2
 	}
 	
