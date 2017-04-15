@@ -33,7 +33,5 @@ public class Reference {
 	 * Where our gui factory if found
 	 */
 	public static final String GUI_FACTORY = "cjminecraft.bitofeverything.config.BoeConfigGuiFactory";
-	
-	public static final int PACKET_ID_CANVAS = 30;
 
 }
