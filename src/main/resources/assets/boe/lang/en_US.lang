@@ -35,6 +35,7 @@ item.tin_helmet.name=Tin Helmet
 item.tin_chestplate.name=Tin Chestplate
 item.tin_leggings.name=Tin Leggings
 item.tin_boots.name=Tin Boots
+item.tin_stick.name=Tin Stick
 
 item.chip.basic.name=Basic Chip
 item.chip.advanced.name=Advanced Chip

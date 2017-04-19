@@ -7,8 +7,10 @@ import com.google.common.collect.Lists;
 
 import cjminecraft.bitofeverything.handlers.RecipeHandler;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagInt;
@@ -59,19 +61,29 @@ public class RecipeItemColour implements IRecipe {
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		ItemStack itemColour = ItemStack.EMPTY;
+		boolean randomItemDetected = false;
 
 		for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
 			ItemStack stackInSlot = inv.getStackInSlot(slot);
 
 			if (!stackInSlot.isEmpty()) {
-				if (stackInSlot.hasTagCompound()) {
+				if (stackInSlot.hasTagCompound() && stackInSlot.getItem() == targetItemStack.getItem()) {
 					if (stackInSlot.getTagCompound().hasKey("colour") || stackInSlot.getTagCompound().hasKey("color")) {
 						itemColour = stackInSlot;
 					}
 				}
+				boolean cont = false;
+				for (int id : OreDictionary.getOreIDs(stackInSlot)) {
+					if (dyeODs.contains(id)) {
+						cont = true;
+					}
+				}
+				if(cont) continue;
+				else if(stackInSlot.getItem() != targetItemStack.getItem() && stackInSlot.getItem() != Item.getItemFromBlock(Blocks.AIR))
+					randomItemDetected = true;
 			}
 		}
-		return !itemColour.isEmpty() && itemColour.getItem() == targetItemStack.getItem(); //As long as there is a item there and the item is the item we want
+		return !itemColour.isEmpty() && itemColour.getItem() == targetItemStack.getItem() && !randomItemDetected; //As long as there is a item there and the item is the item we want
 	}
 
 	/**

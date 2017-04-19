@@ -41,6 +41,7 @@ public class ModItems {
 	public static Item tinNugget;
 	public static Item paintBrush;
 	public static Item fabric;
+	public static Item tinStick;
 	
 	/**
 	 * Initialize the items
@@ -55,6 +56,7 @@ public class ModItems {
 		tinNugget = new Item().setUnlocalizedName("tin_nugget").setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
 		paintBrush = new ItemPaintBrush("paint_brush");
 		fabric = new Item().setUnlocalizedName("fabric").setRegistryName(new ResourceLocation(Reference.MODID, "fabric"));
+		tinStick = new Item().setUnlocalizedName("tin_stick").setRegistryName(new ResourceLocation(Reference.MODID, "tin_stick"));
 	}
 	
 	/**
@@ -70,6 +72,7 @@ public class ModItems {
 		registerItem(tinNugget);
 		registerItem(paintBrush);
 		registerItem(fabric);
+		registerItem(tinStick);
 	}
 	
 	/**
@@ -87,6 +90,7 @@ public class ModItems {
 		}
 		registerRender(paintBrush);
 		registerRender(fabric);
+		registerRender(tinStick);
 	}
 	
 	/**

@@ -1,19 +1,16 @@
 package cjminecraft.bitofeverything.handlers;
 
-import java.util.List;
-
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
+import cjminecraft.bitofeverything.util.RecipeClearColour;
 import cjminecraft.bitofeverything.util.RecipeItemColour;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -34,7 +31,7 @@ public class RecipeHandler {
 	public static void registerCraftingRecipes() {
 		GameRegistry.addRecipe(new ItemStack(ModTools.soulStealer), new Object[] { "SAS", "ADA", "SAS", 'S', Items.STICK, 'A', Items.STRING, 'D', Items.DIAMOND });
 		registerToolRecipe(ModItems.tinIngot, ModTools.tinPickaxe, ModTools.tinAxe, ModTools.tinShovel, ModTools.tinHoe, ModTools.tinSword);
-		registerArmourRecipe("ingotTin", ModArmour.tinHelmet, ModArmour.tinChestplate, ModArmour.tinLeggings, ModArmour.tinBoots);
+		registerArmourRecipe(ModItems.tinIngot, ModArmour.tinHelmet, ModArmour.tinChestplate, ModArmour.tinLeggings, ModArmour.tinBoots);
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.tinBlock), new Object[] { "TTT", "TTT", "TTT", 'T', ModItems.tinIngot });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.tinIngot, 9), new Object[] { ModBlocks.tinBlock });
 		GameRegistry.addRecipe(new ItemStack(ModItems.tinIngot), new Object[] { "NNN", "NNN", "NNN", 'N', ModItems.tinNugget });
@@ -51,17 +48,24 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.breaker, 1, 0), new Object[] { " P ", "RMR", "TTT", 'P', Items.IRON_PICKAXE, 'R', "dustRedstone", 'M', new ItemStack(ModBlocks.machineFrame, 1, 0), 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.breaker, 1, 1), new Object[] { " P ", "RMR", "TTT", 'P', Items.IRON_PICKAXE, 'R', "dustRedstone", 'M', new ItemStack(ModBlocks.machineFrame, 1, 1), 'T', "ingotTin" }));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "TTT", "   ", 'T', "ingotTin" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "TTT", "   ", "   ", 'T', "ingotTin" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] { "   ", "   ", "TTT", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinSlabHalf, 2), new Object[] {"TTT", 'T', "ingotTin" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinStairs, 4), new Object[] { "T  ", "TT ", "TTT", 'T', "ingotTin" }));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fabric), new Object[] { Items.STRING, Items.STRING, Items.STRING, Items.STRING });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fabric, 2), new Object[] { Items.STRING, Items.STRING });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.paintBrush), new Object[] { "FFF", "SSS", " S ", 'F', "fabric", 'S', "stickWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.canvas, 2), new Object[] { "FF", "FF", 'F', "fabric" }));
 		
+		GameRegistry.addRecipe(new ShapelessOreRecipe(ModBlocks.tinButton, new Object[] { "nuggetTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinDoor, 3), new Object[] { "TT", "TT", "TT", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.tinStick, 4), new Object[] {"T", "T", 'T', "ingotTin"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.tinFence, 3), new Object[] { "TST", "TST", 'S', "stickTin", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.tinFenceGate, new Object[] { "STS", "STS", 'S', "stickTin", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.tinPressurePlate, new Object[] { "TT", 'T', "ingotTin" }));
+		
 		RecipeSorter.register("itemColour", RecipeItemColour.class, Category.SHAPELESS, "after:minecraft:shapeless"); //Make sure to register the recipe type first!
 		GameRegistry.addRecipe(new RecipeItemColour(new ItemStack(ModItems.paintBrush)));
+		RecipeSorter.register("clearColour", RecipeClearColour.class, Category.SHAPELESS, "after:minecraft:shapeless"); //Make sure to register the recipe type first!
+		GameRegistry.addRecipe(new RecipeClearColour(new ItemStack(ModBlocks.canvas)));
 		Utils.getLogger().info("Registered Crafting Recipes!");
 	}
 	
@@ -69,7 +73,9 @@ public class RecipeHandler {
 	 * Register the furnace recipes
 	 */
 	public static void registerFurnaceRecipes() {
-		GameRegistry.addSmelting(ModBlocks.tinOre, new ItemStack(ModItems.tinIngot), 0.7f);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.tinOre, 1, 0), new ItemStack(ModItems.tinIngot), 0.7f);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.tinOre, 1, 1), new ItemStack(ModBlocks.tinOre, 2, 0), 0.7F);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.tinOre, 1, 2), new ItemStack(ModBlocks.tinOre, 2, 1), 0.7F);
 		Utils.getLogger().info("Registered Furnace Recipes!");
 	}
 	
@@ -84,12 +90,10 @@ public class RecipeHandler {
 	 */
 	private static void registerToolRecipe(Item ingot, Item pickaxe, Item axe, Item shovel, Item hoe, Item sword) {
 		GameRegistry.addRecipe(new ItemStack(pickaxe), new Object[] { "III", " S ", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(axe), new Object[] { "II ", "IS ", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(axe), new Object[] { " II", " SI", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(shovel), new Object[] { " I ", " S ", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(hoe), new Object[] { " II", " S ", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(hoe), new Object[] { "II ", " S ", " S ", 'I', ingot, 'S', Items.STICK });
-		GameRegistry.addRecipe(new ItemStack(sword), new Object[] { " I ", " I ", " S ", 'I', ingot, 'S', Items.STICK });
+		GameRegistry.addRecipe(new ItemStack(axe), new Object[] { "II", "IS", " S", 'I', ingot, 'S', Items.STICK });
+		GameRegistry.addRecipe(new ItemStack(shovel), new Object[] { "I", "S", "S", 'I', ingot, 'S', Items.STICK });
+		GameRegistry.addRecipe(new ItemStack(hoe), new Object[] { "II", " S", " S", 'I', ingot, 'S', Items.STICK });
+		GameRegistry.addRecipe(new ItemStack(sword), new Object[] { "I", "I", "S", 'I', ingot, 'S', Items.STICK });
 	}
 	
 	/**
@@ -103,13 +107,11 @@ public class RecipeHandler {
 	 * @param stickOD The stick from the {@link OreDictionary}
 	 */
 	private static void registerToolRecipe(String ingotOD, Item pickaxe, Item axe, Item shovel, Item hoe, Item sword, String stickOD) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(pickaxe, new Object[] { "III", " S ", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(axe, new Object[] { "II ", "IS ", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(axe, new Object[] { " II", " SI", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(shovel, new Object[] { " I ", " S ", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(hoe, new Object[] { " II", " S ", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(hoe, new Object[] { "II ", " S ", " S ", 'I', ingotOD, 'S', stickOD }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(sword, new Object[] { " I ", " I ", " S ", 'I', ingotOD, 'S', stickOD }));
+		GameRegistry.addRecipe(new ItemStack(pickaxe), new Object[] { "III", " S ", " S ", 'I', ingotOD, 'S', stickOD });
+		GameRegistry.addRecipe(new ItemStack(axe), new Object[] { "II", "IS", " S", 'I', ingotOD, 'S', stickOD });
+		GameRegistry.addRecipe(new ItemStack(shovel), new Object[] { "I", "S", "S", 'I', ingotOD, 'S', stickOD });
+		GameRegistry.addRecipe(new ItemStack(hoe), new Object[] { "II", " S", " S", 'I', ingotOD, 'S', stickOD });
+		GameRegistry.addRecipe(new ItemStack(sword), new Object[] { "I", "I", "S", 'I', ingotOD, 'S', stickOD });
 	}
 	
 	/**
@@ -121,12 +123,10 @@ public class RecipeHandler {
 	 * @param boots The boots
 	 */
 	public static void registerArmourRecipe(Item ingot, Item helmet, Item chestplate, Item leggings, Item boots) {
-		GameRegistry.addRecipe(new ItemStack(helmet), new Object[] { "III","I I","   ",'I',ingot});
-		GameRegistry.addRecipe(new ItemStack(helmet), new Object[] { "   ","III","I I",'I',ingot});
+		GameRegistry.addRecipe(new ItemStack(helmet), new Object[] { "III","I I",'I',ingot});
 		GameRegistry.addRecipe(new ItemStack(chestplate), new Object[] { "I I","III","III",'I',ingot});
 		GameRegistry.addRecipe(new ItemStack(leggings), new Object[] { "III","I I","I I",'I',ingot});
-		GameRegistry.addRecipe(new ItemStack(boots), new Object[] { "I I","I I","   ",'I',ingot});
-		GameRegistry.addRecipe(new ItemStack(boots), new Object[] { "   ","I I","I I",'I',ingot});
+		GameRegistry.addRecipe(new ItemStack(boots), new Object[] { "I I","I I",'I',ingot});
 	}
 	
 	/**
@@ -138,12 +138,10 @@ public class RecipeHandler {
 	 * @param boots The boots
 	 */
 	public static void registerArmourRecipe(String ingotOD, Item helmet, Item chestplate, Item leggings, Item boots) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(helmet, new Object[] { "III","I I","   ",'I',ingotOD}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(helmet, new Object[] { "   ","III","I I",'I',ingotOD}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(chestplate, new Object[] { "I I","III","III",'I',ingotOD}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(leggings, new Object[] { "III","I I","I I",'I',ingotOD}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(boots, new Object[] { "I I","I I","   ",'I',ingotOD}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(boots, new Object[] { "   ","I I","I I",'I',ingotOD}));
+		GameRegistry.addRecipe(new ItemStack(helmet), new Object[] { "III","I I",'I',ingotOD});
+		GameRegistry.addRecipe(new ItemStack(chestplate), new Object[] { "I I","III","III",'I',ingotOD});
+		GameRegistry.addRecipe(new ItemStack(leggings), new Object[] { "III","I I","I I",'I',ingotOD});
+		GameRegistry.addRecipe(new ItemStack(boots), new Object[] { "I I","I I",'I',ingotOD});
 	}
 
 }

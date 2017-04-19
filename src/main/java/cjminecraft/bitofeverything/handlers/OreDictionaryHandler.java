@@ -23,6 +23,7 @@ public class OreDictionaryHandler {
 		OreDictionary.registerOre("chipBasic", new ItemStack(ModItems.chip, 1, 0)); //Basic Chip
 		OreDictionary.registerOre("chipAdvanced", new ItemStack(ModItems.chip, 1, 1)); //Advanced Chip
 		OreDictionary.registerOre("fabric", new ItemStack(ModItems.fabric));
+		OreDictionary.registerOre("stickTin", ModItems.tinStick);
 	}
 
 }
