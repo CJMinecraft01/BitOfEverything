@@ -1,0 +1,7 @@
+{
+	"type": "CTM",
+	"textures": [
+		"blocks/machine_advanced",
+		"./machine_advanced"
+	]
+}

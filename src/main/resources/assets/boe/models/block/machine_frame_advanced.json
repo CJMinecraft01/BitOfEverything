@@ -2,5 +2,9 @@
 	"parent": "block/cube_all",
 	"textures": {
 		"all": "boe:blocks/machine_advanced"
+	},
+	"ctm": {
+		"model": { "model": "cube" },
+		"face": "boe:ctm/machine_advanced.cf"
 	}
 }

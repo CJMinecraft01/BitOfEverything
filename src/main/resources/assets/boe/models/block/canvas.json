@@ -16,5 +16,9 @@
                 "east":  { "texture": "#all", "cullface": "east", "tintindex": 0 }
             }
         }
-    ]
+    ],
+	"ctm": {
+		"model": { "model": "cube" },
+		"face": "boe:ctm/canvas.cf"
+	}
 }
