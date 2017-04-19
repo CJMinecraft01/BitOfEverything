@@ -1,5 +1,6 @@
 package cjminecraft.bitofeverything;
 
+import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.creativetabs.TabBOEBlocks;
 import cjminecraft.bitofeverything.creativetabs.TabBOEItems;
@@ -78,6 +79,8 @@ public class BitOfEverything {
 		proxy.preInit();
 		proxy.registerRenders();
 		proxy.registerTileEntities();
+		
+		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 
 		AchievementHandler.registerAchievements();
 	}

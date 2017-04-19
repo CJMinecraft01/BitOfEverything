@@ -25,7 +25,6 @@ public class CommonProxy {
 	 * Called on the initialization phase of the game loading
 	 */
 	public void init() {
-		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
 		//MOVED THESE TO MAIN CLASS - FIX FOR MC 1.11.2
 	}
 	
