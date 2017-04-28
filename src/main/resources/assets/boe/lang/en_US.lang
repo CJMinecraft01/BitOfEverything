@@ -46,6 +46,9 @@ tile.canvas.name=Canvas
 tile.canvas.tooltip=Color: %s
 item.fabric.name=Fabric
 
+item.cotton.name=Cotton
+tile.cotton.name=Cotton
+
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Items
 

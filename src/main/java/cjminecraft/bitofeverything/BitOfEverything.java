@@ -65,11 +65,11 @@ public class BitOfEverything {
 	 * @param event The event (you probably wont use this)
 	 */
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {	
+	public void preInit(FMLPreInitializationEvent event) {
+		ModBlocks.init();
 		ModItems.init();
 		ModTools.init();
 		ModArmour.init();
-		ModBlocks.init();
 		ModItems.register();
 		ModTools.register();
 		ModArmour.register();

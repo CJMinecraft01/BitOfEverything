@@ -4,6 +4,7 @@ import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockCanvas;
+import cjminecraft.bitofeverything.blocks.BlockCotton;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
 import cjminecraft.bitofeverything.blocks.BlockTinBlock;
@@ -68,6 +69,7 @@ public class ModBlocks {
 	public static Block tinPressurePlate;
 	public static BlockTinDoor tinDoor;
 	public static Block canvas;
+	public static Block cotton;
 	
 	/**
 	 * Initialize the blocks
@@ -87,6 +89,7 @@ public class ModBlocks {
 		tinPressurePlate = new BlockTinPressurePlate("tin_pressure_plate");
 		tinDoor = new BlockTinDoor("tin_door");
 		canvas = new BlockCanvas("canvas");
+		cotton = new BlockCotton("cotton");
 	}
 	
 	/**
@@ -107,6 +110,7 @@ public class ModBlocks {
 		registerBlock(tinPressurePlate);
 		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
 		registerBlock(canvas);
+		GameRegistry.register(cotton);
 	}
 	
 	/**

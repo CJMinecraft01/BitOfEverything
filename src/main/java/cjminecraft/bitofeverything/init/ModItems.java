@@ -12,7 +12,9 @@ import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -42,6 +44,7 @@ public class ModItems {
 	public static Item paintBrush;
 	public static Item fabric;
 	public static Item tinStick;
+	public static Item cotton;
 	
 	/**
 	 * Initialize the items
@@ -57,6 +60,7 @@ public class ModItems {
 		paintBrush = new ItemPaintBrush("paint_brush");
 		fabric = new Item().setUnlocalizedName("fabric").setRegistryName(new ResourceLocation(Reference.MODID, "fabric"));
 		tinStick = new Item().setUnlocalizedName("tin_stick").setRegistryName(new ResourceLocation(Reference.MODID, "tin_stick"));
+		cotton = new ItemSeeds(ModBlocks.cotton, Blocks.FARMLAND).setUnlocalizedName("cotton").setRegistryName(new ResourceLocation(Reference.MODID, "cotton"));
 	}
 	
 	/**
@@ -73,6 +77,7 @@ public class ModItems {
 		registerItem(paintBrush);
 		registerItem(fabric);
 		registerItem(tinStick);
+		registerItem(cotton);
 	}
 	
 	/**
@@ -91,6 +96,7 @@ public class ModItems {
 		registerRender(paintBrush);
 		registerRender(fabric);
 		registerRender(tinStick);
+		registerRender(cotton);
 	}
 	
 	/**
