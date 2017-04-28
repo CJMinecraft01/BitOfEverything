@@ -10,6 +10,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -20,8 +21,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+/**
+ * A class which is very similar to the Iron Door
+ * @author CJMinecraft
+ *
+ */
 public class BlockTinDoor extends BlockDoor {
 
+	/**
+	 * Default constructor
+	 * @param unlocalizedName
+	 */
 	public BlockTinDoor(String unlocalizedName) {
 		super(Material.IRON);
 		this.setUnlocalizedName(unlocalizedName);
@@ -30,6 +40,9 @@ public class BlockTinDoor extends BlockDoor {
 		this.setResistance(20);
 	}
 	
+	/**
+	 * Just change the sound it makes
+	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (this.blockMaterial == Material.IRON) {
@@ -52,6 +65,9 @@ public class BlockTinDoor extends BlockDoor {
         }
     }
 	
+	/**
+	 * Change the sound it makes
+	 */
 	@Override
 	public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -121,20 +137,21 @@ public class BlockTinDoor extends BlockDoor {
         }
     }
 	
-	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(ModBlocks.tinDoor);
-	}
-	
+	/**
+	 * So that you pick block the right item
+	 */
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
 		return new ItemStack(ModBlocks.tinDoor);
 	}
 	
+	/**
+	 * So that you only drop one of the door
+	 */
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(ModBlocks.tinDoor);
+		return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : Item.getItemFromBlock(ModBlocks.tinDoor);
 	}
 
 }
