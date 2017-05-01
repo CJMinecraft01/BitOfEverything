@@ -1,24 +1,16 @@
 package cjminecraft.bitofeverything.items;
 
 import java.util.List;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.util.Utils;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
+
 
 /**
  * This item heals the player by one heart when right clicked
@@ -42,6 +34,8 @@ public class ItemHeart extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		if(player.getHealth() < player.getMaxHealth()) {
 			player.heal(2); //Heals them 2 HP or 1 heart
+		    world.playSound(player, player.getPosition() , SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+
 			player.inventory.decrStackSize(player.inventory.currentItem, 1); //NEW 1.11
 		}
 		return super.onItemRightClick(world, player, hand);
