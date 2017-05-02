@@ -3,6 +3,7 @@ package cjminecraft.bitofeverything.proxy;
 import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.client.gui.GuiHandler;
+import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -19,6 +20,7 @@ public class CommonProxy {
 	 * Called on the pre initialization phase of the game loading
 	 */
 	public void preInit() {
+		PacketHandler.registerMessages(Reference.MODID);
 	}
 	
 	/**

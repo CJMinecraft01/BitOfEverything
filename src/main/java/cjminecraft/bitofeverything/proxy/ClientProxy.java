@@ -22,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public void preInit() {
+		super.preInit();
 		ModBlocks.createStateMappers();
 		BoeConfig.clientPreInit();
 	}
@@ -31,6 +32,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public void init() {
+		super.init();
 		ModBlocks.registerBlockColours();
 		ModItems.registerItemColours();
 	}

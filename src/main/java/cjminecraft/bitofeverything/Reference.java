@@ -23,7 +23,7 @@ public class Reference {
 	/**
 	 * Where the server proxy is found
 	 */
-	public static final String SERVER_PROXY_CLASS = "cjminecraft.bitofeverything.proxy.CommonProxy";
+	public static final String SERVER_PROXY_CLASS = "cjminecraft.bitofeverything.proxy.ServerProxy";
 	/**
 	 * Where the client proxy is found
 	 */
