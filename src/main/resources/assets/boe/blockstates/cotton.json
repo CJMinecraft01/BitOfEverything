@@ -1,12 +1,12 @@
 {
     "variants": {
         "age=0": { "model": "boe:cotton_stage0" },
-        "age=1": { "model": "boe:cotton_stage0" },
-        "age=2": { "model": "boe:cotton_stage1" },
-        "age=3": { "model": "boe:cotton_stage1" },
-        "age=4": { "model": "boe:cotton_stage2" },
-        "age=5": { "model": "boe:cotton_stage2" },
-        "age=6": { "model": "boe:cotton_stage2" },
-        "age=7": { "model": "boe:cotton_stage3" }
+        "age=1": { "model": "boe:cotton_stage1" },
+        "age=2": { "model": "boe:cotton_stage2" },
+        "age=3": { "model": "boe:cotton_stage3" },
+        "age=4": { "model": "boe:cotton_stage4" },
+        "age=5": { "model": "boe:cotton_stage5" },
+        "age=6": { "model": "boe:cotton_stage6" },
+        "age=7": { "model": "boe:cotton_stage7" }
     }
 }

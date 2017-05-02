@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "boe:blocks/cotton_stage_5"
+    }
+}
