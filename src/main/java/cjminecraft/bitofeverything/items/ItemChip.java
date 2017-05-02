@@ -33,6 +33,7 @@ public class ItemChip extends Item {
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 		this.setHasSubtypes(true); //This just says the item has metadata
+
 	}
 	
 	/**
