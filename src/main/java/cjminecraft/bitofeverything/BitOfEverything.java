@@ -11,6 +11,7 @@ import cjminecraft.bitofeverything.handlers.OreDictionaryHandler;
 import cjminecraft.bitofeverything.handlers.RecipeHandler;
 import cjminecraft.bitofeverything.init.ModArmour;
 import cjminecraft.bitofeverything.init.ModBlocks;
+import cjminecraft.bitofeverything.init.ModCapabilities;
 import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.proxy.CommonProxy;
@@ -81,6 +82,7 @@ public class BitOfEverything {
 		proxy.registerTileEntities();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitOfEverything.instance, new GuiHandler());
+		ModCapabilities.registerCapabilities();
 
 		AchievementHandler.registerAchievements();
 	}

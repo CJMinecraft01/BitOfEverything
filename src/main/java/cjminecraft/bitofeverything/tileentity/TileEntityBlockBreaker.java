@@ -8,10 +8,12 @@ import java.util.Random;
 import com.mojang.authlib.GameProfile;
 
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
+import cjminecraft.bitofeverything.capabilties.Worker;
 import cjminecraft.bitofeverything.client.gui.GuiBlockBreaker;
 import cjminecraft.bitofeverything.config.BoeConfig;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
+import cjminecraft.bitofeverything.init.ModCapabilities;
 import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
@@ -52,15 +54,24 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 * New 1.9.4 onwards. Using forge capabilities instead of {@link IInventory}
 	 */
 	private ItemStackHandler handler;
-	private int cooldown;
-	private int cooldownCap = 100;
 	private Random random;
+	private Worker worker;
 
 	/**
 	 * Initializes our variables. MUST NOT HAVE ANY PARAMETERS
 	 */
 	public TileEntityBlockBreaker() {
-		this.cooldown = 0;
+		this.worker = new Worker(BoeConfig.machineCooldownBasic, () -> {
+			if (this.world.isBlockPowered(pos)) { // Calls it server side and checks if our block is powered
+				IBlockState currentState = this.world.getBlockState(pos); // Gets our block state
+				this.world.setBlockState(pos, currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); // Updates it if it is powered
+				updateCooldownCap();
+			}
+		}, () -> {
+			IBlockState currentState = this.world.getBlockState(pos); // Updates our current state variable
+			EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); // Gets which way our block is facing
+			breakBlock(facing); // Calls our break block method which handles the actual breaking of the block
+		});
 		this.handler = new ItemStackHandler(10);
 		this.random = new Random();
 	}
@@ -70,15 +81,8 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		this.cooldown = nbt.getInteger("Cooldown");
-		this.handler.deserializeNBT(nbt.getCompoundTag("ItemStackHandler")); // Gets
-																				// the
-																				// ItemStackHandler
-																				// from
-																				// tag
-																				// within
-																				// a
-																				// tag
+		this.worker.deserializeNBT(nbt.getCompoundTag("Worker"));
+		this.handler.deserializeNBT(nbt.getCompoundTag("ItemStackHandler")); // Gets the ItemStackHandler from tag within a tag
 
 		super.readFromNBT(nbt);
 	}
@@ -88,14 +92,8 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		nbt.setInteger("Cooldown", this.cooldown);
-		nbt.setTag("ItemStackHandler", this.handler.serializeNBT()); // We write
-																		// our
-																		// ItemStackHandler
-																		// as a
-																		// tag
-																		// in a
-																		// tag
+		nbt.setTag("Worker", this.worker.serializeNBT());
+		nbt.setTag("ItemStackHandler", this.handler.serializeNBT()); // We write our ItemStackHandler as a tag in a tag
 
 		return super.writeToNBT(nbt);
 	}
@@ -105,20 +103,9 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	@Override
 	public void update() {
-		if (this.world != null) { // Makes sure we have a world. RENAMED IN
+		if (this.world != null && !this.world.isRemote) { // Makes sure we have a world. RENAMED IN
 									// 1.11.2 from worldObj to world
-			if (!this.world.isRemote && this.world.isBlockPowered(pos)) { // Calls it server side and checks if our block is powered
-				IBlockState currentState = this.world.getBlockState(pos); // Gets our block state
-				this.world.setBlockState(pos, currentState.withProperty(BlockBreaker.ACTIVATED, Boolean.valueOf(true))); // Updates it if it is powered
-				updateCooldownCap();
-				this.cooldown++; // Increases the cooldown
-				this.cooldown %= this.cooldownCap;
-				if (this.cooldown == 0) { // Only runs when the cooldown is 0 (i.e every 50 or 100 ticks (2.5 or 5 seconds))
-					currentState = this.world.getBlockState(pos); // Updates our current state variable
-					EnumFacing facing = (EnumFacing) currentState.getValue(BlockBreaker.FACING); // Gets which way our block is facing
-					breakBlock(facing); // Calls our break block method which handles the actual breaking of the block
-				}
-			} else if (!this.world.isBlockPowered(pos)) { // If the block is not powered
+			if (!this.world.isBlockPowered(pos)) { // If the block is not powered
 				if (!this.world.isAirBlock(pos) && this.world.getBlockState(pos).getBlock() == ModBlocks.breaker) { // The block is not air and it is a block breaker
 					if (this.world.getBlockState(pos).getValue(BlockBreaker.ACTIVATED)) { // Checks if it is activated
 						IBlockState currentState = this.world.getBlockState(pos);
@@ -127,11 +114,13 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 					}
 				}
 			}
+			if(this.world.isBlockPowered(pos))
+				this.worker.doWork();
 		}
 	}
 
 	public void updateCooldownCap() {
-		int cap = this.cooldownCap;
+		int cap = this.worker.getMaxWork();
 		if (this.world.getBlockState(pos).getValue(BlockBreaker.TYPE) == ChipTypes.BASIC)
 			cap = BoeConfig.machineCooldownBasic;
 		else
@@ -142,7 +131,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 				cap -= Math.pow(enchantments.get(Enchantments.EFFICIENCY), 2) % cap;
 			}
 		}
-		this.cooldownCap = cap;
+		this.worker.setMaxCooldown(cap);
 	}
 
 	/**
@@ -265,8 +254,9 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) this.handler; // Makes it so that you can get the
-										// capability from our tile entity
+			return (T) this.handler; // Makes it so that you can get the capability from our tile entity
+		if(capability == ModCapabilities.CAPABILITY_WORKER)
+			return (T) this.worker;
 		return super.getCapability(capability, facing);
 	}
 
@@ -275,7 +265,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == ModCapabilities.CAPABILITY_WORKER)
 			return true;
 		return super.hasCapability(capability, facing);
 	}

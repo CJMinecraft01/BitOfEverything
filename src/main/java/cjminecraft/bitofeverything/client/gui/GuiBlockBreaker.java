@@ -6,6 +6,9 @@ import java.util.List;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.container.ContainerBlockBreaker;
+import cjminecraft.bitofeverything.init.ModCapabilities;
+import cjminecraft.bitofeverything.network.PacketGetWorker;
+import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,6 +31,10 @@ public class GuiBlockBreaker extends GuiContainer {
 	 */
 	private TileEntityBlockBreaker te;
 	private IInventory playerInv;
+	
+	public static int cooldown, maxCooldown = 0;
+	
+	public static int sync = 0;
 	
 	/**
 	 * Typical {@link GuiContainer} constructor
@@ -69,6 +76,13 @@ public class GuiBlockBreaker extends GuiContainer {
 			text.add(TextFormatting.GRAY + I18n.format("gui.block_breaker.enchanted_book.tooltip"));
 			this.drawHoveringText(text, actualMouseX, actualMouseY);
 		}
+		
+		sync++;
+		sync %= 10;
+		if(sync == 0)
+			PacketHandler.INSTANCE.sendToServer(new PacketGetWorker(this.te.getPos(), this.mc.player.getAdjustedHorizontalFacing(), "cjminecraft.bitofeverything.client.gui.GuiBlockBreaker", "cooldown", "maxCooldown"));
+		
+		this.mc.fontRendererObj.drawString(cooldown + " / " + maxCooldown, -50, 0, 0xFFFFFF);
 	}
 
 }
