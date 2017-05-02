@@ -5,6 +5,11 @@ import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+/**
+ * For all things on the Server side
+ * @author CJMinecraft
+ *
+ */
 public class ServerProxy extends CommonProxy {
 	
 	@Override
