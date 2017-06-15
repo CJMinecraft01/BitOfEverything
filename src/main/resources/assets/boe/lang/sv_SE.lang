@@ -1,0 +1,81 @@
+#############################
+##   Lang- Swedish(SE)     ##
+##   Made By- DrSteam1111  ##
+#############################
+
+tile.tin_ore.overworld.name=Tennmalm
+tile.tin_ore.nether.name=Tennmalm
+tile.tin_ore.end.name=Tennmalm
+tile.tin_block.name=Tennblock
+tile.tin_slab_half.name=Tennplatta
+tile.tin_stairs.name=Tenntrappa
+tile.tin_fence.name=Tennstaket
+tile.tin_fence_gate.name=Tennstaketgring
+tile.block_breaker.basic.name=Block Förstörare (Grundläggande)
+tile.block_breaker.advanced.name=Block Förstörare (Avancerad)
+tile.gamemode_detector.name=Spellägeupptäckare
+tile.machine_frame.basic.name=Maskinchassi (Grundläggande)
+tile.machine_frame.advanced.name=Maskinchassi (Avancerad)
+tile.tin_button.name=Tennknapp
+tile.tin_pressure_plate.name=Tenntryckplatta
+tile.tin_door.name=Tenndörr
+
+item.tin_ingot.name=Tenntacka
+item.tin_nugget.name=Tennklimp
+item.tin_pickaxe.name=Tennhacka
+item.tin_axe.name=Tennyxa
+item.tin_hoe.name=Tennflåhacka
+item.tin_shovel.name=Tennspade
+item.tin_sword.name=Tennsvärd
+
+item.heart.name=Hjärta
+item.soul_stealer.name=Själstjälare
+
+item.tin_apple.name=Tennäpple
+item.nice_biscuit.name=Trevligsmåkaka
+
+item.infinity_flame.name=Oändlighetsflamma
+
+item.tin_helmet.name=Tennhjälm
+item.tin_chestplate.name=Tennharnesk
+item.tin_leggings.name=Tennbyxor
+item.tin_boots.name=Tennstövlar
+item.tin_stick.name=Tennpinne
+
+item.chip.basic.name=Grundchip
+item.chip.advanced.name=Avanceratchip
+
+item.paint_brush.name=Målarpensel
+item.paint_brush.tooltip=Färg: %s
+tile.canvas.name=Målarduk
+tile.canvas.tooltip=Färg: %s
+item.fabric.name=Tyg
+
+item.cotton.name=Bomull
+tile.cotton.name=Bomull
+
+itemGroup.boeblocks=BitOfEverything Blocks
+itemGroup.boeitems=BitOfEverything Saker
+
+boe.heart.tooltip=Helar spelaren
+boe.soul_stealer.tooltip=Stjäl hjärtan från entiteter
+
+achievement.tinman=Tennmannen
+achievement.tinman.desc=Klä dig i all tenn rustning
+
+container.block_breaker=Block Förstörare
+
+gui.block_breaker.enchanted_book.tooltip=Förtrollad bok här
+
+block.tin_fence_gate.open=Tennstaketgring Öppnad
+block.tin_fence_gate.close=Tennstaketgring Stängd
+block.tin_button.click_on=Tennknapp Tryckt
+block.tin_button.click_off=Tennknapp Släppt
+
+gui.config.main_title=BitOfEverything Konfiguration 
+gui.config.category.blocks=Blocks
+gui.config.category.blocks.tooltip=Alla block inställningar
+gui.config.blocks.machine_cooldown_basic.name=Grundmaskin Nerräkning
+gui.config.blocks.machine_cooldown_basic.comment=Nerräkningen för grundnivån av maskinerna
+gui.config.blocks.machine_cooldown_advanced.name=Avanceradmaskin Nerräkning
+gui.config.blocks.machine_cooldown_advanced.comment=Nerräkningen för avanceradnivån av maskinerna
