@@ -5,6 +5,7 @@ import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockCanvas;
 import cjminecraft.bitofeverything.blocks.BlockCotton;
+import cjminecraft.bitofeverything.blocks.BlockEnergyCell;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
 import cjminecraft.bitofeverything.blocks.BlockTinBlock;
@@ -46,7 +47,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * This class handles the registration of our blocks and also the rendering of them
+ * This class handles the registration of our blocks and also the rendering of
+ * them
+ * 
  * @author CJMinecraft
  *
  */
@@ -57,7 +60,6 @@ public class ModBlocks {
 	 */
 	public static Block tinOre;
 	public static Block tinBlock;
-	public static Block breaker;
 	public static Block gamemodeDetector;
 	public static Block machineFrame;
 	public static BlockTinSlabHalf tinSlabHalf;
@@ -70,7 +72,20 @@ public class ModBlocks {
 	public static BlockTinDoor tinDoor;
 	public static Block canvas;
 	public static Block cotton;
-	
+
+	/*
+	 * Energy Blocks
+	 */
+	public static Block energyCell;
+	public static Block breaker;
+	public static Block furnaceGenerator;
+	public static Block networkController;
+	public static Block networkTransmitter;
+	public static Block networkReceiver;
+	public static Block energyBuffer;
+	public static Block blockPlacer;
+	public static Block waterMill;
+
 	/**
 	 * Initialize the blocks
 	 */
@@ -90,19 +105,24 @@ public class ModBlocks {
 		tinDoor = new BlockTinDoor("tin_door");
 		canvas = new BlockCanvas("canvas");
 		cotton = new BlockCotton("cotton");
+		
+		/*
+		 * Energy Blocks
+		 */
+		energyCell = new BlockEnergyCell("energy_cell");
 	}
-	
+
 	/**
 	 * Register the blocks
 	 */
 	public static void register() {
-		registerBlock(tinOre, new ItemBlockMeta(tinOre)); //Says that the block uses the ItemBlockMeta as the item block
+		registerBlock(tinOre, new ItemBlockMeta(tinOre)); // Says that the block uses the ItemBlockMeta as the item block
 		registerBlock(breaker, new ItemBlockBreaker(breaker));
 		registerBlock(gamemodeDetector);
 		registerBlock(machineFrame, new ItemBlockMeta(machineFrame));
 		registerBlock(tinBlock);
 		registerBlock(tinSlabHalf, new ItemSlab(tinSlabHalf, tinSlabHalf, tinSlabDouble));
-		GameRegistry.register(tinSlabDouble); //Doesn't need an item
+		GameRegistry.register(tinSlabDouble); // Doesn't need an item
 		registerBlock(tinStairs);
 		registerBlock(tinFence);
 		registerBlock(tinFenceGate);
@@ -111,18 +131,24 @@ public class ModBlocks {
 		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
 		registerBlock(canvas);
 		GameRegistry.register(cotton);
+		
+		/*
+		 * Energy Blocks
+		 */
+		registerBlock(energyCell, new ItemBlockMeta(energyCell));
 	}
-	
+
 	/**
 	 * Register the renders for the block
 	 */
 	public static void registerRenders() {
-		for(int i = 0; i < EnumHandler.OreType.values().length; i++) {
+		for (int i = 0; i < EnumHandler.OreType.values().length; i++) {
 			registerRender(tinOre, i, "tin_ore_" + EnumHandler.OreType.values()[i].getName());
 		}
-		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
+		for (int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(breaker, i, "block_breaker_" + EnumHandler.ChipTypes.values()[i].getName());
 			registerRender(machineFrame, i, "machine_frame_" + EnumHandler.ChipTypes.values()[i].getName());
+			registerRender(energyCell, i, "energy_cell_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
 		registerRender(gamemodeDetector);
 		registerRender(tinBlock);
@@ -135,55 +161,57 @@ public class ModBlocks {
 		registerRender(tinDoor);
 		registerRender(canvas);
 	}
-	
+
 	/**
 	 * Register blocks which will have a colour
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void registerBlockColours() {
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
-			
+
 			@Override
 			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
 				TileEntityCanvas canvas = (TileEntityCanvas) world.getTileEntity(pos);
-				if(canvas != null)
+				if (canvas != null)
 					return canvas.getColour();
 				return 0xFFFFFF;
 			}
 		}, canvas);
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
-			
+
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				if(stack.hasTagCompound())
-					if(stack.getTagCompound().hasKey("colour"))
+				if (stack.hasTagCompound())
+					if (stack.getTagCompound().hasKey("colour"))
 						return stack.getTagCompound().getInteger("colour");
 				return 0xFFFFFF;
 			}
 		}, canvas);
 		Utils.getLogger().info("Registered block colours!");
 	}
-	
+
 	/**
 	 * Creates state mappers for ignoring properties etc.
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void createStateMappers() {
-		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() { //Ingores all of the block's properties
-			
+		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() { // Ignores all of the block's properties
+
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				return new ModelResourceLocation(gamemodeDetector.getRegistryName(), "normal");
 			}
 		});
-		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build()); //Ignores only the powered property
+		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build()); // Ignores only the powered property
 		ModelLoader.setCustomStateMapper(tinFenceGate, (new StateMap.Builder().ignore(BlockFenceGate.POWERED)).build());
 		Utils.getLogger().info("Created the state mappers!");
 	}
-	
+
 	/**
 	 * Registers the block
-	 * @param block The block to register
+	 * 
+	 * @param block
+	 *            The block to register
 	 */
 	public static void registerBlock(Block block) {
 		block.setCreativeTab(BitOfEverything.blocks);
@@ -191,11 +219,14 @@ public class ModBlocks {
 		GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		Utils.getLogger().info("Registered Block: " + block.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
 	 * Registers the block with a custom {@link ItemBlock}
-	 * @param block The block
-	 * @param itemBlock The {@link ItemBlock}
+	 * 
+	 * @param block
+	 *            The block
+	 * @param itemBlock
+	 *            The {@link ItemBlock}
 	 */
 	public static void registerBlock(Block block, ItemBlock itemBlock) {
 		block.setCreativeTab(BitOfEverything.blocks);
@@ -203,25 +234,33 @@ public class ModBlocks {
 		GameRegistry.register(itemBlock.setRegistryName(block.getRegistryName()));
 		Utils.getLogger().info("Registered Block: " + block.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
 	 * Registers the blocks renders
-	 * @param block The block
+	 * 
+	 * @param block
+	 *            The block
 	 */
 	public static void registerRender(Block block) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(
+				new ResourceLocation(Reference.MODID, block.getUnlocalizedName().substring(5)), "inventory"));
 		Utils.getLogger().info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
 	 * Registers the blocks renders even if it has meta data
-	 * @param block The block
-	 * @param meta The blocks meta data
-	 * @param fileName The file name
+	 * 
+	 * @param block
+	 *            The block
+	 * @param meta
+	 *            The blocks meta data
+	 * @param fileName
+	 *            The file name
 	 */
 	public static void registerRender(Block block, int meta, String fileName) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta,
+				new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
 		Utils.getLogger().info("Registered render for " + block.getUnlocalizedName().substring(5));
 	}
-	
+
 }

@@ -1,0 +1,118 @@
+{
+	"multipart": [
+		{	"when": { "type": "basic" },
+			"apply": { "model": "boe:energy_cell_centre_basic" }
+		},
+		{	"when": { "type": "basic", "north": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic" }
+		},
+		{	"when": { "type": "basic", "north": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic" }
+		},
+		{	"when": { "type": "basic", "north": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic" }
+		},
+		{	"when": { "type": "basic", "east": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic", "y": 90 }
+		},
+		{	"when": { "type": "basic", "east": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic", "y": 90 }
+		},
+		{	"when": { "type": "basic", "east": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic", "y": 90 }
+		},
+		{	"when": { "type": "basic", "south": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic", "y": 180 }
+		},
+		{	"when": { "type": "basic", "south": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic", "y": 180 }
+		},
+		{	"when": { "type": "basic", "south": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic", "y": 180 }
+		},
+		{	"when": { "type": "basic", "west": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic", "y": 270 }
+		},
+		{	"when": { "type": "basic", "west": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic", "y": 270 }
+		},
+		{	"when": { "type": "basic", "west": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic", "y": 270 }
+		},
+		{	"when": { "type": "basic", "up": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic", "x": 270 }
+		},
+		{	"when": { "type": "basic", "up": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic", "x": 270 }
+		},
+		{	"when": { "type": "basic", "up": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic", "x": 270 }
+		},
+		{	"when": { "type": "basic", "down": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_basic", "x": 90 }
+		},
+		{	"when": { "type": "basic", "down": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_basic", "x": 90 }
+		},
+		{	"when": { "type": "basic", "down": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_basic", "x": 90 }
+		},
+		{	"when": { "type": "advanced" },
+			"apply": { "model": "boe:energy_cell_centre_advanced" }
+		},
+		{	"when": { "type": "advanced", "north": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced" }
+		},
+		{	"when": { "type": "advanced", "north": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced" }
+		},
+		{	"when": { "type": "advanced", "north": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced" }
+		},
+		{	"when": { "type": "advanced", "east": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced", "y": 90 }
+		},
+		{	"when": { "type": "advanced", "east": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced", "y": 90 }
+		},
+		{	"when": { "type": "advanced", "east": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced", "y": 90 }
+		},
+		{	"when": { "type": "advanced", "south": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced", "y": 180 }
+		},
+		{	"when": { "type": "advanced", "south": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced", "y": 180 }
+		},
+		{	"when": { "type": "advanced", "south": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced", "y": 180 }
+		},
+		{	"when": { "type": "advanced", "west": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced", "y": 270 }
+		},
+		{	"when": { "type": "advanced", "west": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced", "y": 270 }
+		},
+		{	"when": { "type": "advanced", "west": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced", "y": 270 }
+		},
+		{	"when": { "type": "advanced", "up": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced", "x": 270 }
+		},
+		{	"when": { "type": "advanced", "up": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced", "x": 270 }
+		},
+		{	"when": { "type": "advanced", "up": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced", "x": 270 }
+		},
+		{	"when": { "type": "advanced", "down": "normal" },
+			"apply": { "model": "boe:energy_cell_connection_normal_advanced", "x": 90 }
+		},
+		{	"when": { "type": "advanced", "down": "in" },
+			"apply": { "model": "boe:energy_cell_connection_in_advanced", "x": 90 }
+		},
+		{	"when": { "type": "advanced", "down": "out" },
+			"apply": { "model": "boe:energy_cell_connection_out_advanced", "x": 90 }
+		}
+	]
+}

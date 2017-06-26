@@ -1,0 +1,35 @@
+{
+    "textures": {
+		"particle": "boe:blocks/machine_basic",
+        "0": "boe:blocks/energy_cell_strip_in",
+        "3": "boe:blocks/machine_basic"
+    },
+    "elements": [
+        {
+            "name": "Connection Base",
+            "from": [ 7.0, 7.0, 1.0 ],
+            "to": [ 9.0, 9.0, 4.0 ],
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ], "rotation": 180 },
+                "south": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ], "rotation": 90 },
+                "down": { "texture": "#0", "uv": [ 0.0, 6.0, 8.0, 10.0 ], "rotation": 270 }
+            }
+        },
+        {
+            "name": "Connection",
+            "from": [ 6.0, 6.0, 0.0 ],
+            "to": [ 10.0, 10.0, 1.0 ],
+            "faces": {
+                "north": { "texture": "#3", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "east": { "texture": "#3", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#3", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "west": { "texture": "#3", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "up": { "texture": "#3", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "down": { "texture": "#3", "uv": [ 0.0, 0.0, 4.0, 1.0 ] }
+            }
+        }
+    ]
+}

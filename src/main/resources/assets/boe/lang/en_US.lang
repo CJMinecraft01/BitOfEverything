@@ -49,6 +49,9 @@ item.fabric.name=Fabric
 item.cotton.name=Cotton
 tile.cotton.name=Cotton
 
+tile.energy_cell.basic.name=Energy Cell (Basic)
+tile.energy_cell.advanced.name=Energy Cell (Advanced)
+
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Items
 
