@@ -1,0 +1,76 @@
+tile.tin_ore.overworld.name=Minerais d'étain
+tile.tin_ore.nether.name=Minerais d'étain
+tile.tin_ore.end.name=Minerais d'étain
+tile.tin_block.name=Bloc d'étain
+tile.tin_slab_half.name=Dalle en étain
+tile.tin_stairs.name=Escalier en étain
+tile.tin_fence.name=Barrière en étain
+tile.tin_fence_gate.name=Portillon en étain
+tile.block_breaker.basic.name=Casseur de bloc (De base)
+tile.block_breaker.advanced.name=Casseur de bloc (Avancé)
+tile.gamemode_detector.name=Détecteur de mode de jeu
+tile.machine_frame.basic.name=Châssis de machine (De base)
+tile.machine_frame.advanced.name=Châssis de machine (Avancé)
+tile.tin_button.name=Bouton en étain
+tile.tin_pressure_plate.name=Plaque de pression en étain
+tile.tin_door.name=Porte en étain
+
+item.tin_ingot.name=L'ingot d'étain
+item.tin_nugget.name=Pépite d'étain
+item.tin_pickaxe.name=Pioche en étain
+item.tin_axe.name=Hache en étain
+item.tin_hoe.name=Houe en étain
+item.tin_shovel.name=Pelle en étain
+item.tin_sword.name=Epée en étain
+
+item.heart.name=Coeur
+item.soul_stealer.name=Attrapeur d'âme
+
+item.tin_apple.name=Pomme en étain
+item.nice_biscuit.name=Biscuit sympas
+
+item.infinity_flame.name=Flammes infinies
+
+item.tin_helmet.name=Casque en étain 
+item.tin_chestplate.name=Plastron en étain
+item.tin_leggings.name=Jambières en étain
+item.tin_boots.name=Bottes en étain
+item.tin_stick.name=Batton d'étain
+
+item.chip.basic.name=Puce basic
+item.chip.advanced.name=Puce avancée
+
+item.paint_brush.name=Pinceau
+item.paint_brush.tooltip=Couleur: %s
+tile.canvas.name=Toile
+tile.canvas.tooltip=Couleur: %s
+item.fabric.name=Tissu
+
+item.cotton.name=Coton
+tile.cotton.name=Coton
+
+itemGroup.boeblocks=Blocs de BitOfEverything
+itemGroup.boeitems=Items de BitOfEverything
+
+boe.heart.tooltip=Regenère la vie du joueur
+boe.soul_stealer.tooltip=Capture les âmes des entitées
+
+achievement.tinman=Homme d'étain
+achievement.tinman.desc=Porter une armure en étain complète
+
+container.block_breaker=Casseur de bloc
+
+gui.block_breaker.enchanted_book.tooltip=Les livres enchantées vont ici
+
+block.tin_fence_gate.open=Le portillon en étain est ouvert
+block.tin_fence_gate.close=Le portillon en étain est fermé
+block.tin_button.click_on=Le bouton en étain a été appuyé
+block.tin_button.click_off=Le bouton en étain a été relaché
+
+gui.config.main_title=Configuration de BitOfEverything
+gui.config.category.blocks=Blocs
+gui.config.category.blocks.tooltip=Tout les règlages concernants les blocs
+gui.config.blocks.machine_cooldown_basic.name=Délais des machines de bases
+gui.config.blocks.machine_cooldown_basic.comment=Définir le délais des machines de bases
+gui.config.blocks.machine_cooldown_advanced.name=Délais des machines avancées
+gui.config.blocks.machine_cooldown_advanced.comment=Définir le délais des machines avancées
