@@ -33,5 +33,7 @@ public class Reference {
 	 * Where our gui factory if found
 	 */
 	public static final String GUI_FACTORY = "cjminecraft.bitofeverything.config.BoeConfigGuiFactory";
+	
+	public static final String VERSION_CHECKER_URL = "https://raw.githubusercontent.com/CJMinecraft01/BitOfEverything/master/update.json";
 
 }

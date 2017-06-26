@@ -11,6 +11,8 @@
   "credits": "Me because I am a boss!",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "useDependencyInformation": true,
+  "requiredMods": ["cjcore"],
+  "dependencies": ["cjcore"]
 }
 ]
