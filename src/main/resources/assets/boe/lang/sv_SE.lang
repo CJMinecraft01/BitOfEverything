@@ -54,6 +54,9 @@ item.fabric.name=Tyg
 item.cotton.name=Bomull
 tile.cotton.name=Bomull
 
+tile.energy_cell.basic.name=Energicell (Grundläggande)
+tile.energy_cell.advanced.name=Energicell (Avancerad)
+
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Saker
 
