@@ -1,6 +1,8 @@
 package cjminecraft.bitofeverything.client.gui;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cjminecraft.bitofeverything.Reference;
@@ -12,11 +14,16 @@ import cjminecraft.bitofeverything.network.PacketGetWorker;
 import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.util.Utils;
+import cjminecraft.core.client.gui.EnergyBar;
+import cjminecraft.core.config.CJCoreConfig;
+import cjminecraft.core.energy.EnergyUnits;
+import cjminecraft.core.energy.EnergyUtils;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -41,6 +48,7 @@ public class GuiBlockBreaker extends GuiContainer {
 	public static int sync = 0;
 	
 	private ProgressBar progressBar;
+	private EnergyBar energyBar;
 	
 	/**
 	 * Typical {@link GuiContainer} constructor
@@ -57,6 +65,13 @@ public class GuiBlockBreaker extends GuiContainer {
 		this.playerInv = playerInv;
 		
 		this.progressBar = new ProgressBar(TEXTURE, ProgressBarDirection.LEFT_TO_RIGHT, 14, 14, 135, 36, 176, 0);
+	}
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+		this.energyBar = new EnergyBar(0, (this.width / 2 - this.xSize / 2) + 7, (this.height / 2 - this.ySize / 2) + 16, 18, 54, 0, 0);
+		this.buttonList.add(energyBar);
 	}
 
 	/**
@@ -89,11 +104,34 @@ public class GuiBlockBreaker extends GuiContainer {
 			this.drawHoveringText(text, actualMouseX, actualMouseY);
 		}
 		
+		if (this.energyBar.isMouseOver()) {
+			if (CJCoreConfig.MULTIMETER_SIMPLIFY_ENERGY) {
+				this.drawHoveringText(
+						Arrays.asList(
+								EnergyUtils.getEnergyAsString(this.energyBar.energy, CJCoreConfig.DEFAULT_ENERGY_UNIT)
+										+ (CJCoreConfig.MULTIMETER_SHOW_CAPACITY
+												? " / " + EnergyUtils.getEnergyAsString(this.energyBar.capacity,
+														CJCoreConfig.DEFAULT_ENERGY_UNIT)
+												: "")),
+						mouseX - ((this.width - this.xSize) / 2), mouseY - ((this.height - this.ySize) / 2));
+			} else {
+				this.drawHoveringText(Arrays.asList(
+						NumberFormat.getInstance().format(this.energyBar.energy) + " "
+								+ CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix()
+								+ (CJCoreConfig.MULTIMETER_SHOW_CAPACITY
+										? " / " + NumberFormat.getInstance().format(this.energyBar.capacity) + " "
+												+ CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix()
+										: "")),
+						mouseX - ((this.width - this.xSize) / 2), mouseY - ((this.height - this.ySize) / 2));
+			}
+		}
+		
 		sync++;
 		sync %= 10;
-		if(sync == 0)
+		if(sync == 0) {
+			this.energyBar.syncData(this.te.getPos(), EnumFacing.NORTH);
 			PacketHandler.INSTANCE.sendToServer(new PacketGetWorker(this.te.getPos(), this.mc.player.getAdjustedHorizontalFacing(), "cjminecraft.bitofeverything.client.gui.GuiBlockBreaker", "cooldown", "maxCooldown"));
-		
+		}
 		//this.mc.fontRendererObj.drawString(cooldown + " / " + maxCooldown, -50, 0, 0xFFFFFF);
 	}
 
