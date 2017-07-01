@@ -38,7 +38,7 @@ public abstract class BlockMachine extends BlockContainer implements IMetaBlockN
 	/**
 	 * The type which indicates the tier of block. Basic and advanced versions of each machine
 	 */
-	public static final PropertyEnum TYPE = PropertyEnum.create("type", ChipTypes.class);
+	public static final PropertyEnum<ChipTypes> TYPE = PropertyEnum.<ChipTypes>create("type", ChipTypes.class);
 	
 	/**
 	 * Sets the default state, hardness and resistance for machines
