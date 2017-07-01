@@ -42,9 +42,11 @@ public class PacketHandler {
 
 		// Server packets
 		INSTANCE.registerMessage(PacketGetWorker.Handler.class, PacketGetWorker.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketGetEnergyDifference.Handler.class, PacketGetEnergyDifference.class, nextID(), Side.SERVER);
 
 		// Client packets
 		INSTANCE.registerMessage(PacketReturnWorker.Handler.class, PacketReturnWorker.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(PacketReturnEnergyDifference.Handler.class, PacketReturnEnergyDifference.class, nextID(), Side.CLIENT);
 	}
 
 }

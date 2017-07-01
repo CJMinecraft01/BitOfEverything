@@ -27,16 +27,17 @@ import net.minecraftforge.items.IItemHandler;
 
 public class BlockEnergyCell extends BlockMachine {
 
-	public static final PropertyEnum NORTH = PropertyEnum.<EnergyConnectionType>create("north",
+	public static final PropertyEnum<EnergyConnectionType> NORTH = PropertyEnum.<EnergyConnectionType>create("north",
 			EnergyConnectionType.class);
-	public static final PropertyEnum SOUTH = PropertyEnum.<EnergyConnectionType>create("south",
+	public static final PropertyEnum<EnergyConnectionType> SOUTH = PropertyEnum.<EnergyConnectionType>create("south",
 			EnergyConnectionType.class);
-	public static final PropertyEnum EAST = PropertyEnum.<EnergyConnectionType>create("east",
+	public static final PropertyEnum<EnergyConnectionType> EAST = PropertyEnum.<EnergyConnectionType>create("east",
 			EnergyConnectionType.class);
-	public static final PropertyEnum WEST = PropertyEnum.<EnergyConnectionType>create("west",
+	public static final PropertyEnum<EnergyConnectionType> WEST = PropertyEnum.<EnergyConnectionType>create("west",
 			EnergyConnectionType.class);
-	public static final PropertyEnum UP = PropertyEnum.<EnergyConnectionType>create("up", EnergyConnectionType.class);
-	public static final PropertyEnum DOWN = PropertyEnum.<EnergyConnectionType>create("down",
+	public static final PropertyEnum<EnergyConnectionType> UP = PropertyEnum.<EnergyConnectionType>create("up",
+			EnergyConnectionType.class);
+	public static final PropertyEnum<EnergyConnectionType> DOWN = PropertyEnum.<EnergyConnectionType>create("down",
 			EnergyConnectionType.class);
 
 	public BlockEnergyCell(String unlocalizedName) {
@@ -47,33 +48,34 @@ public class BlockEnergyCell extends BlockMachine {
 				.withProperty(EAST, EnergyConnectionType.NONE).withProperty(WEST, EnergyConnectionType.NONE)
 				.withProperty(UP, EnergyConnectionType.NONE).withProperty(DOWN, EnergyConnectionType.NONE));
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityEnergyCell();
+		return new TileEntityEnergyCell(ChipTypes.values()[meta % ChipTypes.values().length]);
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityEnergyCell();
+		return new TileEntityEnergyCell(state.getValue(TYPE));
 	}
-	
+
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityEnergyCell te = (TileEntityEnergyCell) world.getTileEntity(pos);
 		IItemHandler handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		for(int slot = 0; slot < handler.getSlots(); slot++) {
+		for (int slot = 0; slot < handler.getSlots(); slot++) {
 			ItemStack stack = handler.getStackInSlot(slot);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 		}
 		super.breakBlock(world, pos, state);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-		if(!worldIn.isRemote) {
-			playerIn.openGui(BitOfEverything.instance, GuiHandler.ENERGY_CELL, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if (!worldIn.isRemote) {
+			playerIn.openGui(BitOfEverything.instance, GuiHandler.ENERGY_CELL, worldIn, pos.getX(), pos.getY(),
+					pos.getZ());
 		}
 		return true;
 	}
