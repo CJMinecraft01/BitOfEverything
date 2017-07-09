@@ -7,6 +7,7 @@ import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
+import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -38,6 +39,7 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TileEntityBlockBreaker.class, Reference.MODID + ":block_breaker");
 		GameRegistry.registerTileEntity(TileEntityCanvas.class, Reference.MODID + ":canvas");
 		GameRegistry.registerTileEntity(TileEntityEnergyCell.class, Reference.MODID + ":energy_cell");
+		GameRegistry.registerTileEntity(TileEntityFurnaceGenerator.class, Reference.MODID + ":furnace_generator");
 	}
 	
 	/**

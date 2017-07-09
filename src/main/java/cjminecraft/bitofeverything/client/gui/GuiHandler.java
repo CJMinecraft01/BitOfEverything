@@ -2,8 +2,10 @@ package cjminecraft.bitofeverything.client.gui;
 
 import cjminecraft.bitofeverything.container.ContainerBlockBreaker;
 import cjminecraft.bitofeverything.container.ContainerEnergyCell;
+import cjminecraft.bitofeverything.container.ContainerFurnaceGenerator;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
+import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,6 +23,7 @@ public class GuiHandler implements IGuiHandler {
 	 */
 	public static final int BLOCK_BREAKER = 0;
 	public static final int ENERGY_CELL = 1;
+	public static final int FURNACE_GENERATOR = 2;
 	
 	/**
 	 * Should return the container for that gui. This is called server side because servers handle items in guis
@@ -33,6 +36,8 @@ public class GuiHandler implements IGuiHandler {
 			return new ContainerBlockBreaker(player.inventory, (TileEntityBlockBreaker) world.getTileEntity(pos));
 		case ENERGY_CELL:
 			return new ContainerEnergyCell(player.inventory, (TileEntityEnergyCell) world.getTileEntity(pos));
+		case FURNACE_GENERATOR:
+			return new ContainerFurnaceGenerator(player.inventory, (TileEntityFurnaceGenerator) world.getTileEntity(pos));
 		}
 		return null;
 	}
@@ -48,6 +53,8 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiBlockBreaker(player.inventory, (TileEntityBlockBreaker) world.getTileEntity(pos));
 		case ENERGY_CELL:
 			return new GuiEnergyCell(player.inventory, (TileEntityEnergyCell)world.getTileEntity(pos));
+		case FURNACE_GENERATOR:
+			return new GuiFurnaceGenerator(player.inventory, (TileEntityFurnaceGenerator) world.getTileEntity(pos));
 		}
 		return null;
 	}

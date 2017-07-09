@@ -1,0 +1,8 @@
+{
+	"parent": "boe:block/machine",
+	"textures": {
+		"side": "boe:blocks/machine_basic",
+		"front": "boe:blocks/furnace_generator_front_basic_activated",
+		"alt": "boe:blocks/machine_basic"
+	}
+}

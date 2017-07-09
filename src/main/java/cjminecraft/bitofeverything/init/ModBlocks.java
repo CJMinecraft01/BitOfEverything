@@ -6,6 +6,7 @@ import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockCanvas;
 import cjminecraft.bitofeverything.blocks.BlockCotton;
 import cjminecraft.bitofeverything.blocks.BlockEnergyCell;
+import cjminecraft.bitofeverything.blocks.BlockFurnaceGenerator;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
 import cjminecraft.bitofeverything.blocks.BlockMachineFrame;
 import cjminecraft.bitofeverything.blocks.BlockTinBlock;
@@ -110,6 +111,7 @@ public class ModBlocks {
 		 * Energy Blocks
 		 */
 		energyCell = new BlockEnergyCell("energy_cell");
+		furnaceGenerator = new BlockFurnaceGenerator("furnace_generator");
 	}
 
 	/**
@@ -136,6 +138,7 @@ public class ModBlocks {
 		 * Energy Blocks
 		 */
 		registerBlock(energyCell, new ItemBlockMeta(energyCell));
+		registerBlock(furnaceGenerator, new ItemBlockMeta(furnaceGenerator));
 	}
 
 	/**
@@ -149,6 +152,7 @@ public class ModBlocks {
 			registerRender(breaker, i, "block_breaker_" + EnumHandler.ChipTypes.values()[i].getName());
 			registerRender(machineFrame, i, "machine_frame_" + EnumHandler.ChipTypes.values()[i].getName());
 			registerRender(energyCell, i, "energy_cell_" + EnumHandler.ChipTypes.values()[i].getName());
+			registerRender(furnaceGenerator, i, "furnace_generator_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
 		registerRender(gamemodeDetector);
 		registerRender(tinBlock);
