@@ -24,13 +24,17 @@ public class TileEntityEnergyCell extends TileEntity implements ITickable {
 	private ItemStackHandler handler;
 	private CustomForgeEnergyStorage storage;
 	public int energyDifference = 0;
+	private int transfer;
+	
 
 	public TileEntityEnergyCell() {
 		this.handler = new ItemStackHandler(2);
 		this.storage = new CustomForgeEnergyStorage(1000000, 0);
+		this.transfer = 1000;
 	}
 
 	public TileEntityEnergyCell(ChipTypes type) {
+		this.transfer = type == ChipTypes.BASIC ? 1000 : 5000;
 		this.handler = new ItemStackHandler(2);
 		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 1000000 : 5000000, 0);
 	}
@@ -40,9 +44,9 @@ public class TileEntityEnergyCell extends TileEntity implements ITickable {
 		if (this.world != null) {
 			if (!this.world.isRemote) {
 				int before = this.storage.getEnergyStored();
-				int receive = this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() < 1000
-						? this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() : 1000;
-				int extract = this.storage.getEnergyStored() > 1000 ? 1000 : this.storage.getEnergyStored();
+				int receive = this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() < this.transfer
+						? this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() : this.transfer;
+				int extract = this.storage.getEnergyStored() > this.transfer ? this.transfer : this.storage.getEnergyStored();
 				if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
 					this.storage.receiveEnergyInternal((int) EnergyUtils.takeEnergyAllFaces(this.world, this.pos,
 							receive, EnergyUnits.FORGE_ENERGY, false), false);

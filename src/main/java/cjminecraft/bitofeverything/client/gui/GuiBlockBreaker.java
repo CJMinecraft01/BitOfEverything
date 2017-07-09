@@ -1,5 +1,6 @@
 package cjminecraft.bitofeverything.client.gui;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import cjminecraft.core.client.gui.EnergyBar;
 import cjminecraft.core.config.CJCoreConfig;
 import cjminecraft.core.energy.EnergyUnits;
 import cjminecraft.core.energy.EnergyUtils;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -91,7 +93,7 @@ public class GuiBlockBreaker extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = I18n.format("container.block_breaker"); //Gets the formatted name for the block breaker from the language file
 		this.mc.fontRendererObj.drawString(s, this.xSize / 2 - this.mc.fontRendererObj.getStringWidth(s) / 2, 6, 4210752); //Draws the block breaker name in the center on the top of the gui
-		this.mc.fontRendererObj.drawString(this.playerInv.getDisplayName().getFormattedText(), 8, 72, 4210752); //The player's inventory name
+		this.mc.fontRendererObj.drawString(this.playerInv.getDisplayName().getFormattedText(), 8, 73, 4210752); //The player's inventory name
 		
 		this.progressBar.setMin(cooldown).setMax(maxCooldown);
 		this.progressBar.draw(this.mc);
@@ -135,4 +137,11 @@ public class GuiBlockBreaker extends GuiContainer {
 		//this.mc.fontRendererObj.drawString(cooldown + " / " + maxCooldown, -50, 0, 0xFFFFFF);
 	}
 
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if(button == energyBar)
+			this.energyBar.actionPerformed(this.mc, this.te);
+		super.actionPerformed(button);
+	}
+	
 }

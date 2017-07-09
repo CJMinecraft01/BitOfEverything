@@ -94,12 +94,12 @@ public class BoeConfig {
 		
 		Property propertyMachineCooldownBasic = config.get(CATEGORY_NAME_BLOCKS, "machine_cooldown_basic", 100);
 		propertyMachineCooldownBasic.setLanguageKey("gui.config.blocks.machine_cooldown_basic.name");
-		propertyMachineCooldownBasic.setComment(I18n.format("gui.config.blocks.machine_cooldown_basic.comment"));
+		propertyMachineCooldownBasic.setComment("The cooldown for the basic tier of machine");
 		propertyMachineCooldownBasic.setMinValue(10);
 		propertyMachineCooldownBasic.setMaxValue(200);
 		Property propertyMachineCooldownAdvanced = config.get(CATEGORY_NAME_BLOCKS, "machine_cooldown_advanced", 50);
 		propertyMachineCooldownAdvanced.setLanguageKey("gui.config.blocks.machine_cooldown_advanced.name");
-		propertyMachineCooldownAdvanced.setComment(I18n.format("gui.config.blocks.machine_cooldown_advanced.comment"));
+		propertyMachineCooldownAdvanced.setComment("The cooldown for the advanced tier of machine");
 		propertyMachineCooldownAdvanced.setMinValue(10);
 		propertyMachineCooldownAdvanced.setMaxValue(200);
 		

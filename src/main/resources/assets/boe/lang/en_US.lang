@@ -51,6 +51,8 @@ tile.cotton.name=Cotton
 
 tile.energy_cell.basic.name=Energy Cell (Basic)
 tile.energy_cell.advanced.name=Energy Cell (Advanced)
+tile.furnace_generator.basic.name=Furnace Generator (Basic)
+tile.furnace_generator.advanced.name=Furnace Generator (Advanced)
 
 itemGroup.boeblocks=BitOfEverything Blocks
 itemGroup.boeitems=BitOfEverything Items
@@ -62,6 +64,8 @@ achievement.tinman=Tin Man
 achievement.tinman.desc=Wear all tin armour
 
 container.block_breaker=Block Breaker
+container.energy_cell=Energy Cell
+container.furnace_generator=Furnace Generator
 
 gui.block_breaker.enchanted_book.tooltip=Enchanted book goes here
 

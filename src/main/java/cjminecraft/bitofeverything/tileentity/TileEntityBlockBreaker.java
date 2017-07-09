@@ -96,7 +96,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		});
 		this.handler = new ItemStackHandler(10);
 		this.random = new Random();
-		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, 1000, 0);
+		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, type == ChipTypes.BASIC ? 1000 : 5000, 0);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 				Utils.addStackToInventory(this.handler, 9, stack, false);
 			}
 			if (!Utils.isInventoryFull(this.handler, 9)) {
-				this.world.playEvent(2001, pos, Block.getStateId(state));
+				this.world.playEvent(2001, newPos, Block.getStateId(state));
 				this.world.playSound(null, pos, block.getSoundType(state, world, newPos, player).getBreakSound(),
 						SoundCategory.BLOCKS, 1, 1); // Plays the block breaking
 														// sound

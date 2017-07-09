@@ -143,7 +143,7 @@ public class BlockBreaker extends BlockMachine {
 	 */
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityBlockBreaker(ChipTypes.values()[meta % ChipTypes.values().length]);
+		return super.createTileEntity(worldIn, getStateFromMeta(meta));
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package cjminecraft.bitofeverything.client.gui;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
@@ -12,8 +13,10 @@ import cjminecraft.core.client.gui.EnergyBar;
 import cjminecraft.core.config.CJCoreConfig;
 import cjminecraft.core.energy.EnergyUnits;
 import cjminecraft.core.energy.EnergyUtils;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -49,7 +52,7 @@ public class GuiEnergyCell extends GuiContainer {
 		// (this.height / 2 - this.ySize / 2) + 12
 		// width = 18, height = 60
 		this.energyBar = new EnergyBar(0, (this.width / 2 - this.xSize / 2) + 79,
-				(this.height / 2 - this.ySize / 2) + 12, 18, 60, 0, 0);
+				(this.height / 2 - this.ySize / 2) + 16, 18, 56, 0, 0);
 		this.buttonList.add(energyBar);
 		super.initGui();
 	}
@@ -71,6 +74,10 @@ public class GuiEnergyCell extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		String s = I18n.format("container.energy_cell");
+		this.mc.fontRendererObj.drawString(s, this.xSize / 2 - this.mc.fontRendererObj.getStringWidth(s) / 2, 6, 4210752); //Draws the block breaker name in the center on the top of the gui
+		this.mc.fontRendererObj.drawString(this.playerInv.getDisplayName().getFormattedText(), 8, 72, 4210752); //The player's inventory name
+		
 		if (this.energyBar.isMouseOver()) {
 			if (CJCoreConfig.MULTIMETER_SIMPLIFY_ENERGY) {
 				this.drawHoveringText(
@@ -80,14 +87,14 @@ public class GuiEnergyCell extends GuiContainer {
 												? " / " + EnergyUtils.getEnergyAsString(this.energyBar.capacity,
 														CJCoreConfig.DEFAULT_ENERGY_UNIT)
 												: ""),
-								this.energyDifference < 0
+								(this.energyDifference < 0
 										? TextFormatting.RED
-												+ String.valueOf(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
-														CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference))
+												+ "-" + EnergyUtils.getEnergyAsString(
+														this.energyDifference * -1, CJCoreConfig.DEFAULT_ENERGY_UNIT) + "/t"
 										: this.energyDifference > 0 ? TextFormatting.GREEN + "+"
-												+ String.valueOf(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
-														CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference))
-												: "0"),
+												+ EnergyUtils.getEnergyAsString(
+														this.energyDifference, CJCoreConfig.DEFAULT_ENERGY_UNIT) + "/t"
+												: "0 " + CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix() + "/t")),
 						mouseX - ((this.width - this.xSize) / 2), mouseY - ((this.height - this.ySize) / 2));
 			} else {
 				this.drawHoveringText(Arrays.asList(
@@ -98,16 +105,23 @@ public class GuiEnergyCell extends GuiContainer {
 												+ CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix()
 										: ""),
 						this.energyDifference < 0 ? TextFormatting.RED
-								+ String.valueOf(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
-										CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference))
+								+ NumberFormat.getInstance().format(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
+										CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference)) + " " + CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix() + "/t"
 								: this.energyDifference > 0
 										? TextFormatting.GREEN + "+"
-												+ String.valueOf(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
-														CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference))
-										: "0"),
+												+ NumberFormat.getInstance().format(EnergyUtils.convertEnergy(EnergyUnits.FORGE_ENERGY,
+														CJCoreConfig.DEFAULT_ENERGY_UNIT, this.energyDifference)) + " " + CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix() + "/t"
+										: "0 " + CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix() + "/t"),
 						mouseX - ((this.width - this.xSize) / 2), mouseY - ((this.height - this.ySize) / 2));
 			}
 		}
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if(button == this.energyBar)
+			this.energyBar.actionPerformed(this.mc, this.te);
+		super.actionPerformed(button);
 	}
 
 }
