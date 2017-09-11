@@ -5,7 +5,6 @@ import cjminecraft.bitofeverything.blocks.BlockMachine;
 import cjminecraft.bitofeverything.capabilties.Worker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModCapabilities;
-import cjminecraft.bitofeverything.util.Utils;
 import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUnits;
 import cjminecraft.core.energy.EnergyUtils;
@@ -26,32 +25,42 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+/**
+ * A {@link TileEntity} which generates power
+ * 
+ * @author CJMinecraft
+ *
+ */
 public class TileEntityFurnaceGenerator extends TileEntity implements ITickable {
 
 	private ItemStackHandler handler;
 	private Worker worker;
 	private CustomForgeEnergyStorage storage;
-	private ChipTypes type;
+	private ChipTypes type = ChipTypes.BASIC;
 
 	public TileEntityFurnaceGenerator() {
-		this.type = this.world.getBlockState(this.pos).getValue(BlockMachine.TYPE);
+		if (this.world != null)
+			this.type = this.world.getBlockState(this.pos).getValue(BlockMachine.TYPE);
 		this.handler = new ItemStackHandler(1);
-		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, 0, type == ChipTypes.BASIC ? 1000 : 5000);
+		this.storage = new CustomForgeEnergyStorage(this.type == ChipTypes.BASIC ? 100000 : 500000, 0,
+				this.type == ChipTypes.BASIC ? 1000 : 5000);
 		this.worker = new Worker(1, () -> {
-			//Do work
-			if(this.worker.getMaxWork() != 1)
-				if(this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
-					this.storage.receiveEnergyInternal((type == ChipTypes.BASIC ? 40 : 60), false);
+			// Do work
+			if (this.worker.getMaxWork() != 1)
+				if (this.storage.getMaxEnergyStored()
+						- this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 40 : 60))
+					this.storage.receiveEnergyInternal((this.type == ChipTypes.BASIC ? 40 : 60), false);
 		}, () -> {
-			//Work done
+			// Work done
 			this.worker.setMaxCooldown(1);
-			if(this.handler.getStackInSlot(0).getItem() == Items.BUCKET)
+			if (this.handler.getStackInSlot(0).getItem() == Items.BUCKET)
 				return;
 			ItemStack fuel = this.handler.extractItem(0, 1, false);
-			if(fuel != ItemStack.EMPTY)
-				if(this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
+			if (fuel != ItemStack.EMPTY)
+				if (this.storage.getMaxEnergyStored()
+						- this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 40 : 60))
 					this.worker.setMaxCooldown(TileEntityFurnace.getItemBurnTime(fuel));
-			if(fuel.getItem() == Items.LAVA_BUCKET)
+			if (fuel.getItem() == Items.LAVA_BUCKET)
 				this.handler.setStackInSlot(0, new ItemStack(Items.BUCKET));
 		});
 	}
@@ -59,22 +68,25 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	public TileEntityFurnaceGenerator(ChipTypes type) {
 		this.type = type;
 		this.handler = new ItemStackHandler(1);
-		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, 0, type == ChipTypes.BASIC ? 1000 : 5000);
+		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, 0,
+				type == ChipTypes.BASIC ? 1000 : 5000);
 		this.worker = new Worker(1, () -> {
-			//Do work
-			if(this.worker.getMaxWork() != 1)
-				if(this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
+			// Do work
+			if (this.worker.getMaxWork() != 1)
+				if (this.storage.getMaxEnergyStored()
+						- this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
 					this.storage.receiveEnergyInternal((type == ChipTypes.BASIC ? 40 : 60), false);
 		}, () -> {
-			//Work done
+			// Work done
 			this.worker.setMaxCooldown(1);
-			if(this.handler.getStackInSlot(0).getItem() == Items.BUCKET)
+			if (this.handler.getStackInSlot(0).getItem() == Items.BUCKET)
 				return;
 			ItemStack fuel = this.handler.extractItem(0, 1, false);
-			if(fuel != ItemStack.EMPTY)
-				if(this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
+			if (fuel != ItemStack.EMPTY)
+				if (this.storage.getMaxEnergyStored()
+						- this.storage.getEnergyStored() > (type == ChipTypes.BASIC ? 40 : 60))
 					this.worker.setMaxCooldown(TileEntityFurnace.getItemBurnTime(fuel));
-			if(fuel.getItem() == Items.LAVA_BUCKET)
+			if (fuel.getItem() == Items.LAVA_BUCKET)
 				this.handler.setStackInSlot(0, new ItemStack(Items.BUCKET));
 		});
 	}
@@ -83,22 +95,27 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	public void update() {
 		if (this.world != null) {
 			if (!this.world.isRemote) {
-				int extract = this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 1000 : 5000) ? (this.type == ChipTypes.BASIC ? 1000 : 5000) : this.storage.getEnergyStored();
+				int extract = this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 1000 : 5000)
+						? (this.type == ChipTypes.BASIC ? 1000 : 5000) : this.storage.getEnergyStored();
 				this.storage.extractEnergyInternal((int) EnergyUtils.giveEnergyAllFaces(this.world, this.pos, extract,
 						EnergyUnits.FORGE_ENERGY, false), false);
-				if(this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 40 : 60)) {
+				if (this.storage.getMaxEnergyStored()
+						- this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 40 : 60)) {
 					this.worker.doWork();
 					this.markDirty();
-					this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, true), 2);
+					this.world.setBlockState(this.pos,
+							this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, true), 2);
 				} else {
-					this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, false), 2);
+					this.world.setBlockState(this.pos,
+							this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, false), 2);
 				}
-				if(this.worker.getMaxWork() == 1)
-					this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, false), 2);
+				if (this.worker.getMaxWork() == 1)
+					this.world.setBlockState(this.pos,
+							this.world.getBlockState(this.pos).withProperty(BlockFurnaceGenerator.ACTIVATED, false), 2);
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
@@ -122,7 +139,8 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == ModCapabilities.CAPABILITY_WORKER || capability == CapabilityEnergy.ENERGY)
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
+				|| capability == ModCapabilities.CAPABILITY_WORKER || capability == CapabilityEnergy.ENERGY)
 			return true;
 		return super.hasCapability(capability, facing);
 	}
@@ -131,9 +149,9 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) this.handler;
-		if(capability == ModCapabilities.CAPABILITY_WORKER)
+		if (capability == ModCapabilities.CAPABILITY_WORKER)
 			return (T) this.worker;
-		if(capability == CapabilityEnergy.ENERGY)
+		if (capability == CapabilityEnergy.ENERGY)
 			return (T) this.storage;
 		return super.getCapability(capability, facing);
 	}
@@ -164,7 +182,7 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
+		this.storage.writeToNBT(nbt);
 		return nbt;
 	}
 

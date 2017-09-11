@@ -23,6 +23,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -58,6 +59,7 @@ public class BlockBreaker extends BlockMachine {
 	 */
 	public BlockBreaker(String unlocalizedName) {
 		super(unlocalizedName);
+		this.maxExtract = 0;
 		//Sets the default version of the block
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, ChipTypes.BASIC).withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVATED, Boolean.valueOf(false)));
 	}
@@ -127,7 +129,17 @@ public class BlockBreaker extends BlockMachine {
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
+		TileEntity te = world.getTileEntity(pos);
+		world.notifyBlockUpdate(pos, state, state, 2);
+		if (te == null)
+			return new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
+		NBTTagCompound nbt = te.getUpdateTag();
+		nbt.setInteger("MaxReceive", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
+		nbt.setInteger("MaxExtract", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
+		ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length),
+				nbt);
+		stack.setTagCompound(nbt);
+		return stack;
 	}
 	
 	/**
@@ -162,7 +174,7 @@ public class BlockBreaker extends BlockMachine {
 			ItemStack stack = handler.getStackInSlot(slot);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 		}
-		super.breakBlock(world, pos, state);
+		//super.breakBlock(world, pos, state);
 	}
 	
 	/**

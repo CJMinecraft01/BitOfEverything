@@ -2,12 +2,10 @@ package cjminecraft.bitofeverything.container;
 
 import cjminecraft.bitofeverything.container.slots.SlotFurnaceGeneratorFuel;
 import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
-import cjminecraft.core.energy.EnergyUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;

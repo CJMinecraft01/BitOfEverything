@@ -19,8 +19,8 @@ import cjminecraft.bitofeverything.blocks.BlockTinPressurePlate;
 import cjminecraft.bitofeverything.blocks.BlockTinSlabDouble;
 import cjminecraft.bitofeverything.blocks.BlockTinSlabHalf;
 import cjminecraft.bitofeverything.blocks.BlockTinStairs;
-import cjminecraft.bitofeverything.blocks.item.ItemBlockBreaker;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockDoor;
+import cjminecraft.bitofeverything.blocks.item.ItemBlockMachine;
 import cjminecraft.bitofeverything.blocks.item.ItemBlockMeta;
 import cjminecraft.bitofeverything.handlers.EnumHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
@@ -119,7 +119,7 @@ public class ModBlocks {
 	 */
 	public static void register() {
 		registerBlock(tinOre, new ItemBlockMeta(tinOre)); // Says that the block uses the ItemBlockMeta as the item block
-		registerBlock(breaker, new ItemBlockBreaker(breaker));
+		registerBlock(breaker, new ItemBlockMachine(breaker));
 		registerBlock(gamemodeDetector);
 		registerBlock(machineFrame, new ItemBlockMeta(machineFrame));
 		registerBlock(tinBlock);
@@ -137,8 +137,8 @@ public class ModBlocks {
 		/*
 		 * Energy Blocks
 		 */
-		registerBlock(energyCell, new ItemBlockMeta(energyCell));
-		registerBlock(furnaceGenerator, new ItemBlockMeta(furnaceGenerator));
+		registerBlock(energyCell, new ItemBlockMachine(energyCell));
+		registerBlock(furnaceGenerator, new ItemBlockMachine(furnaceGenerator));
 	}
 
 	/**

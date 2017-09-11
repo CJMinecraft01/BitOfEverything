@@ -5,6 +5,7 @@ import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
+import cjminecraft.core.CJCore;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -32,6 +34,7 @@ public class BlockFurnaceGenerator extends BlockMachine {
 
 	public BlockFurnaceGenerator(String unlocalizedName) {
 		super(unlocalizedName);
+		this.maxReceive = 0;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, ChipTypes.BASIC)
 				.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVATED, false));
 	}
@@ -93,7 +96,17 @@ public class BlockFurnaceGenerator extends BlockMachine {
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
+		TileEntity te = world.getTileEntity(pos);
+		world.notifyBlockUpdate(pos, state, state, 2);
+		if (te == null)
+			return new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
+		NBTTagCompound nbt = te.getUpdateTag();
+		nbt.setInteger("MaxReceive", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
+		nbt.setInteger("MaxExtract", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
+		ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length),
+				nbt);
+		stack.setTagCompound(nbt);
+		return stack;
 	}
 	
 	/**

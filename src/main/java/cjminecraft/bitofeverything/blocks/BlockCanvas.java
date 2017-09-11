@@ -174,6 +174,7 @@ public class BlockCanvas extends BlockContainer implements ITileEntityProvider {
 			ItemStack tool) {
 		super.harvestBlock(world, player, pos, state, te, tool);
 		world.setBlockToAir(pos);
+		world.removeTileEntity(pos);
 	}
 
 }

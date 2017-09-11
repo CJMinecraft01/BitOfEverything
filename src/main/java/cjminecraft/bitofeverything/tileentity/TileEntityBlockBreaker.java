@@ -78,7 +78,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		});
 		this.handler = new ItemStackHandler(10);
 		this.random = new Random();
-		this.storage = new CustomForgeEnergyStorage(100000, 1000, 0);
+		this.storage = new CustomForgeEnergyStorage(1000000, 1000, 0);
 	}
 	
 	public TileEntityBlockBreaker(ChipTypes type) {
@@ -139,6 +139,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 			}
 			else if(this.storage.getEnergyStored() > 5) {
 				this.worker.doWork();
+				this.markDirty();
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
+		this.storage.writeToNBT(nbt);
 		return nbt;
 	}
 
@@ -321,8 +322,8 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 * destroyed but should not refresh
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return false;
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 
 }

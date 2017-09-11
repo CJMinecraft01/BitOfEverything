@@ -5,18 +5,24 @@ import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.handlers.EnumHandler.EnergyConnectionType;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
+import cjminecraft.core.CJCore;
+import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUtils;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -47,6 +53,8 @@ public class BlockEnergyCell extends BlockMachine {
 				.withProperty(NORTH, EnergyConnectionType.NONE).withProperty(SOUTH, EnergyConnectionType.NONE)
 				.withProperty(EAST, EnergyConnectionType.NONE).withProperty(WEST, EnergyConnectionType.NONE)
 				.withProperty(UP, EnergyConnectionType.NONE).withProperty(DOWN, EnergyConnectionType.NONE));
+		
+		setEnergy(0, 1000000, 0, 0);
 	}
 
 	@Override
