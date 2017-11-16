@@ -1,14 +1,13 @@
 package cjminecraft.bitofeverything.proxy;
 
-import cjminecraft.bitofeverything.BitOfEverything;
 import cjminecraft.bitofeverything.Reference;
-import cjminecraft.bitofeverything.client.gui.GuiHandler;
 import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityCanvas;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
 import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import cjminecraft.core.energy.compat.TileEntityEnergy;
+import cjminecraft.core.energy.compat.TileEntityEnergyProducer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**

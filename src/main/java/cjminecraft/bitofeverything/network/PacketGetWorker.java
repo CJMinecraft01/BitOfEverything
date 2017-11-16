@@ -139,7 +139,7 @@ public class PacketGetWorker implements IMessage {
 		 *            The message context
 		 */
 		void processMessage(PacketGetWorker message, MessageContext ctx) {
-			TileEntity te = ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos);
+			TileEntity te = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (te == null)
 				return;
 			if (!te.hasCapability(ModCapabilities.CAPABILITY_WORKER, message.side))
@@ -148,7 +148,7 @@ public class PacketGetWorker implements IMessage {
 			PacketHandler.INSTANCE.sendTo(
 					new PacketReturnWorker(worker.getWorkDone(), worker.getMaxWork(), message.className,
 							message.cooldownFieldName, message.maxCooldownFieldName),
-					ctx.getServerHandler().playerEntity);
+					ctx.getServerHandler().player);
 		}
 	}
 

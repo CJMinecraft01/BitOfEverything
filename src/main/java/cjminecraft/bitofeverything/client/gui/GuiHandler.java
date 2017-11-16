@@ -6,6 +6,7 @@ import cjminecraft.bitofeverything.container.ContainerFurnaceGenerator;
 import cjminecraft.bitofeverything.tileentity.TileEntityBlockBreaker;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
 import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
+import cjminecraft.core.energy.compat.TileEntityEnergyConsumer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

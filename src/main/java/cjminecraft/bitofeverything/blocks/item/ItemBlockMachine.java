@@ -1,78 +1,47 @@
 package cjminecraft.bitofeverything.blocks.item;
 
-import java.text.NumberFormat;
 import java.util.List;
 
-import cjminecraft.core.CJCore;
-import cjminecraft.core.config.CJCoreConfig;
-import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUtils;
-import cjminecraft.core.energy.ForgeEnergyCapabilityProvider;
+import cjminecraft.core.energy.compat.ItemBlockEnergy;
+import cjminecraft.core.energy.compat.forge.CustomForgeEnergyStorage;
+import cjminecraft.core.energy.compat.forge.ForgeEnergyCapabilityProvider;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public class ItemBlockMachine extends ItemBlockMeta {
+public class ItemBlockMachine extends ItemBlockEnergy {
 
+	/**
+	 * Default {@link ItemBlock} constructor
+	 * @param block The original block
+	 */
 	public ItemBlockMachine(Block block) {
-		super(block);
-	}
-
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if (EnergyUtils.hasSupport(stack, null)) {
-			if (CJCoreConfig.ENERGY_BAR_SIMPLIFY_ENERGY) {
-				tooltip.add(EnergyUtils.getEnergyAsString(
-						EnergyUtils.getEnergyStored(stack, null, CJCoreConfig.DEFAULT_ENERGY_UNIT),
-						CJCoreConfig.DEFAULT_ENERGY_UNIT)
-						+ (CJCoreConfig.ENERGY_BAR_SHOW_CAPACITY ? " / " + EnergyUtils.getEnergyAsString(
-								EnergyUtils.getCapacity(stack, null, CJCoreConfig.DEFAULT_ENERGY_UNIT),
-								CJCoreConfig.DEFAULT_ENERGY_UNIT) : ""));
-			} else {
-				tooltip.add(
-						NumberFormat.getInstance()
-								.format(EnergyUtils.getEnergyStored(stack, null, CJCoreConfig.DEFAULT_ENERGY_UNIT))
-								+ " "
-								+ CJCoreConfig.DEFAULT_ENERGY_UNIT
-										.getSuffix()
-								+ (CJCoreConfig.ENERGY_BAR_SHOW_CAPACITY ? " / "
-										+ NumberFormat.getInstance().format(
-												EnergyUtils.getCapacity(stack, null, CJCoreConfig.DEFAULT_ENERGY_UNIT))
-										+ " " + CJCoreConfig.DEFAULT_ENERGY_UNIT.getSuffix() : ""));
-			}
+		super(block, 100000, 1000, 1000);
+		if(!(block instanceof IMetaBlockName)) { //Makes sure that the block implements IMetaBlockName
+			throw new IllegalArgumentException(String.format("The given Block %s is not an instance of IMetaBlockName!", block.getUnlocalizedName()));
 		}
-	}
-
-	@Override
-	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return EnergyUtils.getEnergyRGBDurabilityForDisplay(stack);
-	}
-
-	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		return EnergyUtils.getEnergyDurabilityForDisplay(stack);
-	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
-		return EnergyUtils.hasSupport(stack, null);
+		this.setHasSubtypes(true); //Says the block has meta data
+		this.setMaxDamage(0);
 	}
 	
+	/**
+	 * Changes the unlocalized name
+	 */
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-		if(nbt != null && nbt.hasKey("Energy") && nbt.hasKey("Capacity") && nbt.hasKey("MaxReceive") && nbt.hasKey("MaxExtract"))
-			return new ForgeEnergyCapabilityProvider(stack, nbt);
-		return new ForgeEnergyCapabilityProvider(stack, 0, 0, 0, 0);
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName() + "." + ((IMetaBlockName) this.block).getSpecialName(stack);
 	}
-	
-	@Override
-	public ItemStack getDefaultInstance() {
-		NBTTagCompound nbt = new ItemStack(this).serializeNBT();
-		CustomForgeEnergyStorage storage = new CustomForgeEnergyStorage(100000, 1000, 1000, 0);
-		storage.writeToNBT(nbt);
-		return new ItemStack(nbt);
+
+	/**
+	 * Fixes a bug with not placing the correct variant of the block
+	 * THIS IS NEEDED
+	 */
+	public int getMetadata(int damage) {
+		return damage;
 	}
 
 }

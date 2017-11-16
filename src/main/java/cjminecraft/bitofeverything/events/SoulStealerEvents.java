@@ -25,8 +25,8 @@ public class SoulStealerEvents {
 	 */
 	@SubscribeEvent
 	public void onEvent(LivingHurtEvent event) {
-		if(event.getSource().getEntity() instanceof EntityPlayer) { //Checks the person who dealt the damage is a player
-			EntityPlayer player = (EntityPlayer) event.getSource().getEntity(); //Gets the player who dealt the damage
+		if(event.getEntity() instanceof EntityPlayer) { //Checks the person who dealt the damage is a player
+			EntityPlayer player = (EntityPlayer) event.getEntity(); //Gets the player who dealt the damage
 			if(player.getHeldItemMainhand().getItem() == ModTools.soulStealer) { //Checks they were holding a soul stealer
 				BlockPos pos = event.getEntity().getPosition(); //Get the entity they hurt's position
 				EntityItem item = new EntityItem(player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModItems.heart)); //Creates a new EntityItem

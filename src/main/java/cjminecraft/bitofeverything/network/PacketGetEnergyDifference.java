@@ -66,13 +66,13 @@ public class PacketGetEnergyDifference implements IMessage {
 		}
 
 		void processMessage(PacketGetEnergyDifference message, MessageContext ctx) {
-			TileEntity te = ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos);
+			TileEntity te = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (te == null)
 				return;
 			if (!(te instanceof TileEntityEnergyCell))
 				return;
 			PacketHandler.INSTANCE.sendTo(new PacketReturnEnergyDifference(((TileEntityEnergyCell) te).energyDifference,
-					message.className, message.energyDifferenceFieldName), ctx.getServerHandler().playerEntity);
+					message.className, message.energyDifferenceFieldName), ctx.getServerHandler().player);
 		}
 
 	}

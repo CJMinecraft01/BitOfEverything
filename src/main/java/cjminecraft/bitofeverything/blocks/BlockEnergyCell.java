@@ -6,7 +6,6 @@ import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.handlers.EnumHandler.EnergyConnectionType;
 import cjminecraft.bitofeverything.tileentity.TileEntityEnergyCell;
 import cjminecraft.core.CJCore;
-import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUtils;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;

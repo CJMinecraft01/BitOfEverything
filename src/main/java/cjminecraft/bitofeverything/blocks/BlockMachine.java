@@ -9,10 +9,8 @@ import cjminecraft.bitofeverything.blocks.item.ItemBlockMachine;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.items.ItemChip;
-import cjminecraft.bitofeverything.util.Utils;
-import cjminecraft.core.CJCore;
-import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUtils;
+import cjminecraft.core.energy.compat.forge.CustomForgeEnergyStorage;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -36,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
 
 /**
  * Class to be used by all machines

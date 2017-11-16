@@ -15,7 +15,7 @@ import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
 import cjminecraft.bitofeverything.init.ModCapabilities;
 import cjminecraft.bitofeverything.util.Utils;
-import cjminecraft.core.energy.CustomForgeEnergyStorage;
+import cjminecraft.core.energy.compat.TileEntityEnergyConsumer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockStaticLiquid;
@@ -50,7 +50,7 @@ import net.minecraftforge.items.ItemStackHandler;
  * @author CJMinecraft
  *
  */
-public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICapabilityProvider {
+public class TileEntityBlockBreaker extends TileEntityEnergyConsumer implements ITickable {
 
 	/**
 	 * New 1.9.4 onwards. Using forge capabilities instead of {@link IInventory}
@@ -58,12 +58,12 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	private ItemStackHandler handler;
 	private Random random;
 	private Worker worker;
-	private CustomForgeEnergyStorage storage;
 
 	/**
 	 * Initializes our variables. MUST NOT HAVE ANY PARAMETERS
 	 */
 	public TileEntityBlockBreaker() {
+		super(1000000, 1000, 0);
 		this.worker = new Worker(BoeConfig.machineCooldownBasic, () -> {
 			if (this.world.isBlockPowered(pos) && this.storage.getEnergyStored() > 5) { // Calls it server side and checks if our block is powered
 				IBlockState currentState = this.world.getBlockState(pos); // Gets our block state
@@ -78,10 +78,10 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		});
 		this.handler = new ItemStackHandler(10);
 		this.random = new Random();
-		this.storage = new CustomForgeEnergyStorage(1000000, 1000, 0);
 	}
 	
 	public TileEntityBlockBreaker(ChipTypes type) {
+		super(type == ChipTypes.BASIC ? 100000 : 500000, type == ChipTypes.BASIC ? 1000 : 5000, 0);
 		this.worker = new Worker(type == ChipTypes.BASIC ? BoeConfig.machineCooldownBasic : BoeConfig.machineCooldownAdvanced, () -> {
 			if (this.world.isBlockPowered(pos) && this.storage.getEnergyStored() > 5) { // Calls it server side and checks if our block is powered
 				IBlockState currentState = this.world.getBlockState(pos); // Gets our block state
@@ -96,7 +96,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 		});
 		this.handler = new ItemStackHandler(10);
 		this.random = new Random();
-		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, type == ChipTypes.BASIC ? 1000 : 5000, 0);
 	}
 
 	/**
@@ -106,7 +105,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.worker.deserializeNBT(nbt.getCompoundTag("Worker"));
 		this.handler.deserializeNBT(nbt.getCompoundTag("ItemStackHandler")); // Gets the ItemStackHandler from tag within a tag
-		this.storage.readFromNBT(nbt);
 		super.readFromNBT(nbt);
 	}
 
@@ -117,7 +115,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setTag("Worker", this.worker.serializeNBT());
 		nbt.setTag("ItemStackHandler", this.handler.serializeNBT()); // We write our ItemStackHandler as a tag in a tag
-		this.storage.writeToNBT(nbt);
 		return super.writeToNBT(nbt);
 	}
 
@@ -233,54 +230,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	}
 
 	/**
-	 * The packet which is used to update the tile entity which holds all of the
-	 * tileentities data
-	 */
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbt);
-	}
-
-	/**
-	 * Reads the nbt when it receives a packet
-	 */
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	/**
-	 * Gets the nbt for a new packet
-	 */
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.storage.writeToNBT(nbt);
-		return nbt;
-	}
-
-	/**
-	 * Handles when you get an update
-	 */
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
-	}
-
-	/**
-	 * Gets the tile entities nbt with all of the data stored in it
-	 */
-	@Override
-	public NBTTagCompound getTileData() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		return nbt;
-	}
-
-	/**
 	 * New 1.9.4 onwards. Capability system
 	 */
 	@Override
@@ -289,8 +238,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 			return (T) this.handler; // Makes it so that you can get the capability from our tile entity
 		if(capability == ModCapabilities.CAPABILITY_WORKER)
 			return (T) this.worker;
-		if(capability == CapabilityEnergy.ENERGY)
-			return (T) this.storage;
 		return super.getCapability(capability, facing);
 	}
 
@@ -299,7 +246,7 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	 */
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == ModCapabilities.CAPABILITY_WORKER || capability == CapabilityEnergy.ENERGY)
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == ModCapabilities.CAPABILITY_WORKER)
 			return true;
 		return super.hasCapability(capability, facing);
 	}
@@ -315,15 +262,6 @@ public class TileEntityBlockBreaker extends TileEntity implements ITickable, ICa
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.world.getTileEntity(this.getPos()) == this
 				&& player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
-	}
-
-	/**
-	 * Says that if the block state updates, the tile entity shouldn't get
-	 * destroyed but should not refresh
-	 */
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock();
 	}
 
 }

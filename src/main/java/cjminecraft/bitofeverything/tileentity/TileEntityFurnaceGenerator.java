@@ -5,9 +5,9 @@ import cjminecraft.bitofeverything.blocks.BlockMachine;
 import cjminecraft.bitofeverything.capabilties.Worker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModCapabilities;
-import cjminecraft.core.energy.CustomForgeEnergyStorage;
 import cjminecraft.core.energy.EnergyUnits;
 import cjminecraft.core.energy.EnergyUtils;
+import cjminecraft.core.energy.compat.TileEntityEnergyProducer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -31,19 +31,17 @@ import net.minecraftforge.items.ItemStackHandler;
  * @author CJMinecraft
  *
  */
-public class TileEntityFurnaceGenerator extends TileEntity implements ITickable {
+public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer implements ITickable {
 
 	private ItemStackHandler handler;
 	private Worker worker;
-	private CustomForgeEnergyStorage storage;
 	private ChipTypes type = ChipTypes.BASIC;
 
 	public TileEntityFurnaceGenerator() {
+		super(100000, 0, 1000);
 		if (this.world != null)
 			this.type = this.world.getBlockState(this.pos).getValue(BlockMachine.TYPE);
 		this.handler = new ItemStackHandler(1);
-		this.storage = new CustomForgeEnergyStorage(this.type == ChipTypes.BASIC ? 100000 : 500000, 0,
-				this.type == ChipTypes.BASIC ? 1000 : 5000);
 		this.worker = new Worker(1, () -> {
 			// Do work
 			if (this.worker.getMaxWork() != 1)
@@ -66,10 +64,10 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	}
 
 	public TileEntityFurnaceGenerator(ChipTypes type) {
+		super(type == ChipTypes.BASIC ? 100000 : 500000, 0,
+				type == ChipTypes.BASIC ? 1000 : 5000);
 		this.type = type;
 		this.handler = new ItemStackHandler(1);
-		this.storage = new CustomForgeEnergyStorage(type == ChipTypes.BASIC ? 100000 : 500000, 0,
-				type == ChipTypes.BASIC ? 1000 : 5000);
 		this.worker = new Worker(1, () -> {
 			// Do work
 			if (this.worker.getMaxWork() != 1)
@@ -125,7 +123,6 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.handler.deserializeNBT(nbt.getCompoundTag("Inventory"));
 		this.worker.deserializeNBT(nbt.getCompoundTag("Worker"));
-		this.storage.readFromNBT(nbt);
 		super.readFromNBT(nbt);
 	}
 
@@ -133,14 +130,13 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setTag("Inventory", this.handler.serializeNBT());
 		nbt.setTag("Worker", this.worker.serializeNBT());
-		this.storage.writeToNBT(nbt);
 		return super.writeToNBT(nbt);
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
-				|| capability == ModCapabilities.CAPABILITY_WORKER || capability == CapabilityEnergy.ENERGY)
+				|| capability == ModCapabilities.CAPABILITY_WORKER)
 			return true;
 		return super.hasCapability(capability, facing);
 	}
@@ -151,57 +147,7 @@ public class TileEntityFurnaceGenerator extends TileEntity implements ITickable 
 			return (T) this.handler;
 		if (capability == ModCapabilities.CAPABILITY_WORKER)
 			return (T) this.worker;
-		if (capability == CapabilityEnergy.ENERGY)
-			return (T) this.storage;
 		return super.getCapability(capability, facing);
-	}
-
-	/**
-	 * The packet which is used to update the tile entity which holds all of the
-	 * tileentities data
-	 */
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbt);
-	}
-
-	/**
-	 * Reads the nbt when it receives a packet
-	 */
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	/**
-	 * Gets the nbt for a new packet
-	 */
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.storage.writeToNBT(nbt);
-		return nbt;
-	}
-
-	/**
-	 * Handles when you get an update
-	 */
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
-	}
-
-	/**
-	 * Gets the tile entities nbt with all of the data stored in it
-	 */
-	@Override
-	public NBTTagCompound getTileData() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		return nbt;
 	}
 
 }
