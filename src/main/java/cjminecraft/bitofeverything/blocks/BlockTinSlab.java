@@ -5,9 +5,12 @@ import java.util.Random;
 import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModBlocks;
+import cjminecraft.bitofeverything.util.DummyBlockProperty;
+import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -24,23 +27,30 @@ import net.minecraft.util.ResourceLocation;
 public abstract class BlockTinSlab extends BlockSlab {
 
 	/**
+	 * Used purely so that the slab places correctly
+	 */
+	public static final DummyBlockProperty DUMMY_VARIANT = DummyBlockProperty.create("dummy");
+
+	/**
 	 * Create a new Tin Slab
-	 * @param unlocalizedName The block's unlocalizedName
+	 * 
+	 * @param unlocalizedName
+	 *            The block's unlocalizedName
 	 */
 	public BlockTinSlab(String unlocalizedName) {
-		super(Material.IRON); //Normal block stuff
+		super(Material.IRON); // Normal block stuff
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 		this.setHardness(3);
 		this.setResistance(20);
 
-		//Set the default state
+		// Set the default state
 		IBlockState state = this.blockState.getBaseState();
-		if (!this.isDouble()) {
+		if (!this.isDouble())
 			state = state.withProperty(HALF, EnumBlockHalf.BOTTOM);
-		}
 		setDefaultState(state);
-		this.useNeighborBrightness = true; //Makes it so that you don't get dark patches on the block
+		this.useNeighborBrightness = true; // Makes it so that you don't get
+											// dark patches on the block
 	}
 
 	/**
@@ -52,19 +62,21 @@ public abstract class BlockTinSlab extends BlockSlab {
 	}
 
 	/**
-	 * Only use if your block has multiple types, i.e {@link ChipTypes}. If yours does not then just use what I put
+	 * Only use if your block has multiple types, i.e {@link ChipTypes}. If
+	 * yours does not then just use what I put
 	 */
 	@Override
 	public IProperty<?> getVariantProperty() {
-		return HALF;
+		return DUMMY_VARIANT;
 	}
 
 	/**
-	 * Only use if your block has multiple types, i.e {@link ChipTypes}. If yours does not then just use what I put
+	 * Only use if your block has multiple types, i.e {@link ChipTypes}. If
+	 * yours does not then just use what I put
 	 */
 	@Override
 	public Comparable<?> getTypeForItem(ItemStack stack) {
-		return EnumBlockHalf.BOTTOM;
+		return false;
 	}
 
 	/**
@@ -105,12 +117,11 @@ public abstract class BlockTinSlab extends BlockSlab {
 	}
 
 	/**
-	 * Register it so that your block has its own half.
-	 * MUST DO!!
+	 * Register it so that your block has its own half. MUST DO!!
 	 */
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { HALF });
+		return new BlockStateContainer(this, new IProperty[] { HALF, DUMMY_VARIANT });
 	}
 
 }
