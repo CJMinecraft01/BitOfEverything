@@ -31,25 +31,37 @@ public class OreGen implements IWorldGenerator {
 	 * The constructor initializes our fields
 	 */
 	public OreGen() {
+		// Here we are saying that our ore spawns in veins of up to 8
 		tin_overworld = new WorldGenMinable(
-				ModBlocks.tinOre.getDefaultState().withProperty(BlockTinOre.TYPE, OreType.OVERWORLD), 8); //Here we are saying that our ore spawns in veins of up to 8
+				ModBlocks.tinOre.getDefaultState().withProperty(BlockTinOre.TYPE, OreType.OVERWORLD), 8);
+		// Uses the nether predicate so that when it is being generated it
+		// replaces the netherrack
 		tin_nether = new WorldGenMinable(
 				ModBlocks.tinOre.getDefaultState().withProperty(BlockTinOre.TYPE, OreType.NETHER), 8,
-				new NetherGenPredicate()); //Uses the nether predicate so that when it is being generated it replaces the netherrack
+				new NetherGenPredicate());
 		tin_end = new WorldGenMinable(ModBlocks.tinOre.getDefaultState().withProperty(BlockTinOre.TYPE, OreType.END), 8,
 				new EndGenPredicate());
 	}
 
 	/**
 	 * Will generate our ore using the correct fields on where to generate
-	 * @param generator The actual world generator which holds which block to place
-	 * @param world The world to spawn the block in
-	 * @param rand The random object used for randomisation
-	 * @param chunk_X The chunks X position in the world
-	 * @param chunk_Z The chunks Z position in the world
-	 * @param chancesToSpawn How many times it will spawn per chunk
-	 * @param minHeight The minimum height the ore can spawn
-	 * @param maxHeight The maximum height the ore can spawn
+	 * 
+	 * @param generator
+	 *            The actual world generator which holds which block to place
+	 * @param world
+	 *            The world to spawn the block in
+	 * @param rand
+	 *            The random object used for randomisation
+	 * @param chunk_X
+	 *            The chunks X position in the world
+	 * @param chunk_Z
+	 *            The chunks Z position in the world
+	 * @param chancesToSpawn
+	 *            How many times it will spawn per chunk
+	 * @param minHeight
+	 *            The minimum height the ore can spawn
+	 * @param maxHeight
+	 *            The maximum height the ore can spawn
 	 */
 	private void runGenerator(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z,
 			int chancesToSpawn, int minHeight, int maxHeight) {

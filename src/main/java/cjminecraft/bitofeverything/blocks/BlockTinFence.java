@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * A tin version of a fence
+ * 
  * @author CJMinecraft
  *
  */

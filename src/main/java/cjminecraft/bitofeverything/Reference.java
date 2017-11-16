@@ -28,12 +28,12 @@ public class Reference {
 	 * Where the client proxy is found
 	 */
 	public static final String CLIENT_PROXY_CLASS = "cjminecraft.bitofeverything.proxy.ClientProxy";
-	
+
 	/**
 	 * Where our gui factory if found
 	 */
 	public static final String GUI_FACTORY = "cjminecraft.bitofeverything.config.BoeConfigGuiFactory";
-	
+
 	public static final String VERSION_CHECKER_URL = "https://raw.githubusercontent.com/CJMinecraft01/BitOfEverything/master/update.json";
 
 }

@@ -14,6 +14,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 /**
  * A {@link TileEntity} which can hold power
+ * 
  * @author CJMinecraft
  *
  */
@@ -22,7 +23,7 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 	private ItemStackHandler handler;
 	public int energyDifference = 0;
 	private int transfer;
-	
+
 	/**
 	 * A {@link TileEntity} which can hold power
 	 */
@@ -34,7 +35,9 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 
 	/**
 	 * A {@link TileEntity} which can hold power
-	 * @param type The type of the {@link TileEntity}
+	 * 
+	 * @param type
+	 *            The type of the {@link TileEntity}
 	 */
 	public TileEntityEnergyCell(ChipTypes type) {
 		super(type == ChipTypes.BASIC ? 1000000 : 5000000, 0);
@@ -52,7 +55,8 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 				int before = this.storage.getEnergyStored();
 				int receive = this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() < this.transfer
 						? this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() : this.transfer;
-				int extract = this.storage.getEnergyStored() > this.transfer ? this.transfer : this.storage.getEnergyStored();
+				int extract = this.storage.getEnergyStored() > this.transfer ? this.transfer
+						: this.storage.getEnergyStored();
 				if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
 					this.storage.receiveEnergyInternal((int) EnergyUtils.takeEnergyAllFaces(this.world, this.pos,
 							receive, EnergyUnits.FORGE_ENERGY, false), false);
@@ -88,12 +92,18 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 		return super.hasCapability(capability, facing);
 	}
 
+	/**
+	 * Write data to nbt
+	 */
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setTag("Inventory", this.handler.serializeNBT());
 		return super.writeToNBT(nbt);
 	}
 
+	/**
+	 * Read data from nbt
+	 */
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.handler.deserializeNBT(nbt.getCompoundTag("Inventory"));

@@ -94,16 +94,14 @@ public abstract class BlockMachine extends BlockContainer implements IMetaBlockN
 		for (int i = 0; i < ChipTypes.values().length; i++) {
 			NBTTagCompound nbt = new NBTTagCompound();
 			CustomForgeEnergyStorage storage = new CustomForgeEnergyStorage(i == 0 ? this.capacity : this.capacity * 5,
-					i == 0 ? 1000 : 5000, i == 0 ? 1000 : 5000,
-					i == 0 ? this.energy : this.energy * 5);
+					i == 0 ? 1000 : 5000, i == 0 ? 1000 : 5000, i == 0 ? this.energy : this.energy * 5);
 			storage.writeToNBT(nbt);
 			ItemStack stack = new ItemStack(itemIn, 1, i, nbt);
 			stack.setTagCompound(nbt);
 			list.add(stack);
 			nbt = new NBTTagCompound();
-			storage = new CustomForgeEnergyStorage(i == 0 ? this.capacity : this.capacity * 5,
-					i == 0 ? 1000 : 5000, i == 0 ? 1000 : 5000,
-					i == 0 ? this.capacity : this.capacity * 5);
+			storage = new CustomForgeEnergyStorage(i == 0 ? this.capacity : this.capacity * 5, i == 0 ? 1000 : 5000,
+					i == 0 ? 1000 : 5000, i == 0 ? this.capacity : this.capacity * 5);
 			storage.writeToNBT(nbt);
 			stack = new ItemStack(itemIn, 1, i, nbt);
 			stack.setTagCompound(nbt);
@@ -268,8 +266,8 @@ public abstract class BlockMachine extends BlockContainer implements IMetaBlockN
 				CustomForgeEnergyStorage storage = (CustomForgeEnergyStorage) EnergyUtils.getEnergySupport(te, null)
 						.getContainer(te, null);
 				storage.readFromNBT(stack.getTagCompound());
-				storage.setMaxReceive(state.getValue(TYPE).getID() == 0  ? this.maxReceive : this.maxReceive * 5);
-				storage.setMaxExtract(state.getValue(TYPE).getID() == 0  ? this.maxExtract : this.maxExtract * 5);
+				storage.setMaxReceive(state.getValue(TYPE).getID() == 0 ? this.maxReceive : this.maxReceive * 5);
+				storage.setMaxExtract(state.getValue(TYPE).getID() == 0 ? this.maxExtract : this.maxExtract * 5);
 				world.notifyBlockUpdate(pos, state, state, 2);
 			}
 		}

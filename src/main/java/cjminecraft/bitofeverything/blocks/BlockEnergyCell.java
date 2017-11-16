@@ -30,7 +30,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
+/**
+ * The block for the energy cell
+ * 
+ * @author CJMinecraft
+ *
+ */
 public class BlockEnergyCell extends BlockMachine {
+
+	/**
+	 * All of the directional properties. Just for aesthetics
+	 */
 
 	public static final PropertyEnum<EnergyConnectionType> NORTH = PropertyEnum.<EnergyConnectionType>create("north",
 			EnergyConnectionType.class);
@@ -45,6 +55,12 @@ public class BlockEnergyCell extends BlockMachine {
 	public static final PropertyEnum<EnergyConnectionType> DOWN = PropertyEnum.<EnergyConnectionType>create("down",
 			EnergyConnectionType.class);
 
+	/**
+	 * Initialise the energy cell block
+	 * 
+	 * @param unlocalizedName
+	 *            The unlocalized name of the energy cell
+	 */
 	public BlockEnergyCell(String unlocalizedName) {
 		super(unlocalizedName);
 		this.useNeighborBrightness = true;
@@ -52,9 +68,14 @@ public class BlockEnergyCell extends BlockMachine {
 				.withProperty(NORTH, EnergyConnectionType.NONE).withProperty(SOUTH, EnergyConnectionType.NONE)
 				.withProperty(EAST, EnergyConnectionType.NONE).withProperty(WEST, EnergyConnectionType.NONE)
 				.withProperty(UP, EnergyConnectionType.NONE).withProperty(DOWN, EnergyConnectionType.NONE));
-		
+
+		// Set the energy which is used. See BlockMachine
 		setEnergy(0, 1000000, 0, 0);
 	}
+
+	/**
+	 * For {@link TileEntity} creation
+	 */
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -66,6 +87,9 @@ public class BlockEnergyCell extends BlockMachine {
 		return new TileEntityEnergyCell(state.getValue(TYPE));
 	}
 
+	/**
+	 * Drop the contents of the energy cell when broken
+	 */
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityEnergyCell te = (TileEntityEnergyCell) world.getTileEntity(pos);
@@ -77,21 +101,30 @@ public class BlockEnergyCell extends BlockMachine {
 		super.breakBlock(world, pos, state);
 	}
 
+	/**
+	 * Open the gui when right clicked
+	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isRemote)
 			playerIn.openGui(BitOfEverything.instance, GuiHandler.ENERGY_CELL, worldIn, pos.getX(), pos.getY(),
 					pos.getZ());
-		}
 		return true;
 	}
 
+	/**
+	 * Add all of the block states
+	 */
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { TYPE, NORTH, SOUTH, EAST, WEST, UP, DOWN });
 	}
 
+	/**
+	 * Update the block states saying whether something with energy is
+	 * connecting
+	 */
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.withProperty(NORTH,
@@ -159,6 +192,10 @@ public class BlockEnergyCell extends BlockMachine {
 																		: EnergyConnectionType.NONE);
 	}
 
+	/**
+	 * Say the texture is transparent
+	 */
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {

@@ -17,16 +17,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * This class handles all of our armour registration and render
+ * 
  * @author CJMinecraft
  *
  */
 public class ModArmour {
-	
+
 	/**
 	 * The armour material
 	 */
-	public static ArmorMaterial tinMaterial = EnumHelper.addArmorMaterial("tin", Reference.MODID + ":tin", 15, new int[] {2,6,5,2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 2.0F);
-	
+	public static ArmorMaterial tinMaterial = EnumHelper.addArmorMaterial("tin", Reference.MODID + ":tin", 15,
+			new int[] { 2, 6, 5, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 2.0F);
+
 	/**
 	 * Each armour piece
 	 */
@@ -34,7 +36,7 @@ public class ModArmour {
 	public static ItemArmor tinChestplate;
 	public static ItemArmor tinLeggings;
 	public static ItemArmor tinBoots;
-	
+
 	/**
 	 * Initializes our armour
 	 */
@@ -44,7 +46,7 @@ public class ModArmour {
 		tinLeggings = new ItemModArmour(tinMaterial, 2, EntityEquipmentSlot.LEGS, "tin_leggings");
 		tinBoots = new ItemModArmour(tinMaterial, 1, EntityEquipmentSlot.FEET, "tin_boots");
 	}
-	
+
 	/**
 	 * Registers our armour
 	 */
@@ -54,7 +56,7 @@ public class ModArmour {
 		registerItem(tinLeggings);
 		registerItem(tinBoots);
 	}
-	
+
 	/**
 	 * Registers the render for the armour
 	 */
@@ -64,23 +66,29 @@ public class ModArmour {
 		registerRender(tinLeggings);
 		registerRender(tinBoots);
 	}
-	
+
 	/**
 	 * Registers a item and logs that it has been registered to the console
-	 * @param item The item to register
+	 * 
+	 * @param item
+	 *            The item to register
 	 */
 	public static void registerItem(Item item) {
 		item.setCreativeTab(BitOfEverything.items);
 		GameRegistry.register(item);
 		Utils.getLogger().info("Registered Item: " + item.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
-	 * Registers an item render and logs that is has been registered to the console
-	 * @param item The item to register the render for
+	 * Registers an item render and logs that is has been registered to the
+	 * console
+	 * 
+	 * @param item
+	 *            The item to register the render for
 	 */
 	public static void registerRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(
+				new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
 		Utils.getLogger().info("Registered render for " + item.getUnlocalizedName().substring(5));
 	}
 

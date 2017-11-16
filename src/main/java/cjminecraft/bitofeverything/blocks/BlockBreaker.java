@@ -39,80 +39,86 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 /**
- * This is where the magic happens.
- * Our blocks details and information is here
+ * This is where the magic happens. Our blocks details and information is here
+ * 
  * @author CJMinecraft
  *
  */
 public class BlockBreaker extends BlockMachine {
 
 	/**
-	 * The different properties our block can have.
-	 * For {@link PropertyInteger} refer to {@link BlockGamemodeDetector}
+	 * The different properties our block can have. For {@link PropertyInteger}
+	 * refer to {@link BlockGamemodeDetector}
 	 */
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool ACTIVATED = PropertyBool.create("activated");
-	
+
 	/**
 	 * Default block constructor
-	 * @param unlocalizedName The block's unlocalized name
+	 * 
+	 * @param unlocalizedName
+	 *            The block's unlocalized name
 	 */
 	public BlockBreaker(String unlocalizedName) {
 		super(unlocalizedName);
 		this.maxExtract = 0;
-		//Sets the default version of the block
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, ChipTypes.BASIC).withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVATED, Boolean.valueOf(false)));
+		// Sets the default version of the block
+		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, ChipTypes.BASIC)
+				.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVATED, Boolean.valueOf(false)));
 	}
-	
+
 	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
-	
+
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
 		TileEntityBlockBreaker te = (TileEntityBlockBreaker) world.getTileEntity(pos);
-		ItemStackHandler handler = (ItemStackHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		ItemStackHandler handler = (ItemStackHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+				null);
 		return Utils.calculateRedstone(handler);
 	}
-	
+
 	/**
 	 * Adds the properties to our block
 	 */
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TYPE,FACING,ACTIVATED});
+		return new BlockStateContainer(this, new IProperty[] { TYPE, FACING, ACTIVATED });
 	}
-	
+
 	/**
 	 * Says redstone can connect
 	 */
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return side != EnumFacing.UP || side != EnumFacing.DOWN; //Says that as long as its not connected on top or bottom it will connect
+		return side != EnumFacing.UP || side != EnumFacing.DOWN; // Says that as long as its not connected on top or bottom it will connect
 	}
-	
+
 	/**
 	 * Replacement of onBlockPlaced in 1.11.2
 	 */
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVATED, Boolean.valueOf(false)).withProperty(TYPE, getStateFromMeta(meta * EnumFacing.values().length).getValue(TYPE));
+		return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer))
+				.withProperty(ACTIVATED, Boolean.valueOf(false))
+				.withProperty(TYPE, getStateFromMeta(meta * EnumFacing.values().length).getValue(TYPE));
 	}
-	
+
 	/**
-	 * Returns the correct meta for the block
-	 * I recommend also saving the EnumFacing to the meta but I haven't
+	 * Returns the correct meta for the block I recommend also saving the
+	 * EnumFacing to the meta but I haven't
 	 */
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		ChipTypes type = (ChipTypes) state.getValue(TYPE);
 		EnumFacing facing = (EnumFacing) state.getValue(FACING);
-		int meta = type.getID() * EnumFacing.values().length + facing.ordinal(); //Stores the type the EnumFacing in the meta
+		int meta = type.getID() * EnumFacing.values().length + facing.ordinal(); // Stores the type the EnumFacing in the meta
 		return meta;
 	}
-	
+
 	/**
 	 * Gets the block state from the meta
 	 */
@@ -122,9 +128,10 @@ public class BlockBreaker extends BlockMachine {
 		EnumFacing facing = EnumFacing.values()[meta % EnumFacing.values().length]; //Gets the EnumFacing from the meta
 		return this.getDefaultState().withProperty(TYPE, type).withProperty(FACING, facing); //Returns the correct state
 	}
-	
+
 	/**
-	 * Makes sure that when you pick block you get the right version of the block
+	 * Makes sure that when you pick block you get the right version of the
+	 * block
 	 */
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
@@ -132,16 +139,17 @@ public class BlockBreaker extends BlockMachine {
 		TileEntity te = world.getTileEntity(pos);
 		world.notifyBlockUpdate(pos, state, state, 2);
 		if (te == null)
-			return new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
+			return new ItemStack(Item.getItemFromBlock(this), 1,
+					(int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length));
 		NBTTagCompound nbt = te.getUpdateTag();
 		nbt.setInteger("MaxReceive", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
 		nbt.setInteger("MaxExtract", state.getValue(TYPE).getID() == 0 ? 1000 : 5000);
-		ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1, (int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length),
-				nbt);
+		ItemStack stack = new ItemStack(Item.getItemFromBlock(this), 1,
+				(int) (getMetaFromState(world.getBlockState(pos)) / EnumFacing.values().length), nbt);
 		stack.setTagCompound(nbt);
 		return stack;
 	}
-	
+
 	/**
 	 * Makes the block drop the right version of the block from meta data
 	 */
@@ -157,36 +165,38 @@ public class BlockBreaker extends BlockMachine {
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return super.createTileEntity(worldIn, getStateFromMeta(meta));
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileEntityBlockBreaker(state.getValue(TYPE));
 	}
-	
+
 	/**
-	 * Called when you break the block so that all of the items inside of the tile entity drop
+	 * Called when you break the block so that all of the items inside of the
+	 * tile entity drop
 	 */
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityBlockBreaker te = (TileEntityBlockBreaker) world.getTileEntity(pos);
 		IItemHandler handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		for(int slot = 0; slot < handler.getSlots(); slot++) {
+		for (int slot = 0; slot < handler.getSlots(); slot++) {
 			ItemStack stack = handler.getStackInSlot(slot);
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
 		}
-		//super.breakBlock(world, pos, state);
+		// super.breakBlock(world, pos, state);
 	}
-	
+
 	/**
 	 * Opens our block's gui when the player right clicks on the block
 	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-		if(!worldIn.isRemote) {
-			playerIn.openGui(BitOfEverything.instance, GuiHandler.BLOCK_BREAKER, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if (!worldIn.isRemote) {
+			playerIn.openGui(BitOfEverything.instance, GuiHandler.BLOCK_BREAKER, worldIn, pos.getX(), pos.getY(),
+					pos.getZ());
 		}
 		return true;
 	}
-	
+
 }

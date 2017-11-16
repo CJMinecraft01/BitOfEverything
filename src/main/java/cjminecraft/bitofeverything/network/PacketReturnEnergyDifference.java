@@ -11,18 +11,41 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * A message holding the energy difference requested by the client and now
+ * giving the information back to the client from the server
+ * 
+ * @author CJMinecraft
+ *
+ */
 public class PacketReturnEnergyDifference implements IMessage {
 
+	/**
+	 * Is the message valid?
+	 */
 	private boolean messageValid;
 
 	private int energyDifference;
 	private String className;
 	private String energyDifferenceFieldName;
 
+	/**
+	 * Default Constructor (for registration)
+	 */
 	public PacketReturnEnergyDifference() {
 		this.messageValid = false;
 	}
 
+	/**
+	 * Create a packet giving the data provided to the client
+	 * 
+	 * @param energyDifference
+	 *            The energy difference data
+	 * @param className
+	 *            The name of the class which holds the field to set
+	 * @param energyDifferenceFieldName
+	 *            The name of the field to set the data onto
+	 */
 	public PacketReturnEnergyDifference(int energyDifference, String className, String energyDifferenceFieldName) {
 		this.energyDifference = energyDifference;
 		this.className = className;
@@ -30,6 +53,9 @@ public class PacketReturnEnergyDifference implements IMessage {
 		this.messageValid = true;
 	}
 
+	/**
+	 * Read the data from the byte buffer (CLIENT SIDE)
+	 */
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		try {
@@ -43,6 +69,9 @@ public class PacketReturnEnergyDifference implements IMessage {
 		this.messageValid = true;
 	}
 
+	/**
+	 * Write the data to the byte buffer (SERVER SIDE)
+	 */
 	@Override
 	public void toBytes(ByteBuf buf) {
 		if (!this.messageValid)
@@ -52,8 +81,17 @@ public class PacketReturnEnergyDifference implements IMessage {
 		ByteBufUtils.writeUTF8String(buf, this.energyDifferenceFieldName);
 	}
 
+	/**
+	 * Handle the {@link PacketReturnEnergyDifference} message
+	 * 
+	 * @author CJMinecraft
+	 *
+	 */
 	public static class Handler implements IMessageHandler<PacketReturnEnergyDifference, IMessage> {
 
+		/**
+		 * Handle the message when received
+		 */
 		@Override
 		public IMessage onMessage(PacketReturnEnergyDifference message, MessageContext ctx) {
 			if (!message.messageValid && ctx.side != Side.CLIENT)
@@ -62,6 +100,12 @@ public class PacketReturnEnergyDifference implements IMessage {
 			return null;
 		}
 
+		/**
+		 * Process the message
+		 * 
+		 * @param message
+		 *            The message to process
+		 */
 		void processMessage(PacketReturnEnergyDifference message) {
 			try {
 				Class clazz = Class.forName(message.className);

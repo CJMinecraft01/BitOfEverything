@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 
 /**
  * This block has three variants. Refer to {@link OreType}
+ * 
  * @author CJMinecraft
  *
  */
@@ -32,31 +33,34 @@ public class BlockTinOre extends Block implements IMetaBlockName {
 	 * The type property
 	 */
 	public static final PropertyEnum TYPE = PropertyEnum.create("type", OreType.class);
-	
+
 	/**
 	 * Default constructor
-	 * @param unlocalizedName The block's unlocalized name
-	 * @param registryName The block's registry name - defaultly the unlocalized name
+	 * 
+	 * @param unlocalizedName
+	 *            The block's unlocalized name
+	 * @param registryName
+	 *            The block's registry name - defaultly the unlocalized name
 	 */
 	public BlockTinOre(String unlocalizedName, String registryName) {
 		super(Material.ROCK);
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, registryName));
-		this.setHardness(20); //Sets how hard the block is to break
-		this.setResistance(20); //Sets the blocks blast resitance to explosions
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, OreType.OVERWORLD)); //Default state
+		this.setHardness(20); // Sets how hard the block is to break
+		this.setResistance(20); // Sets the blocks blast resitance to explosions
+		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, OreType.OVERWORLD)); // Default state
 	}
-	
+
 	/**
 	 * All the different item variants for the block
 	 */
 	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for(int i = 0; i < OreType.values().length; i++) {
+		for (int i = 0; i < OreType.values().length; i++) {
 			list.add(new ItemStack(itemIn, 1, i));
 		}
 	}
-	
+
 	/**
 	 * Makes sure the block drops the correct version of itself
 	 */
@@ -64,7 +68,7 @@ public class BlockTinOre extends Block implements IMetaBlockName {
 	public int damageDropped(IBlockState state) {
 		return getMetaFromState(state);
 	}
-	
+
 	/**
 	 * Makes sure when you pick block it will work correctly
 	 */
@@ -73,15 +77,15 @@ public class BlockTinOre extends Block implements IMetaBlockName {
 			EntityPlayer player) {
 		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(state));
 	}
-	
+
 	/**
 	 * Adds the properties to the block
 	 */
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TYPE});
+		return new BlockStateContainer(this, new IProperty[] { TYPE });
 	}
-	
+
 	/**
 	 * Gets the right meta data from the {@link IBlockState}
 	 */
@@ -90,7 +94,7 @@ public class BlockTinOre extends Block implements IMetaBlockName {
 		OreType type = (OreType) state.getValue(TYPE);
 		return type.getID();
 	}
-	
+
 	/**
 	 * Gets the correct {@link IBlockState} from the meta data
 	 */

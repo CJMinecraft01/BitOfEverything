@@ -37,6 +37,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
  */
 public class GuiBlockBreaker extends GuiBase {
 
+	/**
+	 * The background texture for the gui
+	 */
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID,
 			"textures/gui/container/block_breaker.png");
 
@@ -64,6 +67,9 @@ public class GuiBlockBreaker extends GuiBase {
 		this.name = "container.block_breaker";
 	}
 
+	/**
+	 * Where we add our gui elements
+	 */
 	@Override
 	public void initGui() {
 		super.initGui();
@@ -79,7 +85,7 @@ public class GuiBlockBreaker extends GuiBase {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		
+
 		int actualMouseX = mouseX - ((this.width - this.xSize) / 2);
 		int actualMouseY = mouseY - ((this.height - this.ySize) / 2);
 
@@ -91,7 +97,10 @@ public class GuiBlockBreaker extends GuiBase {
 			this.drawHoveringText(text, actualMouseX, actualMouseY);
 		}
 	}
-	
+
+	/**
+	 * Where we update all our gui elements
+	 */
 	@Override
 	protected void updateElementInformation() {
 		super.updateElementInformation();

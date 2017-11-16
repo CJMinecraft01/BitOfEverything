@@ -2,6 +2,7 @@ package cjminecraft.bitofeverything.blocks;
 
 /**
  * A half slab which gets its properties from the tin slab
+ * 
  * @author CJMinecraft
  *
  */

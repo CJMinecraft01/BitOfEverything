@@ -73,7 +73,8 @@ public class Worker implements IWork, INBTSerializable<NBTTagCompound> {
 	@Override
 	public void doWork() {
 		this.cooldown++;
-		this.cooldown %= this.maxCooldown; // Caps the cooldown to the max cooldown
+		this.cooldown %= this.maxCooldown; // Caps the cooldown to the max
+											// cooldown
 		this.doWork.run();
 		if (this.cooldown == 0)
 			workDone();

@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 /**
  * Handles all of the gui's
+ * 
  * @author CJMinecraft
  *
  */
@@ -25,35 +26,38 @@ public class GuiHandler implements IGuiHandler {
 	public static final int BLOCK_BREAKER = 0;
 	public static final int ENERGY_CELL = 1;
 	public static final int FURNACE_GENERATOR = 2;
-	
+
 	/**
-	 * Should return the container for that gui. This is called server side because servers handle items in guis
+	 * Should return the container for that gui. This is called server side
+	 * because servers handle items in guis
 	 */
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
-		switch(ID) {
+		switch (ID) {
 		case BLOCK_BREAKER:
 			return new ContainerBlockBreaker(player.inventory, (TileEntityBlockBreaker) world.getTileEntity(pos));
 		case ENERGY_CELL:
 			return new ContainerEnergyCell(player.inventory, (TileEntityEnergyCell) world.getTileEntity(pos));
 		case FURNACE_GENERATOR:
-			return new ContainerFurnaceGenerator(player.inventory, (TileEntityFurnaceGenerator) world.getTileEntity(pos));
+			return new ContainerFurnaceGenerator(player.inventory,
+					(TileEntityFurnaceGenerator) world.getTileEntity(pos));
 		}
 		return null;
 	}
 
 	/**
-	 * Should return the actual gui. This is called client side as thats where guis are rendered
+	 * Should return the actual gui. This is called client side as thats where
+	 * guis are rendered
 	 */
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
-		switch(ID) {
+		switch (ID) {
 		case BLOCK_BREAKER:
 			return new GuiBlockBreaker(player.inventory, (TileEntityBlockBreaker) world.getTileEntity(pos));
 		case ENERGY_CELL:
-			return new GuiEnergyCell(player.inventory, (TileEntityEnergyCell)world.getTileEntity(pos));
+			return new GuiEnergyCell(player.inventory, (TileEntityEnergyCell) world.getTileEntity(pos));
 		case FURNACE_GENERATOR:
 			return new GuiFurnaceGenerator(player.inventory, (TileEntityFurnaceGenerator) world.getTileEntity(pos));
 		}

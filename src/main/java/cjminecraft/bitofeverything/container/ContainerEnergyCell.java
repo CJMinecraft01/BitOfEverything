@@ -11,18 +11,32 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
+/**
+ * The container for the energy cell
+ * @author CJMinecraft
+ *
+ */
 public class ContainerEnergyCell extends Container {
 
+	/**
+	 * All of the inventories to interact with
+	 */
+	
 	private TileEntityEnergyCell te;
 	private IItemHandler handler;
 
+	/**
+	 * Initialise the container for the energy cell
+	 * @param playerInv The player's inventory
+	 * @param te The {@link TileEntityEnergyCell} to get the inventory from
+	 */
 	public ContainerEnergyCell(IInventory playerInv, TileEntityEnergyCell te) {
 		this.te = te;
 		this.handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 		//Our tile entity slots
-		this.addSlotToContainer(new SlotEnergyItem(handler, 0, 44, 35));
-		this.addSlotToContainer(new SlotEnergyItem(handler, 1, 116, 35));
+		this.addSlotToContainer(new SlotEnergyItem(this.handler, 0, 44, 35));
+		this.addSlotToContainer(new SlotEnergyItem(this.handler, 1, 116, 35));
 		
 		// The player's inventory slots
 		int xPos = 8; // The x position of the top left player inventory slot on our texture
@@ -40,11 +54,17 @@ public class ContainerEnergyCell extends Container {
 		}
 	}
 
+	/**
+	 * Say we can interact with the player
+	 */
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return player.getDistanceSq(this.te.getPos().add(0.5, 0.5, 0.5)) <= 64;
 	}
 	
+	/**
+	 * Allow for SHIFT click transfers
+	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
 		ItemStack previous = ItemStack.EMPTY;

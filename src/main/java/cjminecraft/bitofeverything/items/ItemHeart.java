@@ -17,11 +17,12 @@ import net.minecraft.world.World;
 
 /**
  * This item heals the player by one heart when right clicked
+ * 
  * @author CJMinecraft
  *
  */
 public class ItemHeart extends Item {
-	
+
 	/**
 	 * As with every item
 	 */
@@ -29,20 +30,22 @@ public class ItemHeart extends Item {
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 	}
-	
+
 	/**
-	 * Increases the player health when right clicked if they aren't at full health
+	 * Increases the player health when right clicked if they aren't at full
+	 * health
 	 */
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-		if(player.getHealth() < player.getMaxHealth()) {
-			player.heal(2); //Heals them 2 HP or 1 heart
-			player.inventory.decrStackSize(player.inventory.currentItem, 1); //NEW 1.11
-			world.playSound(player, player.getPosition() , SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+		if (player.getHealth() < player.getMaxHealth()) {
+			player.heal(2); // Heals them 2 HP or 1 heart
+			player.inventory.decrStackSize(player.inventory.currentItem, 1); // NEW 1.11
+			world.playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
+					world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 		return super.onItemRightClick(world, player, hand);
 	}
-	
+
 	/**
 	 * Adds a tool tip to the item
 	 */

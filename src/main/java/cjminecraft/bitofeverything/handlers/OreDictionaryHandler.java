@@ -7,11 +7,12 @@ import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * This class handles the registration of our ores to the {@link OreDictionary}
+ * 
  * @author CJMinecraft
  *
  */
 public class OreDictionaryHandler {
-	
+
 	/**
 	 * Register the ores
 	 */

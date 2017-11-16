@@ -9,20 +9,23 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * A crop which will craft to make fabric
+ * 
  * @author CJMinecraft
  *
  */
 public class BlockCotton extends BlockCrops {
-	
+
 	/**
 	 * Initialize the crop
-	 * @param unloclaizedName The unlocalized name of the block
+	 * 
+	 * @param unloclaizedName
+	 *            The unlocalized name of the block
 	 */
 	public BlockCotton(String unloclaizedName) {
 		this.setUnlocalizedName(unloclaizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unloclaizedName));
 	}
-	
+
 	/**
 	 * Get the seed. e.g {@link Items#WHEAT_SEEDS}
 	 */
@@ -30,7 +33,7 @@ public class BlockCotton extends BlockCrops {
 	protected Item getSeed() {
 		return ModItems.cotton;
 	}
-	
+
 	/**
 	 * Get the crop. e.g. {@link Items#WHEAT}
 	 */

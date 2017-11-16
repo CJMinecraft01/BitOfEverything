@@ -10,20 +10,40 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
+/**
+ * The container for the furnace generator
+ * 
+ * @author CJMinecraft
+ *
+ */
 public class ContainerFurnaceGenerator extends Container {
+
+	/**
+	 * The inventories
+	 */
 
 	private TileEntityFurnaceGenerator te;
 	private IItemHandler handler;
 
+	/**
+	 * Initialise the container for the furnace generator
+	 * 
+	 * @param playerInv
+	 *            The player's inventory
+	 * @param te
+	 *            The {@link TileEntityFurnaceGenerator} with the inventory
+	 */
 	public ContainerFurnaceGenerator(IInventory playerInv, TileEntityFurnaceGenerator te) {
 		this.te = te;
 		this.handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 		this.addSlotToContainer(new SlotFurnaceGeneratorFuel(handler, 0, 81, 35));
-		
+
 		// The player's inventory slots
-		int xPos = 8; // The x position of the top left player inventory slot on our texture
-		int yPos = 84; // The y position of the top left player inventory slot on our texture
+		int xPos = 8; // The x position of the top left player inventory slot on
+						// our texture
+		int yPos = 84; // The y position of the top left player inventory slot
+						// on our texture
 
 		// Player slots
 		for (int y = 0; y < 3; ++y) {
@@ -37,6 +57,9 @@ public class ContainerFurnaceGenerator extends Container {
 		}
 	}
 
+	/**
+	 * Allow for SHIFT click transfers
+	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
 		ItemStack previous = ItemStack.EMPTY;
@@ -68,6 +91,9 @@ public class ContainerFurnaceGenerator extends Container {
 		return previous;
 	}
 
+	/**
+	 * Say we can interact with the player
+	 */
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return player.getDistanceSq(this.te.getPos().add(0.5, 0.5, 0.5)) <= 64;

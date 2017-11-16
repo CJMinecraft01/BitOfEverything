@@ -131,13 +131,15 @@ public class BlockCanvas extends BlockContainer implements ITileEntityProvider {
 			if (canvas != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("colour"))
 				canvas.setColour(stack.getTagCompound().getInteger("colour"));
 		}
-		Minecraft.getMinecraft().renderGlobal.markBlockRangeForRenderUpdate(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+		Minecraft.getMinecraft().renderGlobal.markBlockRangeForRenderUpdate(pos.getX(), pos.getY(), pos.getZ(),
+				pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	//The following code is based off of BlockFlowerPot
-	
+	// The following code is based off of BlockFlowerPot
+
 	/**
-	 * Will now drop the block the same colour as in the {@link TileEntityCanvas}
+	 * Will now drop the block the same colour as in the
+	 * {@link TileEntityCanvas}
 	 */
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {

@@ -20,56 +20,57 @@ import net.minecraft.world.World;
 
 /**
  * This class makes our chip item have metadata
+ * 
  * @author CJMinecraft
  *
  */
 public class ItemChip extends Item {
-	
+
 	/**
 	 * Default constructor just sets the unlocalized name and the registry name
+	 * 
 	 * @param unlocalizedName
 	 */
 	public ItemChip(String unlocalizedName) {
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
-		this.setHasSubtypes(true); //This just says the item has metadata
+		this.setHasSubtypes(true); // This just says the item has metadata
 	}
-	
+
 	/**
 	 * Adds all the different versions of the item
 	 */
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
-		for(int i = 0; i < ChipTypes.values().length; i++) {
+		for (int i = 0; i < ChipTypes.values().length; i++) {
 			items.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+
 	/**
 	 * Gets the correct unlocalized name using the {@link ChipTypes} enum
 	 */
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		for(int i = 0; i < ChipTypes.values().length; i++) {
-			if(stack.getItemDamage() == i) {
+		for (int i = 0; i < ChipTypes.values().length; i++) {
+			if (stack.getItemDamage() == i) {
 				return this.getUnlocalizedName() + "." + ChipTypes.values()[i].getName();
-			}
-			else {
+			} else {
 				continue;
 			}
 		}
 		return this.getUnlocalizedName() + "." + ChipTypes.BASIC.getName();
 	}
-	
+
 	/**
 	 * Upgrades machines to the next tier of machine
 	 */
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
+			float hitX, float hitY, float hitZ) {
 		IBlockState state = world.getBlockState(pos);
-		if(state != null) {
-			if(state.getBlock() instanceof BlockMachine) {
+		if (state != null) {
+			if (state.getBlock() instanceof BlockMachine) {
 				BlockMachine machine = (BlockMachine) state.getBlock();
 				ItemStack heldStack = player.getHeldItem(hand);
 				machine.updateMachineTier(world, player, hand, pos, heldStack);

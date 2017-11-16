@@ -10,21 +10,24 @@ import net.minecraft.world.World;
 
 /**
  * The canvas tile entity which stores the blocks colour
+ * 
  * @author CJMinecraft
  *
  */
 public class TileEntityCanvas extends TileEntity {
-	
-	//The colour as an int
+
+	/**
+	 * The colour as an int
+	 */
 	private int colour;
-	
+
 	/**
 	 * Initialise the colour to be white
 	 */
 	public TileEntityCanvas() {
 		this.colour = 0xFFFFFF;
 	}
-	
+
 	/**
 	 * Read the colour from NBT data
 	 */
@@ -33,7 +36,7 @@ public class TileEntityCanvas extends TileEntity {
 		super.readFromNBT(nbt);
 		this.colour = nbt.getInteger("colour");
 	}
-	
+
 	/**
 	 * Write the correct NBT data
 	 */
@@ -42,23 +45,26 @@ public class TileEntityCanvas extends TileEntity {
 		nbt.setInteger("colour", this.colour);
 		return super.writeToNBT(nbt);
 	}
-	
+
 	/**
 	 * Get the colour of the canvas
+	 * 
 	 * @return The colour of the canvas
 	 */
 	public int getColour() {
 		return colour;
 	}
-	
+
 	/**
 	 * Set the colour of the canvas
-	 * @param colour The new colour of the canvas
+	 * 
+	 * @param colour
+	 *            The new colour of the canvas
 	 */
 	public void setColour(int colour) {
 		this.colour = colour;
 	}
-	
+
 	/**
 	 * The packet which is used to update the tile entity which holds all of the
 	 * tileentities data

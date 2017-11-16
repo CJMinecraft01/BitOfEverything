@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 /**
  * A block which is like a button
+ * 
  * @author CJMinecraft
  *
  */
@@ -18,10 +19,12 @@ public class BlockTinButton extends BlockButton {
 
 	/**
 	 * Default constructor
-	 * @param unlocalizedName The unlocalized name of the block
+	 * 
+	 * @param unlocalizedName
+	 *            The unlocalized name of the block
 	 */
 	public BlockTinButton(String unlocalizedName) {
-		super(false); //Says that the block is not a wooden button
+		super(false); // Says that the block is not a wooden button
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 		this.setHardness(3);
@@ -41,9 +44,10 @@ public class BlockTinButton extends BlockButton {
 	 */
 	@Override
 	protected void playReleaseSound(World worldIn, BlockPos pos) {
-		worldIn.playSound((EntityPlayer)null, pos, BoeSoundHandler.TIN_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		worldIn.playSound((EntityPlayer) null, pos, BoeSoundHandler.TIN_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 1.0F,
+				1.0F);
 	}
-	
+
 	/**
 	 * How long the button emits a redstone signal
 	 */

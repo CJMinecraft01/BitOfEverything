@@ -5,12 +5,21 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * A basic hoe
+ * A simple instance of a hoe
+ * 
  * @author CJMinecraft
  *
  */
 public class ItemModHoe extends ItemHoe {
 
+	/**
+	 * Initialise a hoe
+	 * 
+	 * @param material
+	 *            The tool material of the hoe
+	 * @param unlocalizedName
+	 *            The unlocalized name of the hoe
+	 */
 	public ItemModHoe(ToolMaterial material, String unlocalizedName) {
 		super(material);
 		this.setUnlocalizedName(unlocalizedName);

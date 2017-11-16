@@ -17,8 +17,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.EnumHelper;
 
 /**
- * This is a custom tool which when you hit a mob causes them to drop a {@link ItemHeart}
- * Refer to {@link SoulStealerEvents}
+ * This is a custom tool which when you hit a mob causes them to drop a
+ * {@link ItemHeart} Refer to {@link SoulStealerEvents}
+ * 
  * @author CJMinecraft
  *
  */
@@ -28,13 +29,19 @@ public class ItemSoulStealer extends ItemTool {
 	 * Says that the tool is not effective on any blocks
 	 */
 	private static final Set<Block> EFFECTIVE_BLOCKS = Sets.newHashSet(new Block[] {});
-	
+
+	/**
+	 * A custom tool which drops hearts when hitting a mob
+	 * 
+	 * @param unlocalizedName
+	 *            The unlocalized name of the item
+	 */
 	public ItemSoulStealer(String unlocalizedName) {
 		super(EnumHelper.addToolMaterial(Reference.MODID + ":soul_stealer", 0, 100, 0, 1, 0), EFFECTIVE_BLOCKS);
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(new ResourceLocation(Reference.MODID, unlocalizedName));
 	}
-	
+
 	/**
 	 * Tool tip
 	 */

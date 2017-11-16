@@ -7,11 +7,12 @@ import net.minecraftforge.common.MinecraftForge;
 
 /**
  * This class handles the registration of our events
+ * 
  * @author CJMinecraft
  *
  */
 public class EventHandler {
-	
+
 	/**
 	 * Registers our events
 	 */

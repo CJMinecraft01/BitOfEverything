@@ -8,6 +8,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+/**
+ * A simple instance of a food item
+ * 
+ * @author CJMinecraft
+ *
+ */
 public class ItemModFood extends ItemFood {
 
 	/**
@@ -57,12 +63,12 @@ public class ItemModFood extends ItemFood {
 	}
 
 	/**
-	 * Called when the player eats the food.
-	 * This just adds all of the potion effects to the player
+	 * Called when the player eats the food. This just adds all of the potion
+	 * effects to the player
 	 */
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-		for (PotionEffect effect : effects) {
+		for (PotionEffect effect : this.effects) {
 			player.addPotionEffect(new PotionEffect(effect));
 		}
 	}

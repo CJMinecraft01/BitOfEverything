@@ -49,8 +49,7 @@ public abstract class BlockTinSlab extends BlockSlab {
 		if (!this.isDouble())
 			state = state.withProperty(HALF, EnumBlockHalf.BOTTOM);
 		setDefaultState(state);
-		this.useNeighborBrightness = true; // Makes it so that you don't get
-											// dark patches on the block
+		this.useNeighborBrightness = true; // Makes it so that you don't get dark patches on the block
 	}
 
 	/**

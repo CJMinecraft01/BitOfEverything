@@ -116,7 +116,7 @@ public class ModBlocks {
 		tinDoor = new BlockTinDoor("tin_door");
 		canvas = new BlockCanvas("canvas");
 		cotton = new BlockCotton("cotton");
-		
+
 		/*
 		 * Energy Blocks
 		 */
@@ -128,7 +128,10 @@ public class ModBlocks {
 	 * Register the blocks
 	 */
 	public static void register() {
-		registerBlock(tinOre, new ItemBlockMeta(tinOre)); // Says that the block uses the ItemBlockMeta as the item block
+		registerBlock(tinOre, new ItemBlockMeta(tinOre)); // Says that the block
+															// uses the
+															// ItemBlockMeta as
+															// the item block
 		registerBlock(breaker, new ItemBlockMachine(breaker));
 		registerBlock(gamemodeDetector);
 		registerBlock(machineFrame, new ItemBlockMeta(machineFrame));
@@ -143,7 +146,7 @@ public class ModBlocks {
 		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
 		registerBlock(canvas);
 		GameRegistry.register(cotton);
-		
+
 		/*
 		 * Energy Blocks
 		 */
@@ -209,14 +212,23 @@ public class ModBlocks {
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void createStateMappers() {
-		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() { // Ignores all of the block's properties
+		ModelLoader.setCustomStateMapper(gamemodeDetector, new StateMapperBase() { // Ignores
+																					// all
+																					// of
+																					// the
+																					// block's
+																					// properties
 
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				return new ModelResourceLocation(gamemodeDetector.getRegistryName(), "normal");
 			}
 		});
-		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build()); // Ignores only the powered property
+		ModelLoader.setCustomStateMapper(tinDoor, (new StateMap.Builder().ignore(BlockDoor.POWERED)).build()); // Ignores
+																												// only
+																												// the
+																												// powered
+																												// property
 		ModelLoader.setCustomStateMapper(tinFenceGate, (new StateMap.Builder().ignore(BlockFenceGate.POWERED)).build());
 		Utils.getLogger().info("Created the state mappers!");
 	}

@@ -37,6 +37,10 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 	private Worker worker;
 	private ChipTypes type = ChipTypes.BASIC;
 
+	/**
+	 * Initialsie a furnace generator (which is typically called when loading
+	 * the world)
+	 */
 	public TileEntityFurnaceGenerator() {
 		super(100000, 0, 1000);
 		if (this.world != null)
@@ -63,9 +67,15 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		});
 	}
 
+	/**
+	 * Initialise a furnace generator (typically called when first creating the
+	 * {@link TileEntity})
+	 * 
+	 * @param type
+	 *            The tier of the {@link TileEntity}
+	 */
 	public TileEntityFurnaceGenerator(ChipTypes type) {
-		super(type == ChipTypes.BASIC ? 100000 : 500000, 0,
-				type == ChipTypes.BASIC ? 1000 : 5000);
+		super(type == ChipTypes.BASIC ? 100000 : 500000, 0, type == ChipTypes.BASIC ? 1000 : 5000);
 		this.type = type;
 		this.handler = new ItemStackHandler(1);
 		this.worker = new Worker(1, () -> {
@@ -89,6 +99,9 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		});
 	}
 
+	/**
+	 * Update (i.e. generate the energy and burn the fuel)
+	 */
 	@Override
 	public void update() {
 		if (this.world != null) {
@@ -114,11 +127,17 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		}
 	}
 
+	/**
+	 * Allow for chip upgrading
+	 */
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
+	/**
+	 * Read data from nbt
+	 */
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.handler.deserializeNBT(nbt.getCompoundTag("Inventory"));
@@ -126,6 +145,9 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		super.readFromNBT(nbt);
 	}
 
+	/**
+	 * Write data to nbt
+	 */
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setTag("Inventory", this.handler.serializeNBT());
@@ -133,6 +155,9 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		return super.writeToNBT(nbt);
 	}
 
+	/**
+	 * Say that we have an inventory and a worker
+	 */
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
@@ -141,6 +166,9 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 		return super.hasCapability(capability, facing);
 	}
 
+	/**
+	 * Get the inventory and the worker
+	 */
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)

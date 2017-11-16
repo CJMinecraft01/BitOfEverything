@@ -7,21 +7,22 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * For all things on the Server side
+ * 
  * @author CJMinecraft
  *
  */
 public class ServerProxy extends CommonProxy {
-	
+
 	@Override
 	public void preInit() {
 		super.preInit();
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
 	}
-	
+
 	@Override
 	public void registerTileEntities() {
 		super.registerTileEntities();

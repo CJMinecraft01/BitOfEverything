@@ -26,11 +26,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Handles the item registration and render
+ * 
  * @author CJMinecraft
  *
  */
 public class ModItems {
-	
+
 	/**
 	 * State the items
 	 */
@@ -45,7 +46,7 @@ public class ModItems {
 	public static Item fabric;
 	public static Item tinStick;
 	public static Item cotton;
-	
+
 	/**
 	 * Initialize the items
 	 */
@@ -53,16 +54,22 @@ public class ModItems {
 		tinIngot = new ItemTinIngot("tin_ingot", "tin_ingot");
 		heart = new ItemHeart("heart");
 		chip = new ItemChip("chip");
-		tinApple = new ItemModFood("tin_apple", 4, 4, false, new PotionEffect(Potion.getPotionById(3), 3600, 2), new PotionEffect(Potion.getPotionById(8), 3600, 256, false, false));
+		tinApple = new ItemModFood("tin_apple", 4, 4, false, new PotionEffect(Potion.getPotionById(3), 3600, 2),
+				new PotionEffect(Potion.getPotionById(8), 3600, 256, false, false));
 		niceBiscuit = new ItemModFood("nice_biscuit", 2, 2, false);
-		infinityFlame = new Item().setUnlocalizedName("infinity_flame").setRegistryName(new ResourceLocation(Reference.MODID, "infinity_flame"));
-		tinNugget = new Item().setUnlocalizedName("tin_nugget").setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
+		infinityFlame = new Item().setUnlocalizedName("infinity_flame")
+				.setRegistryName(new ResourceLocation(Reference.MODID, "infinity_flame"));
+		tinNugget = new Item().setUnlocalizedName("tin_nugget")
+				.setRegistryName(new ResourceLocation(Reference.MODID, "tin_nugget"));
 		paintBrush = new ItemPaintBrush("paint_brush");
-		fabric = new Item().setUnlocalizedName("fabric").setRegistryName(new ResourceLocation(Reference.MODID, "fabric"));
-		tinStick = new Item().setUnlocalizedName("tin_stick").setRegistryName(new ResourceLocation(Reference.MODID, "tin_stick"));
-		cotton = new ItemSeeds(ModBlocks.cotton, Blocks.FARMLAND).setUnlocalizedName("cotton").setRegistryName(new ResourceLocation(Reference.MODID, "cotton"));
+		fabric = new Item().setUnlocalizedName("fabric")
+				.setRegistryName(new ResourceLocation(Reference.MODID, "fabric"));
+		tinStick = new Item().setUnlocalizedName("tin_stick")
+				.setRegistryName(new ResourceLocation(Reference.MODID, "tin_stick"));
+		cotton = new ItemSeeds(ModBlocks.cotton, Blocks.FARMLAND).setUnlocalizedName("cotton")
+				.setRegistryName(new ResourceLocation(Reference.MODID, "cotton"));
 	}
-	
+
 	/**
 	 * Register the items
 	 */
@@ -79,7 +86,7 @@ public class ModItems {
 		registerItem(tinStick);
 		registerItem(cotton);
 	}
-	
+
 	/**
 	 * Register the items renders
 	 */
@@ -90,7 +97,7 @@ public class ModItems {
 		registerRender(niceBiscuit);
 		registerRender(infinityFlame);
 		registerRender(tinNugget);
-		for(int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
+		for (int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
 			registerRender(chip, i, "chip_" + EnumHandler.ChipTypes.values()[i].getName());
 		}
 		registerRender(paintBrush);
@@ -98,52 +105,63 @@ public class ModItems {
 		registerRender(tinStick);
 		registerRender(cotton);
 	}
-	
+
 	/**
 	 * Register that the item has a colour and state what the colour is
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void registerItemColours() {
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
-			
+
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				if(stack.hasTagCompound() && tintIndex == 1)
-					if(stack.getTagCompound().hasKey("colour"))
+				if (stack.hasTagCompound() && tintIndex == 1)
+					if (stack.getTagCompound().hasKey("colour"))
 						return stack.getTagCompound().getInteger("colour");
 				return 0xFFFFFF;
 			}
 		}, paintBrush);
 		Utils.getLogger().info("Registered item colours!");
 	}
-	
+
 	/**
 	 * Register an item
-	 * @param item The item
+	 * 
+	 * @param item
+	 *            The item
 	 */
 	public static void registerItem(Item item) {
-		item.setCreativeTab(BitOfEverything.items); //Sets the creative tab
+		item.setCreativeTab(BitOfEverything.items); // Sets the creative tab
 		GameRegistry.register(item);
 		Utils.getLogger().info("Registered Item: " + item.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
-	 * Registers the item render MUST BE CALLED IN THE PRE INIT METHOD IN YOUR MAIN CLASS
-	 * @param item The item
+	 * Registers the item render MUST BE CALLED IN THE PRE INIT METHOD IN YOUR
+	 * MAIN CLASS
+	 * 
+	 * @param item
+	 *            The item
 	 */
 	public static void registerRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(
+				new ResourceLocation(Reference.MODID, item.getUnlocalizedName().substring(5)), "inventory"));
 		Utils.getLogger().info("Registered render for " + item.getUnlocalizedName().substring(5));
 	}
-	
+
 	/**
 	 * Registers the item render for an item which has meta data
-	 * @param item The item
-	 * @param meta The meta data
-	 * @param fileName The file name
+	 * 
+	 * @param item
+	 *            The item
+	 * @param meta
+	 *            The meta data
+	 * @param fileName
+	 *            The file name
 	 */
 	public static void registerRender(Item item, int meta, String fileName) {
-		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, meta,
+				new ModelResourceLocation(new ResourceLocation(Reference.MODID, fileName), "inventory"));
 		Utils.getLogger().info("Registered render for " + item.getUnlocalizedName().substring(5));
 	}
 
