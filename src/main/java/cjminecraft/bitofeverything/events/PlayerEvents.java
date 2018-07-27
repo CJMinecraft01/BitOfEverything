@@ -21,7 +21,7 @@ public class PlayerEvents {
 	 */
 	@SubscribeEvent
 	public void onPlayerJoinEvent(PlayerLoggedInEvent event) {
-		VersionChecker.checkForUpdate(Reference.VERSION_CHECKER_URL, Reference.MODID, Reference.VERSION, event.player);
+		// VersionChecker.checkForUpdate(Reference.VERSION_CHECKER_URL, Reference.MODID, Reference.VERSION, event.player); TODO Update CJCore
 	}
 
 }
