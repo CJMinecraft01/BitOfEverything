@@ -16,6 +16,7 @@ import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.proxy.CommonProxy;
 import cjminecraft.bitofeverything.worldgen.OreGen;
+import cjminecraft.bitofeverything.worldgen.StructureGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.CustomProperty;
@@ -100,6 +101,7 @@ public class BitOfEverything {
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
+		GameRegistry.registerWorldGenerator(new StructureGen(), 2);
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		OreDictionaryHandler.registerOreDictionary();
 		proxy.registerModelBakeryStuff();
