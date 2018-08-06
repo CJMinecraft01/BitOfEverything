@@ -10,7 +10,6 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-//cjcoreVersion = "0.0.1.0"
 version = "0.0.1"
 archivesBaseName = "bitofeverything"
 group = "cjminecraft.bitofeverything" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -23,14 +22,7 @@ compileJava {
 minecraft {
     version = "1.11.2-13.20.1.2588"
     runDir = "run"
-
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20170612"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 repositories {
@@ -46,7 +38,7 @@ repositories {
 
 dependencies {
 	compile 'net.industrial-craft:industrialcraft-2:2.7.9-ex111:api'
-	compile 'com.github.CJMinecraft01:CJCore:1.11-SNAPSHOT'
+	compile 'com.github.CJMinecraft01:CJCore:1.11-${cjcore_version}'
 }
 
 processResources {
