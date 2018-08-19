@@ -5,7 +5,7 @@ import cjminecraft.bitofeverything.blocks.BlockMachine;
 import cjminecraft.bitofeverything.capabilties.Worker;
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
 import cjminecraft.bitofeverything.init.ModCapabilities;
-import cjminecraft.core.energy.EnergyUnits;
+import cjminecraft.core.energy.EnergyUnit;
 import cjminecraft.core.energy.EnergyUtils;
 import cjminecraft.core.energy.compat.TileEntityEnergyProducer;
 import net.minecraft.block.state.IBlockState;
@@ -106,10 +106,10 @@ public class TileEntityFurnaceGenerator extends TileEntityEnergyProducer impleme
 	public void update() {
 		if (this.world != null) {
 			if (!this.world.isRemote) {
-				int extract = this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 1000 : 5000)
+				long extract = this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 1000 : 5000)
 						? (this.type == ChipTypes.BASIC ? 1000 : 5000) : this.storage.getEnergyStored();
 				this.storage.extractEnergyInternal((int) EnergyUtils.giveEnergyAllFaces(this.world, this.pos, extract,
-						EnergyUnits.FORGE_ENERGY, false), false);
+						EnergyUnit.FORGE_ENERGY, false, true), false);
 				if (this.storage.getMaxEnergyStored()
 						- this.storage.getEnergyStored() > (this.type == ChipTypes.BASIC ? 40 : 60)) {
 					this.worker.doWork();

@@ -25,7 +25,7 @@ public class PacketReturnEnergyDifference implements IMessage {
 	 */
 	private boolean messageValid;
 
-	private int energyDifference;
+	private long energyDifference;
 	private String className;
 	private String energyDifferenceFieldName;
 
@@ -39,15 +39,15 @@ public class PacketReturnEnergyDifference implements IMessage {
 	/**
 	 * Create a packet giving the data provided to the client
 	 * 
-	 * @param energyDifference
+	 * @param energyDifference2
 	 *            The energy difference data
 	 * @param className
 	 *            The name of the class which holds the field to set
 	 * @param energyDifferenceFieldName
 	 *            The name of the field to set the data onto
 	 */
-	public PacketReturnEnergyDifference(int energyDifference, String className, String energyDifferenceFieldName) {
-		this.energyDifference = energyDifference;
+	public PacketReturnEnergyDifference(long energyDifference2, String className, String energyDifferenceFieldName) {
+		this.energyDifference = energyDifference2;
 		this.className = className;
 		this.energyDifferenceFieldName = energyDifferenceFieldName;
 		this.messageValid = true;
@@ -59,7 +59,7 @@ public class PacketReturnEnergyDifference implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		try {
-			this.energyDifference = buf.readInt();
+			this.energyDifference = buf.readLong();
 			this.className = ByteBufUtils.readUTF8String(buf);
 			this.energyDifferenceFieldName = ByteBufUtils.readUTF8String(buf);
 		} catch (IndexOutOfBoundsException ioe) {
@@ -76,7 +76,7 @@ public class PacketReturnEnergyDifference implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		if (!this.messageValid)
 			return;
-		buf.writeInt(this.energyDifference);
+		buf.writeLong(this.energyDifference);
 		ByteBufUtils.writeUTF8String(buf, this.className);
 		ByteBufUtils.writeUTF8String(buf, this.energyDifferenceFieldName);
 	}
@@ -110,7 +110,7 @@ public class PacketReturnEnergyDifference implements IMessage {
 			try {
 				Class clazz = Class.forName(message.className);
 				Field energyDifferenceField = clazz.getDeclaredField(message.energyDifferenceFieldName);
-				energyDifferenceField.setInt(clazz, message.energyDifference);
+				energyDifferenceField.setLong(clazz, message.energyDifference);
 			} catch (Exception e) {
 				Utils.getLogger().catching(e);
 			}

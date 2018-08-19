@@ -1,6 +1,6 @@
 package cjminecraft.bitofeverything.container;
 
-import cjminecraft.bitofeverything.container.slots.SlotFurnaceGeneratorFuel;
+import cjminecraft.bitofeverything.container.slots.SlotFurnaceFuel;
 import cjminecraft.bitofeverything.tileentity.TileEntityFurnaceGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -37,7 +37,7 @@ public class ContainerFurnaceGenerator extends Container {
 		this.te = te;
 		this.handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-		this.addSlotToContainer(new SlotFurnaceGeneratorFuel(handler, 0, 81, 35));
+		this.addSlotToContainer(new SlotFurnaceFuel(handler, 0, 81, 35));
 
 		// The player's inventory slots
 		int xPos = 8; // The x position of the top left player inventory slot on

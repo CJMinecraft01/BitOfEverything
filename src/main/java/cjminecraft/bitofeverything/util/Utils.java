@@ -60,7 +60,7 @@ public class Utils {
 	 *            The handler
 	 * @return The redstone power
 	 */
-	public static int calculateRedstone(ItemStackHandler handler) {
+	public static int calculateRedstone(IItemHandler handler) {
 		int i = 0;
 		float f = 0.0F;
 		for (int j = 0; j < handler.getSlots(); j++) {

@@ -1,7 +1,7 @@
 package cjminecraft.bitofeverything.tileentity;
 
 import cjminecraft.bitofeverything.handlers.EnumHandler.ChipTypes;
-import cjminecraft.core.energy.EnergyUnits;
+import cjminecraft.core.energy.EnergyUnit;
 import cjminecraft.core.energy.EnergyUtils;
 import cjminecraft.core.energy.compat.TileEntityEnergyStorage;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,8 +21,8 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITickable {
 
 	private ItemStackHandler handler;
-	public int energyDifference = 0;
-	private int transfer;
+	public long energyDifference = 0;
+	private long transfer;
 
 	/**
 	 * A {@link TileEntity} which can hold power
@@ -30,7 +30,7 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 	public TileEntityEnergyCell() {
 		super(1000000, 0);
 		this.handler = new ItemStackHandler(2);
-		this.transfer = 1000;
+		this.transfer = 1000L;
 	}
 
 	/**
@@ -40,8 +40,8 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 	 *            The type of the {@link TileEntity}
 	 */
 	public TileEntityEnergyCell(ChipTypes type) {
-		super(type == ChipTypes.BASIC ? 1000000 : 5000000, 0);
-		this.transfer = type == ChipTypes.BASIC ? 1000 : 5000;
+		super(type == ChipTypes.BASIC ? 1000000L : 5000000L, 0);
+		this.transfer = type == ChipTypes.BASIC ? 1000L : 5000L;
 		this.handler = new ItemStackHandler(2);
 	}
 
@@ -52,21 +52,21 @@ public class TileEntityEnergyCell extends TileEntityEnergyStorage implements ITi
 	public void update() {
 		if (this.world != null) {
 			if (!this.world.isRemote) {
-				int before = this.storage.getEnergyStored();
-				int receive = this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() < this.transfer
+				long before = this.storage.getEnergyStored();
+				long receive = this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() < this.transfer
 						? this.storage.getMaxEnergyStored() - this.storage.getEnergyStored() : this.transfer;
-				int extract = this.storage.getEnergyStored() > this.transfer ? this.transfer
+				long extract = this.storage.getEnergyStored() > this.transfer ? this.transfer
 						: this.storage.getEnergyStored();
 				if (this.storage.getEnergyStored() < this.storage.getMaxEnergyStored()) {
 					this.storage.receiveEnergyInternal((int) EnergyUtils.takeEnergyAllFaces(this.world, this.pos,
-							receive, EnergyUnits.FORGE_ENERGY, false), false);
+							receive, EnergyUnit.FORGE_ENERGY, false), false);
 					this.storage.receiveEnergyInternal((int) EnergyUtils.takeEnergy(this.handler.getStackInSlot(1),
-							receive, EnergyUnits.FORGE_ENERGY, false, null), false);
+							receive, EnergyUnit.FORGE_ENERGY, false, null), false);
 				}
 				this.storage.extractEnergyInternal((int) EnergyUtils.giveEnergyAllFaces(this.world, this.pos, extract,
-						EnergyUnits.FORGE_ENERGY, false), false);
+						EnergyUnit.FORGE_ENERGY, false), false);
 				this.storage.extractEnergyInternal((int) EnergyUtils.giveEnergy(this.handler.getStackInSlot(0), extract,
-						EnergyUnits.FORGE_ENERGY, false, null), false);
+						EnergyUnit.FORGE_ENERGY, false, null), false);
 				this.energyDifference = this.storage.getEnergyStored() - before;
 			}
 		}

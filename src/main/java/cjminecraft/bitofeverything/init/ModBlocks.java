@@ -5,6 +5,7 @@ import cjminecraft.bitofeverything.Reference;
 import cjminecraft.bitofeverything.blocks.BlockBreaker;
 import cjminecraft.bitofeverything.blocks.BlockCanvas;
 import cjminecraft.bitofeverything.blocks.BlockCotton;
+import cjminecraft.bitofeverything.blocks.BlockDoubleFurnace;
 import cjminecraft.bitofeverything.blocks.BlockEnergyCell;
 import cjminecraft.bitofeverything.blocks.BlockFurnaceGenerator;
 import cjminecraft.bitofeverything.blocks.BlockGamemodeDetector;
@@ -83,6 +84,7 @@ public class ModBlocks {
 	public static BlockTinDoor tinDoor;
 	public static Block canvas;
 	public static Block cotton;
+	public static Block doubleFurnace;
 
 	/*
 	 * Energy Blocks
@@ -116,6 +118,7 @@ public class ModBlocks {
 		tinDoor = new BlockTinDoor("tin_door");
 		canvas = new BlockCanvas("canvas");
 		cotton = new BlockCotton("cotton");
+		doubleFurnace = new BlockDoubleFurnace("double_furnace");
 
 		/*
 		 * Energy Blocks
@@ -146,6 +149,7 @@ public class ModBlocks {
 		registerBlock(tinDoor, new ItemBlockDoor(tinDoor));
 		registerBlock(canvas);
 		GameRegistry.register(cotton);
+		registerBlock(doubleFurnace);
 
 		/*
 		 * Energy Blocks
@@ -177,6 +181,7 @@ public class ModBlocks {
 		registerRender(tinPressurePlate);
 		registerRender(tinDoor);
 		registerRender(canvas);
+		registerRender(doubleFurnace);
 	}
 
 	/**

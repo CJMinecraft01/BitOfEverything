@@ -74,8 +74,8 @@ public class BlockBreaker extends BlockMachine {
 
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
-		TileEntityBlockBreaker te = (TileEntityBlockBreaker) world.getTileEntity(pos);
-		ItemStackHandler handler = (ItemStackHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+		TileEntity te = world.getTileEntity(pos);
+		IItemHandler handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 				null);
 		return Utils.calculateRedstone(handler);
 	}
@@ -93,7 +93,14 @@ public class BlockBreaker extends BlockMachine {
 	 */
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return side != EnumFacing.UP || side != EnumFacing.DOWN; // Says that as long as its not connected on top or bottom it will connect
+		return side != EnumFacing.UP || side != EnumFacing.DOWN; // Says that as
+																	// long as
+																	// its not
+																	// connected
+																	// on top or
+																	// bottom it
+																	// will
+																	// connect
 	}
 
 	/**
@@ -115,7 +122,14 @@ public class BlockBreaker extends BlockMachine {
 	public int getMetaFromState(IBlockState state) {
 		ChipTypes type = (ChipTypes) state.getValue(TYPE);
 		EnumFacing facing = (EnumFacing) state.getValue(FACING);
-		int meta = type.getID() * EnumFacing.values().length + facing.ordinal(); // Stores the type the EnumFacing in the meta
+		int meta = type.getID() * EnumFacing.values().length + facing.ordinal(); // Stores
+																					// the
+																					// type
+																					// the
+																					// EnumFacing
+																					// in
+																					// the
+																					// meta
 		return meta;
 	}
 
@@ -124,9 +138,22 @@ public class BlockBreaker extends BlockMachine {
 	 */
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		ChipTypes type = ChipTypes.values()[(int)(meta / EnumFacing.values().length) % ChipTypes.values().length]; //Gets the type from the meta
-		EnumFacing facing = EnumFacing.values()[meta % EnumFacing.values().length]; //Gets the EnumFacing from the meta
-		return this.getDefaultState().withProperty(TYPE, type).withProperty(FACING, facing); //Returns the correct state
+		ChipTypes type = ChipTypes.values()[(int) (meta / EnumFacing.values().length) % ChipTypes.values().length]; // Gets
+																													// the
+																													// type
+																													// from
+																													// the
+																													// meta
+		EnumFacing facing = EnumFacing.values()[meta % EnumFacing.values().length]; // Gets
+																					// the
+																					// EnumFacing
+																					// from
+																					// the
+																					// meta
+		return this.getDefaultState().withProperty(TYPE, type).withProperty(FACING, facing); // Returns
+																								// the
+																								// correct
+																								// state
 	}
 
 	/**
@@ -192,10 +219,8 @@ public class BlockBreaker extends BlockMachine {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-		if (!worldIn.isRemote) {
-			playerIn.openGui(BitOfEverything.instance, GuiHandler.BLOCK_BREAKER, worldIn, pos.getX(), pos.getY(),
-					pos.getZ());
-		}
+		playerIn.openGui(BitOfEverything.instance, GuiHandler.BLOCK_BREAKER, worldIn, pos.getX(), pos.getY(),
+				pos.getZ());
 		return true;
 	}
 

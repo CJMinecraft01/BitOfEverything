@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class ItemBlockMachine extends ItemBlockEnergy {
-
+	
 	/**
 	 * Default {@link ItemBlock} constructor
 	 * @param block The original block

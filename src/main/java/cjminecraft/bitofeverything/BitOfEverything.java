@@ -34,8 +34,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * 
  * @author CJMinecraft
  */
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY, useMetadata = true, customProperties = {
-		@CustomProperty(k = "useVersionChecker", v = "true") })
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY, useMetadata = true)
 public class BitOfEverything {
 
 	/**

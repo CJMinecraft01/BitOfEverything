@@ -107,9 +107,7 @@ public class BlockEnergyCell extends BlockMachine {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-		if (!worldIn.isRemote)
-			playerIn.openGui(BitOfEverything.instance, GuiHandler.ENERGY_CELL, worldIn, pos.getX(), pos.getY(),
-					pos.getZ());
+		playerIn.openGui(BitOfEverything.instance, GuiHandler.ENERGY_CELL, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -195,7 +193,7 @@ public class BlockEnergyCell extends BlockMachine {
 	/**
 	 * Say the texture is transparent
 	 */
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {

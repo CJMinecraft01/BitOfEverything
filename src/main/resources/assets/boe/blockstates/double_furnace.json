@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"activated=false,facing=north": { "model": "boe:double_furnace" },
+		"activated=false,facing=south": { "model": "boe:double_furnace", "y": 180 },
+		"activated=false,facing=east": { "model": "boe:double_furnace", "y": 90 },
+		"activated=false,facing=west": { "model": "boe:double_furnace", "y": 270 },
+		"activated=false,facing=up": { "model": "boe:double_furnace", "x": 270 },
+		"activated=false,facing=down": { "model": "boe:double_furnace", "x": 90 },
+		"activated=true,facing=north": { "model": "boe:double_furnace_activated" },
+		"activated=true,facing=south": { "model": "boe:double_furnace_activated", "y": 180 },
+		"activated=true,facing=east": { "model": "boe:double_furnace_activated", "y": 90 },
+		"activated=true,facing=west": { "model": "boe:double_furnace_activated", "y": 270 },
+		"activated=true,facing=up": { "model": "boe:double_furnace_activated", "x": 270 },
+		"activated=true,facing=down": { "model": "boe:double_furnace_activated", "x": 90 }
+	}
+}

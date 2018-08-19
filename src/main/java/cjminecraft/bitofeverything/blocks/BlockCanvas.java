@@ -131,8 +131,7 @@ public class BlockCanvas extends BlockContainer implements ITileEntityProvider {
 			if (canvas != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("colour"))
 				canvas.setColour(stack.getTagCompound().getInteger("colour"));
 		}
-		Minecraft.getMinecraft().renderGlobal.markBlockRangeForRenderUpdate(pos.getX(), pos.getY(), pos.getZ(),
-				pos.getX(), pos.getY(), pos.getZ());
+		world.setBlockState(pos, state, 2);
 	}
 
 	// The following code is based off of BlockFlowerPot

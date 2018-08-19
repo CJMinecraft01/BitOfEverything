@@ -15,6 +15,7 @@ public class Worker implements IWork, INBTSerializable<NBTTagCompound> {
 
 	private int cooldown;
 	private int maxCooldown;
+	private boolean reversed;
 
 	/**
 	 * What will be ran in the {@link #doWork()} and {@link #workDone()} methods
@@ -66,18 +67,32 @@ public class Worker implements IWork, INBTSerializable<NBTTagCompound> {
 	public int getMaxWork() {
 		return this.maxCooldown;
 	}
+	
+	public void setReversed(boolean reversed) {
+		this.reversed = reversed;
+	}
+	
+	public boolean isReversed() {
+		return this.reversed;
+	}
 
 	/**
 	 * To be called every tick using {@link ITickable}
 	 */
 	@Override
 	public void doWork() {
-		this.cooldown++;
-		this.cooldown %= this.maxCooldown; // Caps the cooldown to the max
-											// cooldown
+		if (this.reversed)
+			this.cooldown--;
+		else
+			this.cooldown++;
 		this.doWork.run();
-		if (this.cooldown == 0)
+		if (this.cooldown == this.maxCooldown)
 			workDone();
+		if (this.maxCooldown != 0)
+			this.cooldown %= this.maxCooldown; // Caps the cooldown to the max cooldown
+		
+		if (this.cooldown < 0)
+			this.cooldown = 0;
 	}
 
 	/**

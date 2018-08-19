@@ -14,6 +14,7 @@ tile.machine_frame.advanced.name=Machine Frame (Advanced)
 tile.tin_button.name=Tin Button
 tile.tin_pressure_plate.name=Tin Pressure Plate
 tile.tin_door.name=Tin Door
+tile.double_furnace.name=Double Furnace
 
 item.tin_ingot.name=Tin Ingot
 item.tin_nugget.name=Tin Nugget
@@ -66,6 +67,7 @@ achievement.tinman.desc=Wear all tin armour
 container.block_breaker=Block Breaker
 container.energy_cell=Energy Cell
 container.furnace_generator=Furnace Generator
+container.double_furnace=Double Furnace
 
 gui.block_breaker.enchanted_book.tooltip=Enchanted book goes here
 
