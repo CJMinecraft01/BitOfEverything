@@ -5,13 +5,11 @@ import cjminecraft.bitofeverything.container.ContainerDoubleFurnace;
 import cjminecraft.bitofeverything.network.PacketGetWorker;
 import cjminecraft.bitofeverything.network.PacketHandler;
 import cjminecraft.bitofeverything.tileentity.TileEntityDoubleFurnace;
-import cjminecraft.bitofeverything.util.Utils;
 import cjminecraft.core.client.gui.GuiBase;
 import cjminecraft.core.client.gui.element.ElementProgressBar;
 import cjminecraft.core.client.gui.element.ElementProgressBar.ProgressBarDirection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,7 +19,7 @@ public class GuiDoubleFurnace extends GuiBase {
 	
 	private static int sync = 0;
 	
-	public static int burnMin = 0, burnMax = 1;
+	public static int burnMin = 1, burnMax = 1;
 	public static int cookMin = 0, cookMax = 1;
 	
 	private TileEntityDoubleFurnace te;

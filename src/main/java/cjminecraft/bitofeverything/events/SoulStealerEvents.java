@@ -4,6 +4,7 @@ import cjminecraft.bitofeverything.init.ModItems;
 import cjminecraft.bitofeverything.init.ModTools;
 import cjminecraft.bitofeverything.items.ItemHeart;
 import cjminecraft.bitofeverything.items.ItemSoulStealer;
+import cjminecraft.bitofeverything.util.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +26,8 @@ public class SoulStealerEvents {
 	 */
 	@SubscribeEvent
 	public void onEvent(LivingHurtEvent event) {
-		if(event.getEntity() instanceof EntityPlayer) { //Checks the person who dealt the damage is a player
-			EntityPlayer player = (EntityPlayer) event.getEntity(); //Gets the player who dealt the damage
+		if(event.getSource().getTrueSource() instanceof EntityPlayer) { //Checks the person who dealt the damage is a player
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource(); //Gets the player who dealt the damage
 			if(player.getHeldItemMainhand().getItem() == ModTools.soulStealer) { //Checks they were holding a soul stealer
 				BlockPos pos = event.getEntity().getPosition(); //Get the entity they hurt's position
 				EntityItem item = new EntityItem(player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModItems.heart)); //Creates a new EntityItem

@@ -15,14 +15,12 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class SlotFurnaceOutput extends SlotItemHandler {
 
-	private TileEntityDoubleFurnace furnace;
 	private final EntityPlayer player;
 	private int removeCount;
 
-	public SlotFurnaceOutput(TileEntityDoubleFurnace furnace, EntityPlayer player, IItemHandler itemHandler, int index,
+	public SlotFurnaceOutput(EntityPlayer player, IItemHandler itemHandler, int index,
 			int xPosition, int yPosition) {
 		super(itemHandler, index, xPosition, yPosition);
-		this.furnace = furnace;
 		this.player = player;
 	}
 

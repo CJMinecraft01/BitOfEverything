@@ -5,7 +5,6 @@ import cjminecraft.bitofeverything.container.slots.SlotFurnaceOutput;
 import cjminecraft.bitofeverything.tileentity.TileEntityDoubleFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -21,19 +20,17 @@ public class ContainerDoubleFurnace extends Container {
 	public ContainerDoubleFurnace(EntityPlayer player, TileEntityDoubleFurnace te) {
 		this.te = te;
 		this.handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		
-		this.addSlotToContainer(new SlotItemHandler(this.handler, 1, 39, 17));
+
 		this.addSlotToContainer(new SlotItemHandler(this.handler, 0, 56, 17));
-		this.addSlotToContainer(new SlotFurnaceFuel(this.handler, 3, 39, 53));
+		this.addSlotToContainer(new SlotItemHandler(this.handler, 1, 39, 17));
 		this.addSlotToContainer(new SlotFurnaceFuel(this.handler, 2, 56, 53));
-		this.addSlotToContainer(new SlotFurnaceOutput(te, player, this.handler, 4, 118, 35));
-		this.addSlotToContainer(new SlotFurnaceOutput(te, player, this.handler, 5, 139, 35));
-		
+		this.addSlotToContainer(new SlotFurnaceFuel(this.handler, 3, 39, 53));
+		this.addSlotToContainer(new SlotFurnaceOutput(player, this.handler, 4, 118, 35));
+		this.addSlotToContainer(new SlotFurnaceOutput(player, this.handler, 5, 139, 35));
+
 		// The player's inventory slots
-		int xPos = 8; // The x position of the top left player inventory slot on
-						// our texture
-		int yPos = 84; // The y position of the top left player inventory slot
-						// on our texture
+		int xPos = 8; // The x position of the top left player inventory slot on our texture
+		int yPos = 84; // The y position of the top left player inventory slot on our texture
 
 		// Player slots
 		for (int y = 0; y < 3; ++y) {
@@ -46,11 +43,7 @@ public class ContainerDoubleFurnace extends Container {
 			this.addSlotToContainer(new Slot(player.inventory, x, xPos + x * 18, yPos + 58));
 		}
 	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
-		return playerIn.getPosition().distanceSq(this.te.getPos().add(0.5, 0.5, 0.5)) <= 64;
-	}
+	
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
@@ -84,6 +77,11 @@ public class ContainerDoubleFurnace extends Container {
 			slot.onTake(playerIn, current);
 		}
 		return previous;
+	}
+
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
+		return player.getPosition().distanceSq(this.te.getPos().add(0.5, 0.5, 0.5)) <= 64;
 	}
 
 }
